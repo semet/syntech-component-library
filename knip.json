@@ -1,0 +1,12 @@
+{
+  "$schema": "https://unpkg.com/knip@5/schema.json",
+  "entry": ["src/App.{js,jsx,ts,tsx}", "src/main.{js,jsx,ts,tsx}"],
+  "project": ["**/*.{js,cjs,mjs,jsx,ts,cts,mts,tsx}"],
+  "ignoreDependencies": [
+    "@tailwindcss/*",
+    "tailwind-scrollbar",
+    "tailwindcss",
+    "@babel/preset-typescript",
+    "babel-plugin-react-compiler"
+  ]
+}
