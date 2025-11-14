@@ -23,10 +23,12 @@
     "build:lib": "tsc -p tsconfig.build.json && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
+    "validate": "knip . --exclude src/stories/**",
     "format": "prettier --write .",
     "prepublishOnly": "npm run build:lib",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "prepare": "husky"
   },
   "peerDependencies": {
     "react": "^18.0.0 || ^19.0.0",
@@ -43,6 +45,8 @@
     "vite-tsconfig-paths": "^5.1.4"
   },
   "devDependencies": {
+    "@commitlint/cli": "^20.1.0",
+    "@commitlint/config-conventional": "^20.0.0",
     "@eslint/js": "^9.39.1",
     "@storybook/addon-a11y": "^10.0.7",
     "@storybook/addon-docs": "^10.0.7",
@@ -66,6 +70,7 @@
     "eslint-plugin-unicorn": "^62.0.0",
     "eslint-plugin-unused-imports": "^4.3.0",
     "globals": "^16.5.0",
+    "husky": "^9.1.7",
     "knip": "^5.69.1",
     "prettier": "^3.6.2",
     "prettier-plugin-tailwindcss": "^0.7.1",
