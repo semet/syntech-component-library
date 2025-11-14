@@ -5,12 +5,19 @@
     "declaration": true,
     "declarationMap": true,
     "emitDeclarationOnly": true,
-    "outDir": "./dist"
+    "outDir": "./dist",
+
+    // These affect the generated .d.ts formatting
+    "removeComments": false,
+    "preserveConstEnums": true,
+    "declarationDir": "./dist",
+    "newLine": "lf"
   },
   "include": [
     "src/index.ts",
     "src/components/**/*.tsx",
-    "src/components/**/*.ts"
+    "src/components/**/*.ts",
+    "src/types/**/*.ts"
   ],
   "exclude": [
     "src/main.tsx",
