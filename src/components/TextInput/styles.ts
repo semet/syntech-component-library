@@ -21,11 +21,11 @@ export const textInputStyles = tv({
     variant: {
       default: {
         input:
-          'border border-gray-300 bg-white hover:border-gray-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-200',
+          'border border-gray-300 bg-white hover:border-gray-400 focus:border-blue-400 focus:ring-1 focus:ring-blue-300',
       },
       filled: {
         input:
-          'border border-transparent bg-gray-100 hover:bg-gray-200 focus:border-blue-500 focus:bg-white focus:ring-1 focus:ring-blue-200',
+          'border border-transparent bg-gray-100 hover:bg-gray-200 focus:border-blue-400 focus:bg-white focus:ring-1 focus:ring-blue-300',
       },
       unstyled: {
         input: 'border-none bg-transparent p-0',
@@ -78,7 +78,7 @@ export const textInputStyles = tv({
     hasError: {
       true: {
         input:
-          'border-red-500 focus:border-red-500 focus:ring-1 focus:ring-red-200',
+          'border-red-500 focus:border-red-400 focus:ring-1 focus:ring-red-300',
       },
     },
     disabled: {

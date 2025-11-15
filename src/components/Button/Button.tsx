@@ -7,17 +7,25 @@ import type { PolymorphicAsProp } from '@/types/common'
 
 import { buttonStyles } from './styles'
 
-type ButtonVariants = VariantProps<typeof buttonStyles>
+type ButtonStylesProps = VariantProps<typeof buttonStyles>
+
+export interface ButtonClassNames {
+  root?: string
+  inner?: string
+  leftSection?: string
+  rightSection?: string
+  loader?: string
+  loaderIcon?: string
+}
 
 type PolymorphicProps<E extends ElementType> = PolymorphicAsProp<E> &
   Omit<ComponentPropsWithoutRef<E>, keyof PolymorphicAsProp<E> | 'disabled'> &
-  ButtonVariants & {
+  ButtonStylesProps & {
     loading?: boolean
     leftSection?: ReactNode
     rightSection?: ReactNode
     disabled?: boolean
-    loaderPosition?: 'left' | 'center' | 'right'
-    withRing?: boolean
+    classNames?: ButtonClassNames
   }
 
 export type ButtonProps<E extends ElementType = 'button'> = PolymorphicProps<E>
@@ -33,6 +41,7 @@ export default function Button<E extends React.ElementType = 'button'>({
   compact,
   withRing,
   className,
+  classNames,
   loading = false,
   disabled = false,
   leftSection,
@@ -41,47 +50,53 @@ export default function Button<E extends React.ElementType = 'button'>({
 }: ButtonProps<E>) {
   const Component = as || 'button'
   const isIconOnly = !children && (leftSection || rightSection)
+  const hasGap = !isIconOnly
+
+  const styles = buttonStyles({
+    variant,
+    color,
+    size,
+    radius,
+    fullWidth,
+    compact,
+    withRing,
+    loading,
+    disabled: disabled || loading,
+    hasGap,
+  })
 
   const componentProps = {
-    className: buttonStyles({
-      variant,
-      color,
-      size,
-      radius,
-      fullWidth,
-      compact,
-      withRing,
-      loading,
-      class: className,
-    }),
+    className: twMerge([styles.root(), className, classNames?.root]),
     ...(Component === 'button' && { disabled: disabled || loading }),
     ...props,
   } as React.ComponentPropsWithoutRef<E>
 
   return (
     <Component {...componentProps}>
-      <div
-        className={twMerge([
-          'flex items-center',
-          !isIconOnly && 'gap-2',
-          loading && 'invisible',
-        ])}
-      >
+      <div className={twMerge([styles.inner(), classNames?.inner])}>
         {leftSection && (
-          <div className="inline-flex shrink-0 items-center">{leftSection}</div>
+          <div
+            className={twMerge([styles.leftSection(), classNames?.leftSection])}
+          >
+            {leftSection}
+          </div>
         )}
         {children && <span className="truncate">{children}</span>}
         {rightSection && (
-          <div className="inline-flex shrink-0 items-center">
+          <div
+            className={twMerge([
+              styles.rightSection(),
+              classNames?.rightSection,
+            ])}
+          >
             {rightSection}
           </div>
         )}
       </div>
       {loading && (
-        <div className="absolute inset-0 flex items-center justify-center">
+        <div className={twMerge([styles.loader(), classNames?.loader])}>
           <ImSpinner8
-            className="animate-spin"
-            size={18}
+            className={twMerge([styles.loaderIcon(), classNames?.loaderIcon])}
           />
         </div>
       )}

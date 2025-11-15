@@ -26,9 +26,15 @@ type TooltipPosition =
   | 'right-start'
   | 'right-end'
 
-type TooltipVariants = VariantProps<typeof tooltipStyles>
+type TooltipStylesProps = VariantProps<typeof tooltipStyles>
 
-export interface TooltipProps extends TooltipVariants {
+export interface TooltipClassNames {
+  wrapper?: string
+  tooltip?: string
+  arrow?: string
+}
+
+export interface TooltipProps extends TooltipStylesProps {
   id?: string
   children: ReactNode
   content: ReactNode
@@ -40,7 +46,7 @@ export interface TooltipProps extends TooltipVariants {
   openDelay?: number
   closeDelay?: number
   className?: string
-  wrapperClassName?: string
+  classNames?: TooltipClassNames
   events?: {
     hover?: boolean
     focus?: boolean
@@ -65,7 +71,7 @@ export default function Tooltip({
   openDelay = 0,
   closeDelay = 0,
   className,
-  wrapperClassName,
+  classNames,
   events = { hover: true, focus: true, touch: true },
   inline = false,
   width = 'auto',
@@ -262,7 +268,7 @@ export default function Tooltip({
       className={twMerge([
         styles.wrapper(),
         inline && 'inline-flex',
-        wrapperClassName,
+        classNames?.wrapper,
       ])}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
@@ -275,7 +281,11 @@ export default function Tooltip({
       {!disabled && (
         <div
           ref={tooltipReference}
-          className={twMerge([styles.tooltip(), className])}
+          className={twMerge([
+            styles.tooltip(),
+            className,
+            classNames?.tooltip,
+          ])}
           style={tooltipStyle}
           role="tooltip"
           aria-hidden={!isVisible}
@@ -283,7 +293,7 @@ export default function Tooltip({
           {content}
           {withArrow && (
             <div
-              className={styles.arrow()}
+              className={twMerge([styles.arrow(), classNames?.arrow])}
               style={arrowStyle}
             />
           )}

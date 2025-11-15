@@ -2,7 +2,7 @@ import dayjs from 'dayjs'
 import { useState } from 'react'
 import { BsCalendar2Month } from 'react-icons/bs'
 
-import { TextInput } from './components'
+import { Button, TextInput } from './components'
 import DatePicker from './components/DatePicker/DatePicker'
 
 export default function App() {
@@ -14,6 +14,17 @@ export default function App() {
           <TextInput
             label="Regular Text Input"
             placeholder="Type something..."
+          />
+          <TextInput
+            label="Filled Text Input"
+            variant="filled"
+            placeholder="Type something..."
+          />
+          <TextInput
+            label="With Error"
+            placeholder="Type something..."
+            error="This field is required"
+            withAsterisk
           />
           <DatePicker
             label="Date at Top"
@@ -48,6 +59,22 @@ export default function App() {
             error="This field is required"
             withAsterisk
           />
+
+          <div className="flex gap-4">
+            <Button
+              variant="filled"
+              fullWidth
+            >
+              Submit
+            </Button>
+            <Button
+              variant="filled"
+              className="flex-1"
+              color="danger"
+            >
+              Cancel
+            </Button>
+          </div>
         </div>
       </div>
     </div>

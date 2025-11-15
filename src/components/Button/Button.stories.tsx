@@ -67,11 +67,6 @@ const meta = {
       control: 'boolean',
       description: 'Show focus ring on focus',
     },
-    loaderPosition: {
-      control: 'select',
-      options: ['left', 'center', 'right'],
-      description: 'Loader position',
-    },
     onClick: { action: 'clicked' },
   },
 } satisfies Meta<typeof Button>
@@ -253,21 +248,11 @@ export const Loading: Story = {
   },
 }
 
-export const LoadingLeft: Story = {
+export const LoadingWithIcon: Story = {
   args: {
     children: 'Downloading...',
     loading: true,
-    loaderPosition: 'left',
     leftSection: <FiDownload />,
-  },
-}
-
-export const LoadingRight: Story = {
-  args: {
-    children: 'Sending...',
-    loading: true,
-    loaderPosition: 'right',
-    rightSection: <FiSend />,
   },
 }
 
@@ -319,21 +304,26 @@ export const WithoutFocusRing: Story = {
   },
 }
 
-export const OutlineWithoutRing: Story = {
+// Custom ClassNames
+export const CustomClassNames: Story = {
   args: {
-    children: 'Outline No Ring',
-    variant: 'outline',
-    color: 'primary',
-    withRing: false,
+    children: 'Custom Styled',
+    leftSection: <FiHeart />,
+    classNames: {
+      root: 'shadow-lg',
+      leftSection: 'text-pink-500',
+      inner: 'font-bold',
+    },
   },
 }
 
-export const TransparentWithoutRing: Story = {
+export const CustomLoaderIcon: Story = {
   args: {
-    children: 'Transparent No Ring',
-    variant: 'transparent',
-    color: 'primary',
-    withRing: false,
+    children: 'Loading',
+    loading: true,
+    classNames: {
+      loaderIcon: 'w-8 h-8 text-red-500',
+    },
   },
 }
 
@@ -795,6 +785,254 @@ export const FocusRingComparison: Story = {
         <p className="mt-2 text-xs text-gray-500">
           No focus ring when tabbing through these buttons
         </p>
+      </div>
+    </div>
+  ),
+  parameters: {
+    controls: { disable: true },
+  },
+}
+
+// ClassNames Showcase
+export const ClassNamesShowcase: Story = {
+  render: () => (
+    <div className="space-y-6">
+      <div>
+        <h3 className="mb-3 text-sm font-medium text-gray-700">
+          Custom Root Styling
+        </h3>
+        <div className="flex flex-wrap gap-3">
+          <Button
+            classNames={{
+              root: 'shadow-2xl hover:shadow-xl',
+            }}
+          >
+            Enhanced Shadow
+          </Button>
+          <Button
+            variant="outline"
+            classNames={{
+              root: 'border-4',
+            }}
+          >
+            Thick Border
+          </Button>
+        </div>
+      </div>
+
+      <div>
+        <h3 className="mb-3 text-sm font-medium text-gray-700">
+          Custom Section Styling
+        </h3>
+        <div className="flex flex-wrap gap-3">
+          <Button
+            leftSection={<FiHeart />}
+            classNames={{
+              leftSection: 'text-pink-500',
+            }}
+          >
+            Pink Icon
+          </Button>
+          <Button
+            rightSection={<FiSend />}
+            classNames={{
+              rightSection: 'text-blue-500',
+            }}
+          >
+            Blue Icon
+          </Button>
+          <Button
+            leftSection={<FiSettings />}
+            rightSection={<FiHeart />}
+            classNames={{
+              leftSection: 'text-purple-500',
+              rightSection: 'text-red-500',
+            }}
+          >
+            Multi-color Icons
+          </Button>
+        </div>
+      </div>
+
+      <div>
+        <h3 className="mb-3 text-sm font-medium text-gray-700">
+          Custom Inner Container
+        </h3>
+        <div className="flex flex-wrap gap-3">
+          <Button
+            leftSection={<FiHeart />}
+            classNames={{
+              inner: 'gap-4',
+            }}
+          >
+            Large Gap
+          </Button>
+          <Button
+            leftSection={<FiSettings />}
+            classNames={{
+              inner: 'gap-1',
+            }}
+          >
+            Small Gap
+          </Button>
+        </div>
+      </div>
+
+      <div>
+        <h3 className="mb-3 text-sm font-medium text-gray-700">
+          Custom Loader Styling
+        </h3>
+        <div className="flex flex-wrap gap-3">
+          <Button
+            loading
+            classNames={{
+              loaderIcon: 'w-6 h-6',
+            }}
+          >
+            Large Loader
+          </Button>
+          <Button
+            loading
+            variant="outline"
+            color="danger"
+            classNames={{
+              loaderIcon: 'text-red-600',
+            }}
+          >
+            Red Loader
+          </Button>
+        </div>
+      </div>
+
+      <div>
+        <h3 className="mb-3 text-sm font-medium text-gray-700">
+          Combined Custom Styles
+        </h3>
+        <Button
+          leftSection={<FiSend />}
+          rightSection={<FiHeart />}
+          classNames={{
+            root: 'shadow-lg hover:shadow-2xl transition-shadow duration-300',
+            inner: 'gap-3 font-bold',
+            leftSection: 'text-blue-600',
+            rightSection: 'text-pink-600',
+          }}
+        >
+          Fully Customized
+        </Button>
+      </div>
+    </div>
+  ),
+  parameters: {
+    controls: { disable: true },
+  },
+}
+
+// Loading States Showcase
+export const LoadingStates: Story = {
+  render: () => (
+    <div className="space-y-6">
+      <div>
+        <h3 className="mb-3 text-sm font-medium text-gray-700">
+          Loading - All Variants
+        </h3>
+        <div className="flex flex-wrap gap-3">
+          <Button
+            loading
+            variant="filled"
+          >
+            Filled
+          </Button>
+          <Button
+            loading
+            variant="outline"
+          >
+            Outline
+          </Button>
+          <Button
+            loading
+            variant="light"
+          >
+            Light
+          </Button>
+          <Button
+            loading
+            variant="subtle"
+          >
+            Subtle
+          </Button>
+          <Button
+            loading
+            variant="gradient"
+          >
+            Gradient
+          </Button>
+        </div>
+      </div>
+
+      <div>
+        <h3 className="mb-3 text-sm font-medium text-gray-700">
+          Loading - Different Sizes
+        </h3>
+        <div className="flex flex-wrap items-center gap-3">
+          <Button
+            loading
+            size="xs"
+          >
+            Extra Small
+          </Button>
+          <Button
+            loading
+            size="sm"
+          >
+            Small
+          </Button>
+          <Button
+            loading
+            size="md"
+          >
+            Medium
+          </Button>
+          <Button
+            loading
+            size="lg"
+          >
+            Large
+          </Button>
+          <Button
+            loading
+            size="xl"
+          >
+            Extra Large
+          </Button>
+        </div>
+      </div>
+
+      <div>
+        <h3 className="mb-3 text-sm font-medium text-gray-700">
+          Loading with Icons
+        </h3>
+        <div className="flex flex-wrap gap-3">
+          <Button
+            loading
+            leftSection={<FiDownload />}
+          >
+            Downloading
+          </Button>
+          <Button
+            loading
+            rightSection={<FiSend />}
+          >
+            Sending
+          </Button>
+          <Button
+            loading
+            leftSection={<FiSettings />}
+            rightSection={<FiHeart />}
+          >
+            Processing
+          </Button>
+        </div>
       </div>
     </div>
   ),
