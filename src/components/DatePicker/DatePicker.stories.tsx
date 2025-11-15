@@ -16,7 +16,7 @@ import DatePicker from './DatePicker'
 
 dayjs.extend(relativeTime)
 
-const meta = {
+const meta: Meta<typeof DatePicker> = {
   title: 'Components/DatePicker',
   component: DatePicker,
   parameters: {
@@ -28,6 +28,21 @@ const meta = {
       },
     },
   },
+  decorators: [
+    (Story) => (
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'flex-start',
+          minHeight: '100vh',
+          paddingTop: '2rem',
+        }}
+      >
+        <Story />
+      </div>
+    ),
+  ],
   tags: ['autodocs'],
   argTypes: {
     variant: {
