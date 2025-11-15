@@ -10,7 +10,7 @@ import Select from './components/Select/Select'
 export default function App() {
   const [selectedDate, setSelectedDate] = useState<dayjs.Dayjs | null>(null)
   return (
-    <div className="min-h-screen bg-linear-to-br from-gray-50 to-gray-100">
+    <div className="min-h-screen bg-linear-to-br from-gray-50 to-gray-100 py-4">
       <div className="mx-auto max-w-md bg-white p-8 shadow-md">
         <div className="space-y-8">
           <TextInput
@@ -114,8 +114,8 @@ export default function App() {
             </Button>
             <Button
               variant="filled"
-              className="flex-1"
               color="danger"
+              fullWidth
             >
               Cancel
             </Button>

@@ -10,11 +10,11 @@ export const tooltipStyles = tv({
   variants: {
     radius: {
       none: { tooltip: 'rounded-none' },
-      xs: { tooltip: 'rounded' },
-      sm: { tooltip: 'rounded-md' },
-      md: { tooltip: 'rounded-lg' },
-      lg: { tooltip: 'rounded-xl' },
-      xl: { tooltip: 'rounded-2xl' },
+      xs: { tooltip: 'rounded-xs' },
+      sm: { tooltip: 'rounded-sm' },
+      md: { tooltip: 'rounded-md' },
+      lg: { tooltip: 'rounded-lg' },
+      xl: { tooltip: 'rounded-xl' },
     },
     color: {
       dark: {

@@ -42,7 +42,7 @@ export default function TextInput({
   rightSection,
   variant = 'default',
   size = 'sm',
-  radius = 'md',
+  radius = 'sm',
   disabled = false,
   className,
   classNames,

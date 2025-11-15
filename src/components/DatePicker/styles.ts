@@ -68,10 +68,10 @@ export const datePickerStyles = tv({
     },
     radius: {
       xs: {
-        input: 'rounded-sm',
+        input: 'rounded-xs',
       },
       sm: {
-        input: 'rounded',
+        input: 'rounded-sm',
       },
       md: {
         input: 'rounded-md',
@@ -98,6 +98,6 @@ export const datePickerStyles = tv({
   defaultVariants: {
     variant: 'default',
     size: 'sm',
-    radius: 'md',
+    radius: 'sm',
   },
 })

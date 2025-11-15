@@ -50,7 +50,7 @@ export default function Select({
   leftSection,
   variant = 'default',
   size = 'sm',
-  radius = 'md',
+  radius = 'sm',
   disabled = false,
   className,
   classNames,

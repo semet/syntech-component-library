@@ -73,19 +73,19 @@ export const buttonStyles = tv({
         root: 'rounded-none',
       },
       xs: {
-        root: 'rounded',
+        root: 'rounded-xs',
       },
       sm: {
-        root: 'rounded-md',
+        root: 'rounded-sm',
       },
       md: {
-        root: 'rounded-lg',
+        root: 'rounded-md',
       },
       lg: {
-        root: 'rounded-xl',
+        root: 'rounded-lg',
       },
       xl: {
-        root: 'rounded-2xl',
+        root: 'rounded-xl',
       },
       full: {
         root: 'rounded-full',

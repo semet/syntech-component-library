@@ -60,10 +60,10 @@ export const selectStyles = tv({
     },
     radius: {
       xs: {
-        select: 'rounded-sm',
+        select: 'rounded-xs',
       },
       sm: {
-        select: 'rounded',
+        select: 'rounded-sm',
       },
       md: {
         select: 'rounded-md',
@@ -134,6 +134,6 @@ export const selectStyles = tv({
   defaultVariants: {
     variant: 'default',
     size: 'sm',
-    radius: 'md',
+    radius: 'sm',
   },
 })
