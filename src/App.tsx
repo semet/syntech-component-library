@@ -1,9 +1,11 @@
 import dayjs from 'dayjs'
 import { useState } from 'react'
 import { BsCalendar2Month } from 'react-icons/bs'
+import { FiFilter } from 'react-icons/fi'
 
 import { Button, TextInput } from './components'
 import DatePicker from './components/DatePicker/DatePicker'
+import Select from './components/Select/Select'
 
 export default function App() {
   const [selectedDate, setSelectedDate] = useState<dayjs.Dayjs | null>(null)
@@ -58,6 +60,49 @@ export default function App() {
             placeholder="Select Appointment Date"
             error="This field is required"
             withAsterisk
+          />
+
+          <Select
+            label="Choose a country"
+            data={[
+              { value: 'us', label: 'United States' },
+              { value: 'uk', label: 'United Kingdom' },
+              { value: 'ca', label: 'Canada' },
+            ]}
+            placeholder="Select country"
+          />
+
+          <Select
+            label="Status"
+            leftSection={<FiFilter />}
+            data={[
+              { value: 'active', label: 'Active' },
+              { value: 'inactive', label: 'Inactive' },
+              { value: 'pending', label: 'Pending' },
+            ]}
+            placeholder="Select status"
+          />
+
+          <Select label="Custom">
+            <option value="1">Option 1</option>
+            <option value="2">Option 2</option>
+          </Select>
+
+          <Select
+            label="Styled Select"
+            variant="filled"
+            size="lg"
+            radius="lg"
+            classNames={{
+              select: 'font-bold',
+              chevron: 'text-blue-500',
+            }}
+            data={[
+              { value: 'red', label: 'Red' },
+              { value: 'green', label: 'Green' },
+              { value: 'blue', label: 'Blue' },
+            ]}
+            placeholder="Select color"
           />
 
           <div className="flex gap-4">
