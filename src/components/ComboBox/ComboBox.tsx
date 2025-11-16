@@ -533,11 +533,7 @@ function ComboBox<TOption extends ComboBoxOption>(
                         classNames?.option,
                         option.disabled && 'cursor-not-allowed opacity-50',
                       ])}
-                      style={
-                        option.color
-                          ? { backgroundColor: option.color }
-                          : undefined
-                      }
+                      style={option.color ? { color: option.color } : undefined}
                       onClick={(e) => {
                         e.stopPropagation()
                         handleSelect(option)
