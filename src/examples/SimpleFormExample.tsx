@@ -130,18 +130,6 @@ export default function SimpleFormExample() {
     defaultValues: {
       username: '',
       email: '',
-      country: {
-        label: '',
-        value: '',
-        flag: '',
-        code: '',
-      },
-      color: {
-        label: '',
-        value: '',
-        color: '',
-        hex: '',
-      },
       favorite_color: '',
     },
   })
@@ -247,7 +235,6 @@ export default function SimpleFormExample() {
             render={({ field }) => (
               <ColorPicker
                 label="Favorite Color"
-                description="Choose your favorite color"
                 value={field.value}
                 onChange={field.onChange}
                 format="rgba"
