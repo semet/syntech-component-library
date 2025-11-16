@@ -73,12 +73,17 @@ const schema = z.object({
   username: z.string().min(2, 'Username must be at least 2 characters long'),
   email: z.email('Invalid email address'),
   country: z
-    .object({
-      label: z.string(),
-      value: z.string(),
-      flag: z.string(),
-      code: z.string(),
-    })
+    .object(
+      {
+        label: z.string(),
+        value: z.string(),
+        flag: z.string(),
+        code: z.string(),
+      },
+      {
+        message: 'Country is required',
+      },
+    )
     .refine(
       (data) => {
         return data.value !== ''
@@ -88,12 +93,17 @@ const schema = z.object({
       },
     ),
   color: z
-    .object({
-      label: z.string(),
-      value: z.string(),
-      color: z.string(),
-      hex: z.string(),
-    })
+    .object(
+      {
+        label: z.string(),
+        value: z.string(),
+        color: z.string(),
+        hex: z.string(),
+      },
+      {
+        message: 'Color is required',
+      },
+    )
     .refine(
       (data) => {
         return data.value !== ''
