@@ -1,38 +1,38 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { useState } from 'react'
+import { IoCheckmarkSharp } from 'react-icons/io5'
 
 import ComboBox from './ComboBox'
-import type { ComboBoxOption } from './ComboBox'
+import type {
+  ComboBoxOption,
+  SingleValueComponentProps,
+  OptionComponentProps,
+} from './ComboBox'
 
 // Example Data Types
-type CountryOption = {
-  label: string
-  value: string
+type CountryOption = ComboBoxOption & {
   code: string
   continent: string
+  flag: string
 }
 
-type FrameworkOption = {
-  label: string
-  value: string
+type FrameworkOption = ComboBoxOption & {
   category: string
   popularity: number
+  icon: string
 }
 
-type ColorOption = {
-  label: string
-  value: string
+type ColorOption = ComboBoxOption & {
   hex: string
   rgb: string
 }
 
-type ProductOption = {
-  label: string
-  value: string
+type ProductOption = ComboBoxOption & {
   price: number
   category: string
   inStock: boolean
+  image: string
 }
 
 // Sample Data
@@ -42,26 +42,123 @@ const countryOptions: CountryOption[] = [
     value: 'us',
     code: 'US',
     continent: 'North America',
+    flag: '🇺🇸',
   },
-  { label: 'Canada', value: 'ca', code: 'CA', continent: 'North America' },
-  { label: 'United Kingdom', value: 'uk', code: 'GB', continent: 'Europe' },
-  { label: 'Germany', value: 'de', code: 'DE', continent: 'Europe' },
-  { label: 'France', value: 'fr', code: 'FR', continent: 'Europe' },
-  { label: 'Japan', value: 'jp', code: 'JP', continent: 'Asia' },
-  { label: 'Australia', value: 'au', code: 'AU', continent: 'Oceania' },
-  { label: 'Brazil', value: 'br', code: 'BR', continent: 'South America' },
-  { label: 'India', value: 'in', code: 'IN', continent: 'Asia' },
-  { label: 'China', value: 'cn', code: 'CN', continent: 'Asia' },
+  {
+    label: 'Canada',
+    value: 'ca',
+    code: 'CA',
+    continent: 'North America',
+    flag: '🇨🇦',
+  },
+  {
+    label: 'United Kingdom',
+    value: 'uk',
+    code: 'GB',
+    continent: 'Europe',
+    flag: '🇬🇧',
+  },
+  {
+    label: 'Germany',
+    value: 'de',
+    code: 'DE',
+    continent: 'Europe',
+    flag: '🇩🇪',
+  },
+  {
+    label: 'France',
+    value: 'fr',
+    code: 'FR',
+    continent: 'Europe',
+    flag: '🇫🇷',
+  },
+  {
+    label: 'Japan',
+    value: 'jp',
+    code: 'JP',
+    continent: 'Asia',
+    flag: '🇯🇵',
+  },
+  {
+    label: 'Australia',
+    value: 'au',
+    code: 'AU',
+    continent: 'Oceania',
+    flag: '🇦🇺',
+  },
+  {
+    label: 'Brazil',
+    value: 'br',
+    code: 'BR',
+    continent: 'South America',
+    flag: '🇧🇷',
+  },
+  {
+    label: 'India',
+    value: 'in',
+    code: 'IN',
+    continent: 'Asia',
+    flag: '🇮🇳',
+  },
+  {
+    label: 'China',
+    value: 'cn',
+    code: 'CN',
+    continent: 'Asia',
+    flag: '🇨🇳',
+  },
 ]
 
 const frameworkOptions: FrameworkOption[] = [
-  { label: 'React', value: 'react', category: 'Library', popularity: 95 },
-  { label: 'Vue', value: 'vue', category: 'Framework', popularity: 85 },
-  { label: 'Angular', value: 'angular', category: 'Framework', popularity: 75 },
-  { label: 'Svelte', value: 'svelte', category: 'Framework', popularity: 70 },
-  { label: 'Solid', value: 'solid', category: 'Library', popularity: 65 },
-  { label: 'Next.js', value: 'nextjs', category: 'Framework', popularity: 90 },
-  { label: 'Nuxt', value: 'nuxt', category: 'Framework', popularity: 80 },
+  {
+    label: 'React',
+    value: 'react',
+    category: 'Library',
+    popularity: 95,
+    icon: '⚛️',
+  },
+  {
+    label: 'Vue',
+    value: 'vue',
+    category: 'Framework',
+    popularity: 85,
+    icon: '💚',
+  },
+  {
+    label: 'Angular',
+    value: 'angular',
+    category: 'Framework',
+    popularity: 75,
+    icon: '🅰️',
+  },
+  {
+    label: 'Svelte',
+    value: 'svelte',
+    category: 'Framework',
+    popularity: 70,
+    icon: '🔥',
+  },
+  {
+    label: 'Solid',
+    value: 'solid',
+    category: 'Library',
+    popularity: 65,
+    icon: '💎',
+  },
+  {
+    label: 'Next.js',
+    value: 'nextjs',
+    category: 'Framework',
+    popularity: 90,
+    icon: '▲',
+  },
+  {
+    label: 'Nuxt',
+    value: 'nuxt',
+    category: 'Framework',
+    popularity: 80,
+    icon: '💚',
+  },
 ]
 
 const colorOptions: ColorOption[] = [
@@ -91,6 +188,7 @@ const productOptions: ProductOption[] = [
     price: 1299,
     category: 'Electronics',
     inStock: true,
+    image: '💻',
   },
   {
     label: 'Wireless Mouse',
@@ -98,6 +196,7 @@ const productOptions: ProductOption[] = [
     price: 29,
     category: 'Accessories',
     inStock: true,
+    image: '🖱️',
   },
   {
     label: 'Mechanical Keyboard',
@@ -105,6 +204,7 @@ const productOptions: ProductOption[] = [
     price: 149,
     category: 'Accessories',
     inStock: false,
+    image: '⌨️',
   },
   {
     label: 'Monitor 4K',
@@ -112,6 +212,7 @@ const productOptions: ProductOption[] = [
     price: 599,
     category: 'Electronics',
     inStock: true,
+    image: '🖥️',
   },
   {
     label: 'USB-C Hub',
@@ -119,6 +220,7 @@ const productOptions: ProductOption[] = [
     price: 79,
     category: 'Accessories',
     inStock: true,
+    image: '🔌',
   },
   {
     label: 'Webcam HD',
@@ -126,6 +228,7 @@ const productOptions: ProductOption[] = [
     price: 89,
     category: 'Electronics',
     inStock: false,
+    image: '📹',
   },
 ]
 
@@ -136,6 +239,146 @@ const simpleOptions: ComboBoxOption[] = [
   { label: 'Option 4', value: '4' },
   { label: 'Option 5', value: '5' },
 ]
+
+// Custom Components for Countries
+const CountrySingleValue = ({
+  option,
+}: SingleValueComponentProps<CountryOption>) => {
+  return (
+    <div className="flex items-center gap-2">
+      <span className="text-lg">{option.flag}</span>
+      <span>{option.label}</span>
+    </div>
+  )
+}
+
+const CountryOption = ({
+  option,
+  isSelected,
+  classNames,
+}: OptionComponentProps<CountryOption>) => {
+  return (
+    <div className="flex w-full items-center justify-between">
+      <div className="flex items-center gap-2">
+        <span className="text-lg">{option.flag}</span>
+        <div className="flex flex-col">
+          <span>{option.label}</span>
+          <span className="text-xs text-gray-500">{option.continent}</span>
+        </div>
+      </div>
+      {isSelected && <IoCheckmarkSharp className={classNames?.checkIcon} />}
+    </div>
+  )
+}
+
+// Custom Components for Frameworks
+const FrameworkSingleValue = ({
+  option,
+}: SingleValueComponentProps<FrameworkOption>) => {
+  return (
+    <div className="flex items-center gap-2">
+      <span className="text-lg">{option.icon}</span>
+      <span>{option.label}</span>
+    </div>
+  )
+}
+
+const FrameworkOption = ({
+  option,
+  isSelected,
+  classNames,
+}: OptionComponentProps<FrameworkOption>) => {
+  return (
+    <div className="flex w-full items-center justify-between">
+      <div className="flex items-center gap-2">
+        <span className="text-lg">{option.icon}</span>
+        <div className="flex flex-col">
+          <span>{option.label}</span>
+          <span className="text-xs text-gray-500">
+            {option.category} • Popularity: {option.popularity}%
+          </span>
+        </div>
+      </div>
+      {isSelected && <IoCheckmarkSharp className={classNames?.checkIcon} />}
+    </div>
+  )
+}
+
+// Custom Components for Colors
+const ColorSingleValue = ({
+  option,
+}: SingleValueComponentProps<ColorOption>) => {
+  return (
+    <div className="flex items-center gap-2">
+      <div
+        className="h-4 w-4 rounded border border-gray-300"
+        style={{ backgroundColor: option.hex }}
+      />
+      <span>{option.label}</span>
+    </div>
+  )
+}
+
+const ColorOption = ({
+  option,
+  isSelected,
+  classNames,
+}: OptionComponentProps<ColorOption>) => {
+  return (
+    <div className="flex w-full items-center justify-between">
+      <div className="flex items-center gap-2">
+        <div
+          className="h-6 w-6 rounded border border-gray-300"
+          style={{ backgroundColor: option.hex }}
+        />
+        <div className="flex flex-col">
+          <span>{option.label}</span>
+          <span className="text-xs text-gray-500">{option.hex}</span>
+        </div>
+      </div>
+      {isSelected && <IoCheckmarkSharp className={classNames?.checkIcon} />}
+    </div>
+  )
+}
+
+// Custom Components for Products
+const ProductSingleValue = ({
+  option,
+}: SingleValueComponentProps<ProductOption>) => {
+  return (
+    <div className="flex items-center gap-2">
+      <span className="text-lg">{option.image}</span>
+      <span>{option.label}</span>
+    </div>
+  )
+}
+
+const ProductOption = ({
+  option,
+  isSelected,
+  classNames,
+}: OptionComponentProps<ProductOption>) => {
+  return (
+    <div className="flex w-full items-center justify-between">
+      <div className="flex items-center gap-2">
+        <span className="text-2xl">{option.image}</span>
+        <div className="flex flex-col">
+          <span>{option.label}</span>
+          <div className="flex items-center gap-2 text-xs text-gray-500">
+            <span>${option.price}</span>
+            <span>•</span>
+            <span
+              className={option.inStock ? 'text-green-600' : 'text-red-600'}
+            >
+              {option.inStock ? 'In Stock' : 'Out of Stock'}
+            </span>
+          </div>
+        </div>
+      </div>
+      {isSelected && <IoCheckmarkSharp className={classNames?.checkIcon} />}
+    </div>
+  )
+}
 
 const meta: Meta<typeof ComboBox> = {
   title: 'Components/ComboBox',
@@ -312,6 +555,164 @@ export const WithError: Story = {
         options={simpleOptions}
         value={value}
         onChange={setValue}
+      />
+    )
+  },
+}
+
+// Custom Components Stories
+export const CountryWithFlags: Story = {
+  render: () => {
+    const [value, setValue] = useState<CountryOption | null>(null)
+    return (
+      <ComboBox
+        label="Select Country"
+        description="Countries with flags and continents"
+        placeholder="Choose a country"
+        options={countryOptions}
+        value={value}
+        onChange={setValue}
+        searchable
+        clearable
+        components={{
+          SingleValue: CountrySingleValue,
+          Option: CountryOption,
+        }}
+      />
+    )
+  },
+}
+
+export const FrameworkWithIcons: Story = {
+  render: () => {
+    const [value, setValue] = useState<FrameworkOption | null>(null)
+    return (
+      <ComboBox
+        label="Select Framework"
+        description="Frameworks with icons and popularity"
+        placeholder="Choose a framework"
+        options={frameworkOptions}
+        value={value}
+        onChange={setValue}
+        searchable
+        clearable
+        components={{
+          SingleValue: FrameworkSingleValue,
+          Option: FrameworkOption,
+        }}
+      />
+    )
+  },
+}
+
+export const ColorPicker: Story = {
+  render: () => {
+    const [value, setValue] = useState<ColorOption | null>(null)
+    return (
+      <ComboBox
+        label="Select Color"
+        description="Colors with preview and hex code"
+        placeholder="Choose a color"
+        options={colorOptions}
+        value={value}
+        onChange={setValue}
+        searchable
+        clearable
+        components={{
+          SingleValue: ColorSingleValue,
+          Option: ColorOption,
+        }}
+      />
+    )
+  },
+}
+
+export const ProductSelector: Story = {
+  render: () => {
+    const [value, setValue] = useState<ProductOption | null>(null)
+    return (
+      <ComboBox
+        label="Select Product"
+        description="Products with price and stock status"
+        placeholder="Choose a product"
+        options={productOptions}
+        value={value}
+        onChange={setValue}
+        searchable
+        clearable
+        components={{
+          SingleValue: ProductSingleValue,
+          Option: ProductOption,
+        }}
+      />
+    )
+  },
+}
+
+export const MultiSelectCountries: Story = {
+  render: () => {
+    const [value, setValue] = useState<CountryOption[]>([])
+    return (
+      <ComboBox
+        label="Select Countries"
+        description="Multiple countries with flags"
+        placeholder="Choose countries"
+        options={countryOptions}
+        value={value}
+        onChange={setValue}
+        multiple
+        searchable
+        clearable
+        components={{
+          SingleValue: CountrySingleValue,
+          Option: CountryOption,
+        }}
+      />
+    )
+  },
+}
+
+export const MultiSelectFrameworks: Story = {
+  render: () => {
+    const [value, setValue] = useState<FrameworkOption[]>([])
+    return (
+      <ComboBox
+        label="Tech Stack"
+        description="Select multiple frameworks"
+        placeholder="Choose frameworks"
+        options={frameworkOptions}
+        value={value}
+        onChange={setValue}
+        multiple
+        searchable
+        clearable
+        components={{
+          SingleValue: FrameworkSingleValue,
+          Option: FrameworkOption,
+        }}
+      />
+    )
+  },
+}
+
+export const MultiSelectColors: Story = {
+  render: () => {
+    const [value, setValue] = useState<ColorOption[]>([])
+    return (
+      <ComboBox
+        label="Color Palette"
+        description="Select multiple colors"
+        placeholder="Choose colors"
+        options={colorOptions}
+        value={value}
+        onChange={setValue}
+        multiple
+        searchable
+        clearable
+        components={{
+          SingleValue: ColorSingleValue,
+          Option: ColorOption,
+        }}
       />
     )
   },
@@ -560,6 +961,10 @@ export const WithExtendedData: Story = {
           value={value}
           onChange={setValue}
           searchable
+          components={{
+            SingleValue: CountrySingleValue,
+            Option: CountryOption,
+          }}
         />
         {value && (
           <div className="rounded-md bg-gray-50 p-4 text-sm">
@@ -597,6 +1002,10 @@ export const ColorPickerWithPreview: Story = {
           multiple
           searchable
           clearable
+          components={{
+            SingleValue: ColorSingleValue,
+            Option: ColorOption,
+          }}
         />
         {colors.length > 0 && (
           <div className="space-y-2">
@@ -638,10 +1047,17 @@ export const ProductCatalog: Story = {
           onChange={setProduct}
           searchable
           clearable
+          components={{
+            SingleValue: ProductSingleValue,
+            Option: ProductOption,
+          }}
         />
         {product && (
           <div className="space-y-2 rounded-md bg-gray-50 p-4">
-            <h4 className="font-semibold">{product.label}</h4>
+            <h4 className="flex items-center gap-2 font-semibold">
+              <span className="text-2xl">{product.image}</span>
+              {product.label}
+            </h4>
             <div className="space-y-1 text-sm">
               <div>
                 <strong>Price:</strong> ${product.price}
@@ -699,104 +1115,6 @@ export const DisabledEmpty: Story = {
   },
 }
 
-// All Variants Showcase
-export const AllVariants: Story = {
-  render: () => {
-    const [value1, setValue1] = useState<ComboBoxOption | null>(null)
-    const [value2, setValue2] = useState<ComboBoxOption | null>(null)
-    const [value3, setValue3] = useState<ComboBoxOption | null>(null)
-    return (
-      <div className="w-96 space-y-6">
-        <ComboBox
-          label="Default Variant"
-          variant="default"
-          placeholder="Select an option"
-          options={simpleOptions}
-          value={value1}
-          onChange={setValue1}
-        />
-        <ComboBox
-          label="Filled Variant"
-          variant="filled"
-          placeholder="Select an option"
-          options={simpleOptions}
-          value={value2}
-          onChange={setValue2}
-        />
-        <ComboBox
-          label="Unstyled Variant"
-          variant="unstyled"
-          placeholder="Select an option"
-          options={simpleOptions}
-          value={value3}
-          onChange={setValue3}
-        />
-      </div>
-    )
-  },
-  parameters: {
-    controls: { disable: true },
-  },
-}
-
-// All Sizes Showcase
-export const AllSizes: Story = {
-  render: () => {
-    const [value1, setValue1] = useState<ComboBoxOption | null>(null)
-    const [value2, setValue2] = useState<ComboBoxOption | null>(null)
-    const [value3, setValue3] = useState<ComboBoxOption | null>(null)
-    const [value4, setValue4] = useState<ComboBoxOption | null>(null)
-    const [value5, setValue5] = useState<ComboBoxOption | null>(null)
-    return (
-      <div className="w-96 space-y-6">
-        <ComboBox
-          label="Extra Small"
-          size="xs"
-          placeholder="Select an option"
-          options={simpleOptions}
-          value={value1}
-          onChange={setValue1}
-        />
-        <ComboBox
-          label="Small"
-          size="sm"
-          placeholder="Select an option"
-          options={simpleOptions}
-          value={value2}
-          onChange={setValue2}
-        />
-        <ComboBox
-          label="Medium"
-          size="md"
-          placeholder="Select an option"
-          options={simpleOptions}
-          value={value3}
-          onChange={setValue3}
-        />
-        <ComboBox
-          label="Large"
-          size="lg"
-          placeholder="Select an option"
-          options={simpleOptions}
-          value={value4}
-          onChange={setValue4}
-        />
-        <ComboBox
-          label="Extra Large"
-          size="xl"
-          placeholder="Select an option"
-          options={simpleOptions}
-          value={value5}
-          onChange={setValue5}
-        />
-      </div>
-    )
-  },
-  parameters: {
-    controls: { disable: true },
-  },
-}
-
 // Real World Examples
 export const UserRegistrationForm: Story = {
   render: () => {
@@ -816,6 +1134,10 @@ export const UserRegistrationForm: Story = {
           onChange={setCountry}
           searchable
           clearable
+          components={{
+            SingleValue: CountrySingleValue,
+            Option: CountryOption,
+          }}
         />
         <ComboBox
           label="Technical Interests"
@@ -827,6 +1149,10 @@ export const UserRegistrationForm: Story = {
           multiple
           searchable
           clearable
+          components={{
+            SingleValue: FrameworkSingleValue,
+            Option: FrameworkOption,
+          }}
         />
       </div>
     )
@@ -855,6 +1181,10 @@ export const ProjectSettings: Story = {
           multiple
           searchable
           size="md"
+          components={{
+            SingleValue: FrameworkSingleValue,
+            Option: FrameworkOption,
+          }}
         />
         <ComboBox
           label="Primary Color"
@@ -866,6 +1196,10 @@ export const ProjectSettings: Story = {
           searchable
           clearable
           size="md"
+          components={{
+            SingleValue: ColorSingleValue,
+            Option: ColorOption,
+          }}
         />
         {primaryColor && (
           <div className="flex items-center gap-2 rounded-md bg-gray-50 p-3">
@@ -876,45 +1210,6 @@ export const ProjectSettings: Story = {
             <span className="text-sm font-medium">{primaryColor.hex}</span>
           </div>
         )}
-      </div>
-    )
-  },
-  parameters: {
-    controls: { disable: true },
-  },
-}
-
-export const FilterPanel: Story = {
-  render: () => {
-    const [categories, setCategories] = useState<ProductOption[]>([])
-    const [priceRange, setPriceRange] = useState<ProductOption | null>(null)
-
-    return (
-      <div className="w-80 space-y-4 rounded-lg border border-gray-200 bg-white p-6">
-        <h3 className="mb-4 text-lg font-semibold">Filter Products</h3>
-        <ComboBox
-          label="Categories"
-          placeholder="All categories"
-          options={productOptions}
-          value={categories}
-          onChange={setCategories}
-          multiple
-          searchable
-          size="sm"
-        />
-        <ComboBox
-          label="Price Range"
-          placeholder="Any price"
-          options={productOptions}
-          value={priceRange}
-          onChange={setPriceRange}
-          searchable
-          clearable
-          size="sm"
-        />
-        <button className="w-full rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700">
-          Apply Filters
-        </button>
       </div>
     )
   },
@@ -950,6 +1245,10 @@ export const FormWithValidation: Story = {
           onChange={setCountry}
           searchable
           error={country ? '' : 'Country is required'}
+          components={{
+            SingleValue: CountrySingleValue,
+            Option: CountryOption,
+          }}
         />
         <ComboBox
           label="Frameworks (Max 3)"
@@ -961,6 +1260,10 @@ export const FormWithValidation: Story = {
           multiple
           searchable
           error={error}
+          components={{
+            SingleValue: FrameworkSingleValue,
+            Option: FrameworkOption,
+          }}
         />
       </div>
     )

@@ -7,6 +7,7 @@ import {
   type ChangeEvent,
   type JSX,
   useCallback,
+  type ComponentType,
 } from 'react'
 import { IoCheckmarkSharp, IoChevronDown } from 'react-icons/io5'
 import { twMerge } from 'tailwind-merge'
@@ -22,6 +23,8 @@ export interface ComboBoxOption {
   value: string
   disabled?: boolean
   color?: string
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  [key: string]: any
 }
 
 export interface ComboBoxClassNames {
@@ -51,6 +54,24 @@ export interface ComboBoxClassNames {
   error?: string
 }
 
+// Component props for custom renderers
+export interface SingleValueComponentProps<TOption extends ComboBoxOption> {
+  option: TOption
+  classNames?: ComboBoxClassNames
+}
+
+export interface OptionComponentProps<TOption extends ComboBoxOption> {
+  option: TOption
+  isSelected: boolean
+  isHovered: boolean
+  classNames?: ComboBoxClassNames
+}
+
+export interface ComboBoxComponents<TOption extends ComboBoxOption> {
+  SingleValue?: ComponentType<SingleValueComponentProps<TOption>>
+  Option?: ComponentType<OptionComponentProps<TOption>>
+}
+
 // Base props shared by both
 interface ComboBoxBaseProps<TOption extends ComboBoxOption> {
   options: TOption[]
@@ -70,6 +91,7 @@ interface ComboBoxBaseProps<TOption extends ComboBoxOption> {
   classNames?: ComboBoxClassNames
   limit?: number
   onSearchChange?: (search: string) => void
+  components?: ComboBoxComponents<TOption>
 }
 
 // Single select props
@@ -123,6 +145,7 @@ function ComboBox<TOption extends ComboBoxOption>(
     classNames,
     limit,
     onSearchChange,
+    components,
   } = props
   const id = useId()
   const wrapperRef = useRef<HTMLDivElement>(null!)
@@ -298,6 +321,10 @@ function ComboBox<TOption extends ComboBoxOption>(
 
   const showClearButton = clearable && selectedValues.length > 0 && !disabled
 
+  // Get custom components
+  const SingleValueComponent = components?.SingleValue
+  const OptionComponent = components?.Option
+
   return (
     <div
       ref={wrapperRef}
@@ -356,11 +383,18 @@ function ComboBox<TOption extends ComboBoxOption>(
               ])}
             >
               {selectedOptions.map((opt) => (
-                <span
+                <div
                   key={opt.value}
                   className={twMerge([styles.pill(), classNames?.pill])}
                 >
-                  {opt.label}
+                  {SingleValueComponent ? (
+                    <SingleValueComponent
+                      option={opt}
+                      classNames={classNames}
+                    />
+                  ) : (
+                    opt.label
+                  )}
                   <span
                     className={twMerge([
                       styles.pillRemove(),
@@ -370,7 +404,7 @@ function ComboBox<TOption extends ComboBoxOption>(
                   >
                     ×
                   </span>
-                </span>
+                </div>
               ))}
               {searchable ? (
                 <input
@@ -417,10 +451,17 @@ function ComboBox<TOption extends ComboBoxOption>(
                   disabled={disabled}
                   onClick={(e) => e.stopPropagation()}
                 />
-              ) : displayValue ? (
-                <span className={twMerge([styles.input(), classNames?.input])}>
-                  {displayValue}
-                </span>
+              ) : selectedOptions[0] ? (
+                <div className={twMerge([styles.input(), classNames?.input])}>
+                  {SingleValueComponent ? (
+                    <SingleValueComponent
+                      option={selectedOptions[0]}
+                      classNames={classNames}
+                    />
+                  ) : (
+                    displayValue
+                  )}
+                </div>
               ) : (
                 <span
                   className={twMerge([
@@ -492,7 +533,11 @@ function ComboBox<TOption extends ComboBoxOption>(
                         classNames?.option,
                         option.disabled && 'cursor-not-allowed opacity-50',
                       ])}
-                      style={option.color ? { color: option.color } : undefined}
+                      style={
+                        option.color
+                          ? { backgroundColor: option.color }
+                          : undefined
+                      }
                       onClick={(e) => {
                         e.stopPropagation()
                         handleSelect(option)
@@ -506,21 +551,32 @@ function ComboBox<TOption extends ComboBoxOption>(
                         }
                       }}
                     >
-                      <span
-                        className={twMerge([
-                          styles.optionLabel(),
-                          classNames?.optionLabel,
-                        ])}
-                      >
-                        {option.label}
-                      </span>
-                      {isSelected && (
-                        <IoCheckmarkSharp
-                          className={twMerge([
-                            styles.checkIcon(),
-                            classNames?.checkIcon,
-                          ])}
+                      {OptionComponent ? (
+                        <OptionComponent
+                          option={option}
+                          isSelected={isSelected}
+                          isHovered={isHovered}
+                          classNames={classNames}
                         />
+                      ) : (
+                        <>
+                          <span
+                            className={twMerge([
+                              styles.optionLabel(),
+                              classNames?.optionLabel,
+                            ])}
+                          >
+                            {option.label}
+                          </span>
+                          {isSelected && (
+                            <IoCheckmarkSharp
+                              className={twMerge([
+                                styles.checkIcon(),
+                                classNames?.checkIcon,
+                              ])}
+                            />
+                          )}
+                        </>
                       )}
                     </div>
                   )

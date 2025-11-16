@@ -2,9 +2,14 @@ import dayjs from 'dayjs'
 import { useState } from 'react'
 import { BsCalendar2Month } from 'react-icons/bs'
 import { FiFilter } from 'react-icons/fi'
+import { IoCheckmarkSharp } from 'react-icons/io5'
 
 import { Button, TextInput } from './components'
-import ComboBox from './components/ComboBox/ComboBox'
+import ComboBox, {
+  type ComboBoxOption,
+  type OptionComponentProps,
+  type SingleValueComponentProps,
+} from './components/ComboBox/ComboBox'
 import DatePicker from './components/DatePicker/DatePicker'
 import Select from './components/Select/Select'
 
@@ -15,6 +20,21 @@ type ColorOption = {
   hex: string
 }
 
+interface CountryOption extends ComboBoxOption {
+  label: string
+  value: string
+  flag: string
+  code: string
+}
+
+const countryOptions: CountryOption[] = [
+  { label: 'United States', value: 'us', code: 'US', flag: '🇺🇸' },
+  { label: 'United Kingdom', value: 'uk', code: 'GB', flag: '🇬🇧' },
+  { label: 'Canada', value: 'ca', code: 'CA', flag: '🇨🇦' },
+  { label: 'Australia', value: 'au', code: 'AU', flag: '🇦🇺' },
+  { label: 'Germany', value: 'de', code: 'DE', flag: '🇩🇪' },
+]
+
 const colorOptions: ColorOption[] = [
   { label: 'Red', value: 'red', color: 'red', hex: '#ef4444' },
   { label: 'Blue', value: 'blue', color: 'blue', hex: '#3b82f6' },
@@ -22,9 +42,39 @@ const colorOptions: ColorOption[] = [
   { label: 'Yellow', value: 'yellow', color: 'yellow', hex: '#eab308' },
   { label: 'Purple', value: 'purple', color: 'purple', hex: '#a855f7' },
 ]
+
+const SingleValueComponent = ({
+  option,
+}: SingleValueComponentProps<CountryOption>) => {
+  return (
+    <div className="flex items-center gap-2">
+      <span className="text-xl">{option.flag}</span>
+      <span>{option.label}</span>
+    </div>
+  )
+}
+
+const OptionComponent = ({
+  option,
+  isSelected,
+  classNames,
+}: OptionComponentProps<CountryOption>) => {
+  return (
+    <div className="flex w-full items-center justify-between">
+      <div className="flex items-center gap-2">
+        <span className="text-xl">{option.flag}</span>
+        <span>{option.label}</span>
+        <span className="text-sm text-gray-500">({option.code})</span>
+      </div>
+      {isSelected && <IoCheckmarkSharp className={classNames?.checkIcon} />}
+    </div>
+  )
+}
+
 export default function App() {
   const [selectedDate, setSelectedDate] = useState<dayjs.Dayjs | null>(null)
   const [colors, setColors] = useState<ColorOption | null>(null)
+  const [country, setCountry] = useState<CountryOption | null>(null)
   return (
     <div className="min-h-screen bg-linear-to-br from-gray-50 to-gray-100 py-4">
       <div className="mx-auto max-w-md bg-white p-8 shadow-md">
@@ -32,6 +82,20 @@ export default function App() {
           <TextInput
             label="Regular Text Input"
             placeholder="Type something..."
+          />
+          <ComboBox
+            label="Select Country"
+            placeholder="Choose a country"
+            options={countryOptions}
+            value={country}
+            onChange={setCountry}
+            searchable
+            clearable
+            withAsterisk
+            components={{
+              SingleValue: SingleValueComponent,
+              Option: OptionComponent,
+            }}
           />
           <ComboBox
             label="Select Color"
