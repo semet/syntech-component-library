@@ -743,7 +743,7 @@ export default function DatePicker({
             onClick={handleClear}
             className={twMerge([
               'pointer-events-auto absolute top-1/2 flex -translate-y-1/2 items-center justify-center text-gray-400 transition-colors hover:text-gray-600',
-              iconPosition === 'right' ? 'right-10' : 'right-2',
+              iconPosition === 'right' ? 'right-10' : 'right-2.5',
             ])}
           >
             <BiX />

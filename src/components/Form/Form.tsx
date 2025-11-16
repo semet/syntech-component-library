@@ -1,36 +1,25 @@
-import type { ComponentProps } from 'react'
+import React from 'react'
 import {
-  type Resolver,
+  useForm,
+  type UseFormReturn,
   type FieldValues,
   type SubmitHandler,
-  type UseFormReturn,
-  type DefaultValues,
-  useForm,
+  type UseFormProps,
 } from 'react-hook-form'
 
-type FormProps<T extends FieldValues> = Omit<
-  ComponentProps<'form'>,
-  'onSubmit' | 'children'
-> & {
-  resolver: Resolver<T>
+type FormProps<T extends FieldValues> = UseFormProps<T> & {
   onSubmit: SubmitHandler<T>
   children: (formMethods: UseFormReturn<T>) => React.ReactNode
-  defaultValues?: DefaultValues<T> | undefined
   className?: string
 }
 
 export function Form<T extends FieldValues>({
-  resolver,
   onSubmit,
   children,
-  defaultValues,
   className = '',
   ...props
 }: FormProps<T>) {
-  const formMethods = useForm<T>({
-    resolver,
-    defaultValues,
-  })
+  const formMethods = useForm<T>(props)
 
   const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -41,7 +30,6 @@ export function Form<T extends FieldValues>({
     <form
       onSubmit={handleFormSubmit}
       className={className}
-      {...props}
     >
       {children(formMethods)}
     </form>

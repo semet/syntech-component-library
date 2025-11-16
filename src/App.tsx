@@ -1,5 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Controller } from 'react-hook-form'
+import { Controller, useForm } from 'react-hook-form'
 import { FaEnvelope } from 'react-icons/fa'
 import { IoCheckmarkSharp } from 'react-icons/io5'
 import z from 'zod'
@@ -10,7 +10,6 @@ import ComboBox, {
   type OptionComponentProps,
   type SingleValueComponentProps,
 } from './components/ComboBox/ComboBox'
-import { Form } from './components/Form/Form'
 
 type ColorOption = {
   label: string
@@ -73,145 +72,172 @@ const OptionComponent = ({
 const schema = z.object({
   username: z.string().min(2, 'Username must be at least 2 characters long'),
   email: z.email('Invalid email address'),
-  country: z.object({
-    label: z.string(),
-    value: z.string(),
-    flag: z.string(),
-    code: z.string(),
-  }),
-  color: z.object({
-    label: z.string(),
-    value: z.string(),
-    color: z.string(),
-    hex: z.string(),
-  }),
-  start_date: z.date(),
-  end_date: z.date(),
-  status: z.object({ value: z.string(), label: z.string() }),
+  country: z
+    .object({
+      label: z.string(),
+      value: z.string(),
+      flag: z.string(),
+      code: z.string(),
+    })
+    .refine(
+      (data) => {
+        return data.value !== ''
+      },
+      {
+        message: 'Country is required',
+      },
+    ),
+  color: z
+    .object({
+      label: z.string(),
+      value: z.string(),
+      color: z.string(),
+      hex: z.string(),
+    })
+    .refine(
+      (data) => {
+        return data.value !== ''
+      },
+      {
+        message: 'Color is required',
+      },
+    ),
+  start_date: z.date().optional(),
+  end_date: z.date().optional(),
 })
 
 export default function App() {
+  const {
+    register,
+    handleSubmit,
+    control,
+    reset,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(schema),
+    defaultValues: {
+      username: '',
+      email: '',
+      country: {
+        label: '',
+        value: '',
+        flag: '',
+        code: '',
+      },
+      color: {
+        label: '',
+        value: '',
+        color: '',
+        hex: '',
+      },
+    },
+  })
   return (
     <div className="min-h-screen bg-linear-to-br from-gray-50 to-gray-100 py-4">
       <div className="mx-auto max-w-md bg-white p-8 shadow-md">
-        <Form
-          resolver={zodResolver(schema)}
-          defaultValues={{
-            username: '',
-            email: '',
-            color: colorOptions[0],
-            country: countryOptions[0],
-            start_date: new Date(),
-            end_date: new Date(),
-            status: { value: 'active', label: 'Active' },
-          }}
-          onSubmit={(data) => {
+        <form
+          onSubmit={handleSubmit((data) => {
             // eslint-disable-next-line no-console
-            console.log('Form Data:', data)
-          }}
-          className="space-y-5"
+            console.log(data)
+          })}
+          className="flex flex-col gap-4"
         >
-          {({ register, control, formState: { errors }, reset }) => {
-            // eslint-disable-next-line no-console
-            console.log('Errors:', errors)
-            return (
-              <>
-                <TextInput
-                  label="Username"
-                  placeholder="Type your username"
-                  {...register('username')}
-                  error={errors.username?.message as string}
-                />
-                <TextInput
-                  label="Email "
-                  placeholder="Type your email"
-                  {...register('email')}
-                  error={errors.email?.message as string}
-                  leftSection={<FaEnvelope />}
-                />
+          <TextInput
+            label="Username"
+            placeholder="Type your username"
+            {...register('username')}
+            error={errors.username?.message as string}
+          />
+          <TextInput
+            label="Email "
+            placeholder="Type your email"
+            {...register('email')}
+            error={errors.email?.message as string}
+            leftSection={<FaEnvelope />}
+          />
 
-                <Controller
-                  control={control}
-                  name="country"
-                  render={({ field }) => (
-                    <ComboBox
-                      label="Select Country"
-                      placeholder="Choose a country"
-                      options={countryOptions}
-                      value={field.value}
-                      onChange={field.onChange}
-                      searchable
-                      clearable
-                      withAsterisk
-                      components={{
-                        SingleValue: SingleValueComponent,
-                        Option: OptionComponent,
-                      }}
-                    />
-                  )}
-                />
-                <Controller
-                  control={control}
-                  name="color"
-                  render={({ field }) => (
-                    <ComboBox
-                      label="Select Color"
-                      placeholder="Choose a color"
-                      options={colorOptions}
-                      value={field.value}
-                      onChange={field.onChange}
-                      searchable
-                      clearable
-                      withAsterisk
-                    />
-                  )}
-                />
-                <Controller
-                  control={control}
-                  name="start_date"
-                  render={({ field }) => (
-                    <DatePicker
-                      label="Start Date"
-                      placeholder="Select start date"
-                      value={field.value}
-                      onChange={field.onChange}
-                      withAsterisk
-                      clearable
-                      iconPosition="left"
-                      minDate={new Date()}
-                    />
-                  )}
-                />
-                <Controller
-                  control={control}
-                  name="end_date"
-                  render={({ field }) => (
-                    <DatePicker
-                      label="End Date"
-                      placeholder="Select end date"
-                      value={field.value}
-                      onChange={field.onChange}
-                      withAsterisk
-                      clearable
-                      iconPosition="left"
-                    />
-                  )}
-                />
+          <Controller
+            control={control}
+            name="country"
+            render={({ field }) => (
+              <ComboBox
+                label="Select Country"
+                placeholder="Choose a country"
+                options={countryOptions}
+                value={field.value}
+                onChange={field.onChange}
+                searchable
+                clearable
+                withAsterisk
+                components={{
+                  SingleValue: SingleValueComponent,
+                  Option: OptionComponent,
+                }}
+                error={errors.country?.message as string}
+              />
+            )}
+          />
+          <Controller
+            control={control}
+            name="color"
+            render={({ field }) => (
+              <ComboBox
+                label="Select Color"
+                placeholder="Choose a color"
+                options={colorOptions}
+                value={field.value}
+                onChange={field.onChange}
+                searchable
+                clearable
+                withAsterisk
+                error={errors.color?.message as string}
+              />
+            )}
+          />
+          <Controller
+            control={control}
+            name="start_date"
+            render={({ field }) => (
+              <DatePicker
+                label="Start Date"
+                placeholder="Select start date"
+                value={field.value}
+                onChange={field.onChange}
+                withAsterisk
+                clearable
+                iconPosition="left"
+                minDate={new Date()}
+                error={errors.start_date?.message as string}
+              />
+            )}
+          />
+          <Controller
+            control={control}
+            name="end_date"
+            render={({ field }) => (
+              <DatePicker
+                label="End Date"
+                placeholder="Select end date"
+                value={field.value}
+                onChange={field.onChange}
+                withAsterisk
+                clearable
+                iconPosition="left"
+              />
+            )}
+          />
 
-                <div className="flex gap-4">
-                  <Button type="submit">Submit</Button>
-                  <Button
-                    type="reset"
-                    color="gray"
-                    onClick={() => reset()}
-                  >
-                    Reset
-                  </Button>
-                </div>
-              </>
-            )
-          }}
-        </Form>
+          <div className="flex gap-4">
+            <Button type="submit">Submit</Button>
+            <Button
+              type="reset"
+              color="gray"
+              onClick={() => reset()}
+            >
+              Reset
+            </Button>
+          </div>
+        </form>
       </div>
     </div>
   )

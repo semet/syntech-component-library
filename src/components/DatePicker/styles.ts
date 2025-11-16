@@ -13,7 +13,7 @@ export const datePickerStyles = tv({
     rightSection:
       'pointer-events-none absolute top-1/2 right-1 flex -translate-y-1/2 items-center justify-center text-gray-500',
     errorWrapper: 'absolute top-full left-0 w-full',
-    error: 'mt-1 text-xs text-red-600',
+    error: 'text-xs text-red-600',
     calendar:
       'absolute top-full z-50 mt-1 w-80 rounded-md border border-gray-200 bg-white p-4 shadow-xl',
     calendarHeader: 'mb-4 flex items-center justify-between',

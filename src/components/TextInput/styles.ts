@@ -15,7 +15,7 @@ export const textInputStyles = tv({
     rightSection:
       'pointer-events-none absolute top-1/2 right-1.5 flex -translate-y-1/2 items-center justify-center text-gray-500',
     errorWrapper: 'absolute top-full left-0 w-full',
-    error: 'mt-1 text-xs text-red-600',
+    error: 'text-xs text-red-600',
   },
   variants: {
     variant: {

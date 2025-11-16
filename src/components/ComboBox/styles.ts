@@ -34,7 +34,7 @@ export const comboBoxStyles = tv({
     checkIcon: 'h-4 w-4 text-blue-600',
     empty: 'px-3 py-2 text-center text-sm text-gray-500',
     errorWrapper: 'absolute top-full left-0 w-full',
-    error: 'mt-1 text-xs text-red-600',
+    error: 'text-xs text-red-600',
   },
   variants: {
     variant: {
