@@ -1,7 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import dayjs, { type Dayjs } from 'dayjs'
-import relativeTime from 'dayjs/plugin/relativeTime'
 import { useState } from 'react'
 import { BiCalendarEvent, BiCalendarCheck } from 'react-icons/bi'
 import {
@@ -13,8 +11,6 @@ import {
 } from 'react-icons/fi'
 
 import DatePicker from './DatePicker'
-
-dayjs.extend(relativeTime)
 
 const meta: Meta<typeof DatePicker> = {
   title: 'Components/DatePicker',
@@ -93,6 +89,10 @@ const meta: Meta<typeof DatePicker> = {
       control: 'boolean',
       description: 'Show asterisk for required field',
     },
+    clearable: {
+      control: 'boolean',
+      description: 'Show clear button',
+    },
     label: {
       control: 'text',
       description: 'Label text',
@@ -125,7 +125,7 @@ export const Default: Story = {
 
 export const WithValue: Story = {
   render: () => {
-    const [value, setValue] = useState<Dayjs | null>(dayjs())
+    const [value, setValue] = useState<Date | null>(new Date())
     return (
       <DatePicker
         label="Appointment Date"
@@ -164,6 +164,37 @@ export const WithError: Story = {
     label: 'Start Date',
     error: 'This field is required',
     placeholder: 'Select start date',
+  },
+}
+
+export const Clearable: Story = {
+  render: () => {
+    const [value, setValue] = useState<Date | null>(new Date())
+    return (
+      <DatePicker
+        label="Select Date"
+        description="Click the X icon to clear the date"
+        value={value}
+        onChange={setValue}
+        clearable
+      />
+    )
+  },
+}
+
+export const ClearableIconLeft: Story = {
+  render: () => {
+    const [value, setValue] = useState<Date | null>(new Date())
+    return (
+      <DatePicker
+        label="Select Date"
+        description="Clear button appears on the right"
+        value={value}
+        onChange={setValue}
+        clearable
+        iconPosition="left"
+      />
+    )
   },
 }
 
@@ -257,7 +288,7 @@ export const RadiusExtraLarge: Story = {
 // Date Formats
 export const FormatISO: Story = {
   render: () => {
-    const [value, setValue] = useState<Dayjs | null>(dayjs())
+    const [value, setValue] = useState<Date | null>(new Date())
     return (
       <DatePicker
         label="ISO Format (YYYY-MM-DD)"
@@ -271,7 +302,7 @@ export const FormatISO: Story = {
 
 export const FormatUS: Story = {
   render: () => {
-    const [value, setValue] = useState<Dayjs | null>(dayjs())
+    const [value, setValue] = useState<Date | null>(new Date())
     return (
       <DatePicker
         label="US Format (MM/DD/YYYY)"
@@ -285,7 +316,7 @@ export const FormatUS: Story = {
 
 export const FormatEU: Story = {
   render: () => {
-    const [value, setValue] = useState<Dayjs | null>(dayjs())
+    const [value, setValue] = useState<Date | null>(new Date())
     return (
       <DatePicker
         label="EU Format (DD/MM/YYYY)"
@@ -299,7 +330,7 @@ export const FormatEU: Story = {
 
 export const FormatLong: Story = {
   render: () => {
-    const [value, setValue] = useState<Dayjs | null>(dayjs())
+    const [value, setValue] = useState<Date | null>(new Date())
     return (
       <DatePicker
         label="Long Format"
@@ -313,7 +344,7 @@ export const FormatLong: Story = {
 
 export const FormatFull: Story = {
   render: () => {
-    const [value, setValue] = useState<Dayjs | null>(dayjs())
+    const [value, setValue] = useState<Date | null>(new Date())
     return (
       <DatePicker
         label="Full Format"
@@ -380,14 +411,15 @@ export const IconLeftWithCustom: Story = {
 // Min/Max Date
 export const WithMinDate: Story = {
   render: () => {
-    const [value, setValue] = useState<Dayjs | null>(null)
-    const minDate = dayjs().subtract(7, 'days')
+    const [value, setValue] = useState<Date | null>(null)
+    const minDate = new Date()
+    minDate.setDate(minDate.getDate() - 7)
 
     return (
       <div className="space-y-2">
         <DatePicker
           label="Select Date (Min: 7 days ago)"
-          description={`Cannot select dates before ${minDate.format('MMM DD, YYYY')}`}
+          description={`Cannot select dates before ${minDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}`}
           value={value}
           onChange={setValue}
           minDate={minDate}
@@ -399,14 +431,15 @@ export const WithMinDate: Story = {
 
 export const WithMaxDate: Story = {
   render: () => {
-    const [value, setValue] = useState<Dayjs | null>(null)
-    const maxDate = dayjs().add(7, 'days')
+    const [value, setValue] = useState<Date | null>(null)
+    const maxDate = new Date()
+    maxDate.setDate(maxDate.getDate() + 7)
 
     return (
       <div className="space-y-2">
         <DatePicker
           label="Select Date (Max: 7 days ahead)"
-          description={`Cannot select dates after ${maxDate.format('MMM DD, YYYY')}`}
+          description={`Cannot select dates after ${maxDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}`}
           value={value}
           onChange={setValue}
           maxDate={maxDate}
@@ -418,15 +451,17 @@ export const WithMaxDate: Story = {
 
 export const DateRange: Story = {
   render: () => {
-    const [value, setValue] = useState<Dayjs | null>(null)
-    const minDate = dayjs().subtract(30, 'days')
-    const maxDate = dayjs().add(30, 'days')
+    const [value, setValue] = useState<Date | null>(null)
+    const minDate = new Date()
+    minDate.setDate(minDate.getDate() - 30)
+    const maxDate = new Date()
+    maxDate.setDate(maxDate.getDate() + 30)
 
     return (
       <div className="space-y-2">
         <DatePicker
           label="Select Date (±30 days)"
-          description={`Select between ${minDate.format('MMM DD')} and ${maxDate.format('MMM DD, YYYY')}`}
+          description={`Select between ${minDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} and ${maxDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}`}
           value={value}
           onChange={setValue}
           minDate={minDate}
@@ -439,8 +474,8 @@ export const DateRange: Story = {
 
 export const FutureDatesOnly: Story = {
   render: () => {
-    const [value, setValue] = useState<Dayjs | null>(null)
-    const today = dayjs()
+    const [value, setValue] = useState<Date | null>(null)
+    const today = new Date()
 
     return (
       <DatePicker
@@ -456,8 +491,8 @@ export const FutureDatesOnly: Story = {
 
 export const PastDatesOnly: Story = {
   render: () => {
-    const [value, setValue] = useState<Dayjs | null>(null)
-    const today = dayjs()
+    const [value, setValue] = useState<Date | null>(null)
+    const today = new Date()
 
     return (
       <DatePicker
@@ -474,7 +509,7 @@ export const PastDatesOnly: Story = {
 // States
 export const Disabled: Story = {
   render: () => {
-    const [value, setValue] = useState<Dayjs | null>(dayjs())
+    const [value, setValue] = useState<Date | null>(new Date())
     return (
       <DatePicker
         label="Disabled"
@@ -558,7 +593,7 @@ export const AllSizes: Story = {
 // All Formats Showcase
 export const AllFormats: Story = {
   render: () => {
-    const today = dayjs()
+    const today = new Date()
     return (
       <div className="w-96 space-y-6">
         <DatePicker
@@ -637,12 +672,49 @@ export const IconPositionComparison: Story = {
   },
 }
 
+// Clearable Comparison
+export const ClearableComparison: Story = {
+  render: () => {
+    const [date1, setDate1] = useState<Date | null>(new Date())
+    const [date2, setDate2] = useState<Date | null>(new Date())
+    const [date3, setDate3] = useState<Date | null>(new Date())
+
+    return (
+      <div className="w-96 space-y-6">
+        <DatePicker
+          label="Not Clearable (Default)"
+          value={date1}
+          onChange={setDate1}
+          clearable={false}
+        />
+        <DatePicker
+          label="Clearable - Icon Right"
+          value={date2}
+          onChange={setDate2}
+          clearable
+          iconPosition="right"
+        />
+        <DatePicker
+          label="Clearable - Icon Left"
+          value={date3}
+          onChange={setDate3}
+          clearable
+          iconPosition="left"
+        />
+      </div>
+    )
+  },
+  parameters: {
+    controls: { disable: true },
+  },
+}
+
 // Real World Examples
 export const BookingForm: Story = {
   render: () => {
-    const [checkIn, setCheckIn] = useState<Dayjs | null>(null)
-    const [checkOut, setCheckOut] = useState<Dayjs | null>(null)
-    const today = dayjs()
+    const [checkIn, setCheckIn] = useState<Date | null>(null)
+    const [checkOut, setCheckOut] = useState<Date | null>(null)
+    const today = new Date()
 
     return (
       <div className="w-96 space-y-4 rounded-lg border border-gray-200 bg-white p-6">
@@ -655,6 +727,7 @@ export const BookingForm: Story = {
           onChange={setCheckIn}
           minDate={today}
           format="MMM DD, YYYY"
+          clearable
         />
         <DatePicker
           label="Check-out Date"
@@ -664,6 +737,7 @@ export const BookingForm: Story = {
           onChange={setCheckOut}
           minDate={checkIn || today}
           format="MMM DD, YYYY"
+          clearable
         />
       </div>
     )
@@ -675,9 +749,11 @@ export const BookingForm: Story = {
 
 export const EventScheduler: Story = {
   render: () => {
-    const [eventDate, setEventDate] = useState<Dayjs | null>(null)
-    const minDate = dayjs().add(1, 'day')
-    const maxDate = dayjs().add(90, 'days')
+    const [eventDate, setEventDate] = useState<Date | null>(null)
+    const minDate = new Date()
+    minDate.setDate(minDate.getDate() + 1)
+    const maxDate = new Date()
+    maxDate.setDate(maxDate.getDate() + 90)
 
     return (
       <div className="w-96 space-y-4 rounded-lg border border-gray-200 bg-white p-6">
@@ -693,6 +769,7 @@ export const EventScheduler: Story = {
           format="dddd, MMMM DD, YYYY"
           calendarIcon={<BiCalendarEvent className="size-5" />}
           size="md"
+          clearable
         />
       </div>
     )
@@ -704,8 +781,9 @@ export const EventScheduler: Story = {
 
 export const BirthdayPicker: Story = {
   render: () => {
-    const [birthday, setBirthday] = useState<Dayjs | null>(null)
-    const maxDate = dayjs().subtract(13, 'years')
+    const [birthday, setBirthday] = useState<Date | null>(null)
+    const maxDate = new Date()
+    maxDate.setFullYear(maxDate.getFullYear() - 13)
 
     return (
       <div className="w-96 space-y-4 rounded-lg border border-gray-200 bg-white p-6">
@@ -719,6 +797,7 @@ export const BirthdayPicker: Story = {
           maxDate={maxDate}
           format="MMMM DD, YYYY"
           calendarIcon={<FiGift className="size-5" />}
+          clearable
         />
       </div>
     )
@@ -730,10 +809,22 @@ export const BirthdayPicker: Story = {
 
 export const DeadlineTracker: Story = {
   render: () => {
-    const [deadline, setDeadline] = useState<Dayjs | null>(
-      dayjs().add(7, 'days'),
-    )
-    const today = dayjs()
+    const defaultDate = new Date()
+    defaultDate.setDate(defaultDate.getDate() + 7)
+    const [deadline, setDeadline] = useState<Date | null>(defaultDate)
+    const today = new Date()
+
+    const getRelativeTime = (date: Date) => {
+      const now = new Date()
+      const diffTime = date.getTime() - now.getTime()
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
+
+      if (diffDays === 0) return 'today'
+      if (diffDays === 1) return 'tomorrow'
+      if (diffDays === -1) return 'yesterday'
+      if (diffDays > 0) return `in ${diffDays} days`
+      return `${Math.abs(diffDays)} days ago`
+    }
 
     return (
       <div className="w-96 space-y-4 rounded-lg border border-gray-200 bg-white p-6">
@@ -749,10 +840,11 @@ export const DeadlineTracker: Story = {
           calendarIcon={<FiTrendingUp className="size-5" />}
           variant="filled"
           size="md"
+          clearable
         />
         {deadline && (
           <div className="rounded-md bg-blue-50 p-3 text-sm text-blue-700">
-            Deadline: {deadline.fromNow()}
+            Deadline: {getRelativeTime(deadline)}
           </div>
         )}
       </div>
@@ -765,13 +857,13 @@ export const DeadlineTracker: Story = {
 
 export const FormWithValidation: Story = {
   render: () => {
-    const [startDate, setStartDate] = useState<Dayjs | null>(null)
-    const [endDate, setEndDate] = useState<Dayjs | null>(null)
+    const [startDate, setStartDate] = useState<Date | null>(null)
+    const [endDate, setEndDate] = useState<Date | null>(null)
     const [error, setError] = useState('')
 
-    const handleEndDateChange = (date: Dayjs | null) => {
+    const handleEndDateChange = (date: Date | null) => {
       setEndDate(date)
-      if (date && startDate && date.isBefore(startDate)) {
+      if (date && startDate && date < startDate) {
         setError('End date must be after start date')
       } else {
         setError('')
@@ -787,6 +879,7 @@ export const FormWithValidation: Story = {
           value={startDate}
           onChange={setStartDate}
           format="MMM DD, YYYY"
+          clearable
         />
         <DatePicker
           label="End Date"
@@ -796,6 +889,7 @@ export const FormWithValidation: Story = {
           minDate={startDate || undefined}
           format="MMM DD, YYYY"
           error={error}
+          clearable
         />
       </div>
     )
@@ -813,16 +907,19 @@ export const CompactFormFields: Story = {
         label="Start"
         size="xs"
         variant="filled"
+        clearable
       />
       <DatePicker
         label="End"
         size="xs"
         variant="filled"
+        clearable
       />
       <DatePicker
         label="Review Date"
         size="xs"
         variant="filled"
+        clearable
       />
     </div>
   ),
