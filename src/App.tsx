@@ -1,17 +1,16 @@
-import dayjs from 'dayjs'
-import { useState } from 'react'
-import { BsCalendar2Month } from 'react-icons/bs'
-import { FiFilter } from 'react-icons/fi'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { Controller } from 'react-hook-form'
+import { FaEnvelope } from 'react-icons/fa'
 import { IoCheckmarkSharp } from 'react-icons/io5'
+import z from 'zod'
 
-import { Button, TextInput } from './components'
+import { Button, DatePicker, TextInput } from './components'
 import ComboBox, {
   type ComboBoxOption,
   type OptionComponentProps,
   type SingleValueComponentProps,
 } from './components/ComboBox/ComboBox'
-import DatePicker from './components/DatePicker/DatePicker'
-import Select from './components/Select/Select'
+import { Form } from './components/Form/Form'
 
 type ColorOption = {
   label: string
@@ -71,147 +70,148 @@ const OptionComponent = ({
   )
 }
 
+const schema = z.object({
+  username: z.string().min(2, 'Username must be at least 2 characters long'),
+  email: z.email('Invalid email address'),
+  country: z.object({
+    label: z.string(),
+    value: z.string(),
+    flag: z.string(),
+    code: z.string(),
+  }),
+  color: z.object({
+    label: z.string(),
+    value: z.string(),
+    color: z.string(),
+    hex: z.string(),
+  }),
+  start_date: z.date(),
+  end_date: z.date(),
+  status: z.object({ value: z.string(), label: z.string() }),
+})
+
 export default function App() {
-  const [selectedDate, setSelectedDate] = useState<dayjs.Dayjs | null>(null)
-  const [colors, setColors] = useState<ColorOption | null>(null)
-  const [country, setCountry] = useState<CountryOption | null>(null)
   return (
     <div className="min-h-screen bg-linear-to-br from-gray-50 to-gray-100 py-4">
       <div className="mx-auto max-w-md bg-white p-8 shadow-md">
-        <div className="space-y-8">
-          <TextInput
-            label="Regular Text Input"
-            placeholder="Type something..."
-          />
-          <ComboBox
-            label="Select Country"
-            placeholder="Choose a country"
-            options={countryOptions}
-            value={country}
-            onChange={setCountry}
-            searchable
-            clearable
-            withAsterisk
-            components={{
-              SingleValue: SingleValueComponent,
-              Option: OptionComponent,
-            }}
-          />
-          <ComboBox
-            label="Select Color"
-            placeholder="Choose a color"
-            options={colorOptions}
-            value={colors}
-            onChange={setColors}
-            // multiple
-            searchable
-            clearable
-            withAsterisk
-          />
-          <TextInput
-            label="Filled Text Input"
-            variant="filled"
-            placeholder="Type something..."
-          />
-          <TextInput
-            label="With Error"
-            placeholder="Type something..."
-            error="This field is required"
-            withAsterisk
-          />
-          <DatePicker
-            label="Date at Top"
-            description="Opens below because there's enough space"
-            format="MMMM DD, YYYY"
-          />
+        <Form
+          resolver={zodResolver(schema)}
+          defaultValues={{
+            username: '',
+            email: '',
+            color: colorOptions[0],
+            country: countryOptions[0],
+            start_date: new Date(),
+            end_date: new Date(),
+            status: { value: 'active', label: 'Active' },
+          }}
+          onSubmit={(data) => {
+            // eslint-disable-next-line no-console
+            console.log('Form Data:', data)
+          }}
+          className="space-y-5"
+        >
+          {({ register, control, formState: { errors }, reset }) => {
+            // eslint-disable-next-line no-console
+            console.log('Errors:', errors)
+            return (
+              <>
+                <TextInput
+                  label="Username"
+                  placeholder="Type your username"
+                  {...register('username')}
+                  error={errors.username?.message as string}
+                />
+                <TextInput
+                  label="Email "
+                  placeholder="Type your email"
+                  {...register('email')}
+                  error={errors.email?.message as string}
+                  leftSection={<FaEnvelope />}
+                />
 
-          <DatePicker
-            label="With /Max Date"
-            minDate={dayjs('2025-11-02')}
-            maxDate={dayjs('2025-11-20')}
-            value={selectedDate}
-            onChange={setSelectedDate}
-          />
+                <Controller
+                  control={control}
+                  name="country"
+                  render={({ field }) => (
+                    <ComboBox
+                      label="Select Country"
+                      placeholder="Choose a country"
+                      options={countryOptions}
+                      value={field.value}
+                      onChange={field.onChange}
+                      searchable
+                      clearable
+                      withAsterisk
+                      components={{
+                        SingleValue: SingleValueComponent,
+                        Option: OptionComponent,
+                      }}
+                    />
+                  )}
+                />
+                <Controller
+                  control={control}
+                  name="color"
+                  render={({ field }) => (
+                    <ComboBox
+                      label="Select Color"
+                      placeholder="Choose a color"
+                      options={colorOptions}
+                      value={field.value}
+                      onChange={field.onChange}
+                      searchable
+                      clearable
+                      withAsterisk
+                    />
+                  )}
+                />
+                <Controller
+                  control={control}
+                  name="start_date"
+                  render={({ field }) => (
+                    <DatePicker
+                      label="Start Date"
+                      placeholder="Select start date"
+                      value={field.value}
+                      onChange={field.onChange}
+                      withAsterisk
+                      clearable
+                      iconPosition="left"
+                      minDate={new Date()}
+                    />
+                  )}
+                />
+                <Controller
+                  control={control}
+                  name="end_date"
+                  render={({ field }) => (
+                    <DatePicker
+                      label="End Date"
+                      placeholder="Select end date"
+                      value={field.value}
+                      onChange={field.onChange}
+                      withAsterisk
+                      clearable
+                      iconPosition="left"
+                    />
+                  )}
+                />
 
-          <DatePicker
-            label="With Custom Calendar Icon"
-            name="end_date"
-            calendarIcon={<BsCalendar2Month />}
-          />
-          <DatePicker
-            label="Icon on the Left"
-            name="end_date"
-            iconPosition="left"
-            placeholder="Select Appointment Date"
-          />
-          <DatePicker
-            label="With Error Message"
-            name="end_date"
-            iconPosition="left"
-            placeholder="Select Appointment Date"
-            error="This field is required"
-            withAsterisk
-          />
-
-          <Select
-            label="Choose a country"
-            data={[
-              { value: 'us', label: 'United States' },
-              { value: 'uk', label: 'United Kingdom' },
-              { value: 'ca', label: 'Canada' },
-            ]}
-            placeholder="Select country"
-          />
-
-          <Select
-            label="Status"
-            leftSection={<FiFilter />}
-            data={[
-              { value: 'active', label: 'Active' },
-              { value: 'inactive', label: 'Inactive' },
-              { value: 'pending', label: 'Pending' },
-            ]}
-            placeholder="Select status"
-          />
-
-          <Select label="Custom">
-            <option value="1">Option 1</option>
-            <option value="2">Option 2</option>
-          </Select>
-
-          <Select
-            label="Styled Select"
-            variant="filled"
-            size="lg"
-            radius="lg"
-            classNames={{
-              select: 'font-bold',
-              chevron: 'text-blue-500',
-            }}
-            data={[
-              { value: 'red', label: 'Red' },
-              { value: 'green', label: 'Green' },
-              { value: 'blue', label: 'Blue' },
-            ]}
-            placeholder="Select color"
-          />
-
-          <div className="flex gap-4">
-            <Button
-              variant="filled"
-              fullWidth
-            >
-              Submit
-            </Button>
-            <Button
-              variant="filled"
-              color="danger"
-              fullWidth
-            >
-              Cancel
-            </Button>
-          </div>
-        </div>
+                <div className="flex gap-4">
+                  <Button type="submit">Submit</Button>
+                  <Button
+                    type="reset"
+                    color="gray"
+                    onClick={() => reset()}
+                  >
+                    Reset
+                  </Button>
+                </div>
+              </>
+            )
+          }}
+        </Form>
       </div>
     </div>
   )

@@ -9,6 +9,7 @@ import {
   useCallback,
   type ComponentType,
 } from 'react'
+import { BiX } from 'react-icons/bi'
 import { IoCheckmarkSharp, IoChevronDown } from 'react-icons/io5'
 import { twMerge } from 'tailwind-merge'
 import type { VariantProps } from 'tailwind-variants'
@@ -479,15 +480,15 @@ function ComboBox<TOption extends ComboBoxOption>(
             className={twMerge([styles.iconWrapper(), classNames?.iconWrapper])}
           >
             {showClearButton && (
-              <span
+              <button
                 className={twMerge([
                   styles.clearButton(),
                   classNames?.clearButton,
                 ])}
                 onClick={handleClear}
               >
-                ×
-              </span>
+                <BiX />
+              </button>
             )}
             <IoChevronDown
               className={twMerge([styles.chevron(), classNames?.chevron])}

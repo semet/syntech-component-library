@@ -1,5 +1,3 @@
-import type { Dayjs } from 'dayjs'
-import dayjs from 'dayjs'
 import {
   useCallback,
   useId,
@@ -8,72 +6,296 @@ import {
   useState,
   type ComponentProps,
 } from 'react'
-import { BiCalendar, BiChevronLeft, BiChevronRight } from 'react-icons/bi'
+import { BiCalendar, BiChevronLeft, BiChevronRight, BiX } from 'react-icons/bi'
 import { twMerge } from 'tailwind-merge'
 import type { VariantProps } from 'tailwind-variants'
 import { useOnClickOutside } from 'usehooks-ts'
+
+import {
+  MONTH_NAMES_SHORT,
+  useDateOperations,
+  type DateFormat,
+} from '@/utils/date-helper'
 
 import { datePickerStyles } from './styles'
 
 type DatePickerStylesProps = VariantProps<typeof datePickerStyles>
 
+const DAY_NAMES = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+
+/**
+ * Custom class names for DatePicker component styling.
+ * Allows granular control over the appearance of different parts of the date picker.
+ *
+ * @example
+ * ```tsx
+ * const customClassNames: DatePickerClassNames = {
+ *   wrapper: 'my-custom-wrapper',
+ *   input: 'border-blue-500',
+ *   calendar: 'shadow-2xl',
+ * }
+ * ```
+ */
 export interface DatePickerClassNames {
+  /** Root wrapper element */
   wrapper?: string
+  /** Label wrapper container */
   labelWrapper?: string
+  /** Label text element */
   label?: string
+  /** Required asterisk (*) indicator */
   asterisk?: string
+  /** Description text below label */
   description?: string
+  /** Input field wrapper container */
   inputWrapper?: string
+  /** Input field element */
   input?: string
+  /** Icon section on the right side */
   rightSection?: string
+  /** Error message wrapper */
   errorWrapper?: string
+  /** Error message text */
   error?: string
+  /** Calendar dropdown container */
   calendar?: string
+  /** Calendar header with navigation */
   calendarHeader?: string
+  /** Calendar navigation buttons */
   calendarButton?: string
+  /** Calendar title (month/year display) */
   calendarTitle?: string
+  /** Day names grid (Mon, Tue, etc.) */
   dayNamesGrid?: string
+  /** Individual day name cell */
   dayName?: string
+  /** Days grid container */
   daysGrid?: string
+  /** Individual day button */
   dayButton?: string
 }
 
-export type DateFormat =
-  | 'YYYY-MM-DD'
-  | 'MM/DD/YYYY'
-  | 'DD/MM/YYYY'
-  | 'YYYY/MM/DD'
-  | 'MMM DD, YYYY'
-  | 'MMMM DD, YYYY'
-  | 'DD MMM YYYY'
-  | 'DD MMMM YYYY'
-  | 'ddd, MMM DD, YYYY'
-  | 'dddd, MMMM DD, YYYY'
-  | 'MM-DD-YYYY'
-  | 'DD-MM-YYYY'
-  | 'YYYY.MM.DD'
-  | 'DD.MM.YYYY'
-
+/**
+ * Props for the DatePicker component.
+ *
+ * @example
+ * ```tsx
+ * // Basic usage
+ * <DatePicker
+ *   value={selectedDate}
+ *   onChange={setSelectedDate}
+ *   placeholder="Pick a date"
+ * />
+ *
+ * // With constraints
+ * <DatePicker
+ *   value={date}
+ *   onChange={setDate}
+ *   minDate={new Date(2024, 0, 1)}
+ *   maxDate={new Date(2024, 11, 31)}
+ *   clearable
+ * />
+ *
+ * // With custom styling
+ * <DatePicker
+ *   label="Select Date"
+ *   description="Choose your preferred date"
+ *   withAsterisk
+ *   variant="filled"
+ *   size="md"
+ *   radius="lg"
+ * />
+ * ```
+ */
 export interface DatePickerProps
   extends Omit<ComponentProps<'input'>, 'size' | 'value' | 'onChange'> {
+  /**
+   * Label text displayed above the input field.
+   * @example "Birth Date"
+   */
   label?: string
+
+  /**
+   * Helper text displayed below the label.
+   * @example "Select your date of birth"
+   */
   description?: string
+
+  /**
+   * Shows a red asterisk (*) next to the label to indicate required field.
+   * @default false
+   */
   withAsterisk?: boolean
+
+  /**
+   * Error message displayed below the input field.
+   * When set, the input border changes to red.
+   * @example "Date is required"
+   */
   error?: string
+
+  /**
+   * Visual style variant of the input field.
+   * - `default`: Standard border style
+   * - `filled`: Filled background style
+   * - `unstyled`: No default styling
+   * @default "default"
+   */
   variant?: DatePickerStylesProps['variant']
+
+  /**
+   * Size of the input field.
+   * Controls height and padding of the input.
+   * @default "sm"
+   */
   size?: DatePickerStylesProps['size']
+
+  /**
+   * Border radius of the input field.
+   * @default "sm"
+   */
   radius?: DatePickerStylesProps['radius']
+
+  /**
+   * Custom class names for styling different parts of the component.
+   * @see DatePickerClassNames
+   */
   classNames?: DatePickerClassNames
-  value?: Dayjs | null
-  onChange?: (date: Dayjs | null) => void
+
+  /**
+   * Currently selected date.
+   * Pass `null` for no selection.
+   * @example new Date(2024, 0, 15) // January 15, 2024
+   */
+  value?: Date | null
+
+  /**
+   * Callback fired when the date changes.
+   * Receives the new date or `null` if cleared.
+   * @param date - The newly selected date or null
+   */
+  onChange?: (date: Date | null) => void
+
+  /**
+   * Placeholder text shown when no date is selected.
+   * @default "Select a date"
+   */
   placeholder?: string
+
+  /**
+   * Format for displaying the selected date.
+   * @see DateFormat for available formats
+   * @default "YYYY-MM-DD"
+   * @example "MM/DD/YYYY" // 01/15/2024
+   * @example "MMMM DD, YYYY" // January 15, 2024
+   */
   format?: DateFormat
-  minDate?: Dayjs | null
-  maxDate?: Dayjs | null
+
+  /**
+   * Minimum selectable date.
+   * Dates before this will be disabled.
+   * @example new Date(2024, 0, 1) // January 1, 2024
+   */
+  minDate?: Date | null
+
+  /**
+   * Maximum selectable date.
+   * Dates after this will be disabled.
+   * @example new Date(2024, 11, 31) // December 31, 2024
+   */
+  maxDate?: Date | null
+
+  /**
+   * Custom React element to replace the default calendar icon.
+   * @example <FiCalendar />
+   */
   calendarIcon?: React.ReactNode
+
+  /**
+   * Position of the calendar icon.
+   * - `left`: Icon appears on the left side
+   * - `right`: Icon appears on the right side
+   * @default "right"
+   */
   iconPosition?: 'left' | 'right'
+
+  /**
+   * Enables the clear button to remove the selected date.
+   * When enabled, an X button appears next to the calendar icon.
+   * @default false
+   */
+  clearable?: boolean
 }
 
+/**
+ * A fully-featured date picker component with calendar popup.
+ *
+ * Features:
+ * - Calendar dropdown with month/year navigation
+ * - Date range constraints (min/max dates)
+ * - Multiple date format options
+ * - Clearable selection
+ * - Keyboard accessible
+ * - Fully customizable styling
+ * - Built with native Date objects (no external date libraries)
+ *
+ * @component
+ * @example
+ * ```tsx
+ * import { useState } from 'react'
+ * import DatePicker from '@/components/DatePicker'
+ *
+ * function MyForm() {
+ *   const [date, setDate] = useState<Date | null>(null)
+ *
+ *   return (
+ *     <DatePicker
+ *       label="Appointment Date"
+ *       description="Select your preferred appointment date"
+ *       value={date}
+ *       onChange={setDate}
+ *       withAsterisk
+ *       clearable
+ *       minDate={new Date()}
+ *       format="MMMM DD, YYYY"
+ *     />
+ *   )
+ * }
+ * ```
+ *
+ * @example
+ * ```tsx
+ * // Date range with constraints
+ * <DatePicker
+ *   label="Start Date"
+ *   value={startDate}
+ *   onChange={setStartDate}
+ *   maxDate={endDate || undefined}
+ * />
+ *
+ * <DatePicker
+ *   label="End Date"
+ *   value={endDate}
+ *   onChange={setEndDate}
+ *   minDate={startDate || undefined}
+ * />
+ * ```
+ *
+ * @example
+ * ```tsx
+ * // Custom styling
+ * <DatePicker
+ *   variant="filled"
+ *   size="lg"
+ *   radius="xl"
+ *   iconPosition="left"
+ *   classNames={{
+ *     input: 'bg-blue-50',
+ *     calendar: 'shadow-2xl border-blue-200',
+ *   }}
+ * />
+ * ```
+ */
 export default function DatePicker({
   label,
   description,
@@ -93,14 +315,31 @@ export default function DatePicker({
   maxDate = null,
   calendarIcon,
   iconPosition = 'right',
+  clearable = false,
   ...props
 }: DatePickerProps) {
   const id = useId()
   const datePickerRef = useRef<HTMLDivElement>(null!)
-  const [selectedDate, setSelectedDate] = useState<Dayjs | null>(value || null)
-  const [currentMonth, setCurrentMonth] = useState(dayjs())
+  const [selectedDate, setSelectedDate] = useState<Date | null>(value || null)
+  const [currentMonth, setCurrentMonth] = useState(new Date())
   const [isOpen, setIsOpen] = useState(false)
   const [view, setView] = useState<'days' | 'months'>('days')
+
+  const {
+    calendarData,
+    isDateDisabled: isDateDisabledHelper,
+    isToday: isTodayHelper,
+    isSameDay,
+    addMonths,
+    addYears,
+    setDate,
+    setMonth,
+    formatDate: formatDateHelper,
+    getDaysInMonth,
+    getMonthName,
+    isBefore,
+    isAfter,
+  } = useDateOperations(currentMonth)
 
   const handleClickOutside = () => {
     setIsOpen(false)
@@ -116,178 +355,181 @@ export default function DatePicker({
     disabled,
   })
 
-  const dayNames = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-  const monthNames = useMemo(
-    () => [
-      'Jan',
-      'Feb',
-      'Mar',
-      'Apr',
-      'May',
-      'Jun',
-      'Jul',
-      'Aug',
-      'Sep',
-      'Oct',
-      'Nov',
-      'Dec',
-    ],
-    [],
-  )
+  const adjustedCalendarData = useMemo(() => {
+    if (!calendarData) return { daysInMonth: 0, adjustedStartDay: 0 }
+    const adjustedStartDay =
+      calendarData.startingDayOfWeek === 0
+        ? 6
+        : calendarData.startingDayOfWeek - 1
+    return {
+      daysInMonth: calendarData.daysInMonth,
+      adjustedStartDay,
+    }
+  }, [calendarData])
 
-  const calendarData = useMemo(() => {
-    const daysInMonth = currentMonth.daysInMonth()
-    const startingDayOfWeek = currentMonth.startOf('month').day()
-    const adjustedStartDay = startingDayOfWeek === 0 ? 6 : startingDayOfWeek - 1
-    return { daysInMonth, adjustedStartDay }
-  }, [currentMonth])
-
-  // Check if we can navigate to previous month
   const canGoToPreviousMonth = useMemo(() => {
     if (!minDate) return true
-    const previousMonth = currentMonth.subtract(1, 'month').endOf('month')
-    return (
-      previousMonth.isAfter(minDate) || previousMonth.isSame(minDate, 'day')
+    const previousMonth = addMonths(currentMonth, -1)
+    const lastDayOfPrevMonth = new Date(
+      previousMonth.getFullYear(),
+      previousMonth.getMonth() + 1,
+      0,
     )
-  }, [currentMonth, minDate])
+    return (
+      isAfter(lastDayOfPrevMonth, minDate) ||
+      isSameDay(lastDayOfPrevMonth, minDate)
+    )
+  }, [currentMonth, minDate, addMonths, isAfter, isSameDay])
 
-  // Check if we can navigate to next month
   const canGoToNextMonth = useMemo(() => {
     if (!maxDate) return true
-    const nextMonth = currentMonth.add(1, 'month').startOf('month')
-    return nextMonth.isBefore(maxDate) || nextMonth.isSame(maxDate, 'day')
-  }, [currentMonth, maxDate])
+    const nextMonth = addMonths(currentMonth, 1)
+    const firstDayOfNextMonth = new Date(
+      nextMonth.getFullYear(),
+      nextMonth.getMonth(),
+      1,
+    )
+    return (
+      isBefore(firstDayOfNextMonth, maxDate) ||
+      isSameDay(firstDayOfNextMonth, maxDate)
+    )
+  }, [currentMonth, maxDate, addMonths, isBefore, isSameDay])
 
-  // Check if we can navigate to previous year
   const canGoToPreviousYear = useMemo(() => {
     if (!minDate) return true
-    const previousYear = currentMonth.subtract(1, 'year').endOf('year')
-    return previousYear.isAfter(minDate) || previousYear.isSame(minDate, 'day')
-  }, [currentMonth, minDate])
+    const previousYear = addYears(currentMonth, -1)
+    const lastDayOfPrevYear = new Date(previousYear.getFullYear(), 11, 31)
+    return (
+      isAfter(lastDayOfPrevYear, minDate) ||
+      isSameDay(lastDayOfPrevYear, minDate)
+    )
+  }, [currentMonth, minDate, addYears, isAfter, isSameDay])
 
-  // Check if we can navigate to next year
   const canGoToNextYear = useMemo(() => {
     if (!maxDate) return true
-    const nextYear = currentMonth.add(1, 'year').startOf('year')
-    return nextYear.isBefore(maxDate) || nextYear.isSame(maxDate, 'day')
-  }, [currentMonth, maxDate])
+    const nextYear = addYears(currentMonth, 1)
+    const firstDayOfNextYear = new Date(nextYear.getFullYear(), 0, 1)
+    return (
+      isBefore(firstDayOfNextYear, maxDate) ||
+      isSameDay(firstDayOfNextYear, maxDate)
+    )
+  }, [currentMonth, maxDate, addYears, isBefore, isSameDay])
 
   const goToPreviousMonth = useCallback(() => {
     if (canGoToPreviousMonth) {
-      setCurrentMonth((prev) => prev.subtract(1, 'month'))
+      setCurrentMonth((prev) => addMonths(prev, -1))
     }
-  }, [canGoToPreviousMonth])
+  }, [canGoToPreviousMonth, addMonths])
 
   const goToNextMonth = useCallback(() => {
     if (canGoToNextMonth) {
-      setCurrentMonth((prev) => prev.add(1, 'month'))
+      setCurrentMonth((prev) => addMonths(prev, 1))
     }
-  }, [canGoToNextMonth])
+  }, [canGoToNextMonth, addMonths])
 
   const goToPreviousYear = useCallback(() => {
     if (canGoToPreviousYear) {
-      setCurrentMonth((prev) => prev.subtract(1, 'year'))
+      setCurrentMonth((prev) => addYears(prev, -1))
     }
-  }, [canGoToPreviousYear])
+  }, [canGoToPreviousYear, addYears])
 
   const goToNextYear = useCallback(() => {
     if (canGoToNextYear) {
-      setCurrentMonth((prev) => prev.add(1, 'year'))
+      setCurrentMonth((prev) => addYears(prev, 1))
     }
-  }, [canGoToNextYear])
+  }, [canGoToNextYear, addYears])
 
   const toggleView = useCallback(() => {
     setView((prev) => (prev === 'days' ? 'months' : 'days'))
   }, [])
 
-  // Check if a date is disabled
   const isDateDisabled = useCallback(
-    (date: Dayjs) => {
-      if (minDate && date.isBefore(minDate, 'day')) return true
-      if (maxDate && date.isAfter(maxDate, 'day')) return true
-      return false
+    (date: Date) => {
+      return isDateDisabledHelper(date, minDate, maxDate)
     },
-    [minDate, maxDate],
+    [minDate, maxDate, isDateDisabledHelper],
   )
 
   const selectDate = useCallback(
     (day: number) => {
-      const selected = currentMonth.date(day)
+      const selected = setDate(currentMonth, day)
       if (isDateDisabled(selected)) return
 
       setSelectedDate(selected)
       onChange?.(selected)
       setIsOpen(false)
     },
-    [currentMonth, onChange, isDateDisabled],
+    [currentMonth, onChange, isDateDisabled, setDate],
   )
 
-  const selectMonth = useCallback((monthIndex: number) => {
-    setCurrentMonth((prev) => prev.month(monthIndex))
-    setView('days')
-  }, [])
+  const selectMonthHandler = useCallback(
+    (monthIndex: number) => {
+      setCurrentMonth((prev) => setMonth(prev, monthIndex))
+      setView('days')
+    },
+    [setMonth],
+  )
 
   const isToday = useCallback(
     (day: number) => {
-      const today = dayjs()
-      const checkDate = currentMonth.date(day)
-      return checkDate.isSame(today, 'day')
+      const checkDate = setDate(currentMonth, day)
+      return isTodayHelper(checkDate)
     },
-    [currentMonth],
+    [currentMonth, setDate, isTodayHelper],
   )
 
   const isSelected = useCallback(
     (day: number) => {
       if (!selectedDate) return false
-      const checkDate = currentMonth.date(day)
-      return checkDate.isSame(selectedDate, 'day')
+      const checkDate = setDate(currentMonth, day)
+      return isSameDay(checkDate, selectedDate)
     },
-    [currentMonth, selectedDate],
+    [currentMonth, selectedDate, setDate, isSameDay],
   )
 
   const formatDate = useCallback(
-    (date: Dayjs | null) => {
+    (date: Date | null) => {
       if (!date) return ''
-      return date.format(format)
+      return formatDateHelper(date, format)
     },
-    [format],
+    [format, formatDateHelper],
   )
 
   const handlePrevMonthDayClick = useCallback(
     (day: number) => {
-      const prevMonth = currentMonth.subtract(1, 'month')
-      const selected = prevMonth.date(day)
+      const prevMonth = addMonths(currentMonth, -1)
+      const selected = setDate(prevMonth, day)
       if (isDateDisabled(selected)) return
 
       setSelectedDate(selected)
       onChange?.(selected)
       setCurrentMonth(prevMonth)
     },
-    [currentMonth, onChange, isDateDisabled],
+    [currentMonth, onChange, isDateDisabled, addMonths, setDate],
   )
 
   const handleNextMonthDayClick = useCallback(
     (day: number) => {
-      const nextMonth = currentMonth.add(1, 'month')
-      const selected = nextMonth.date(day)
+      const nextMonth = addMonths(currentMonth, 1)
+      const selected = setDate(nextMonth, day)
       if (isDateDisabled(selected)) return
 
       setSelectedDate(selected)
       onChange?.(selected)
       setCurrentMonth(nextMonth)
     },
-    [currentMonth, onChange, isDateDisabled],
+    [currentMonth, onChange, isDateDisabled, addMonths, setDate],
   )
 
   const renderCalendarDays = useMemo(() => {
     const days = []
-    const prevMonthDays = currentMonth.subtract(1, 'month').daysInMonth()
-    const { daysInMonth, adjustedStartDay } = calendarData
+    const prevMonth = addMonths(currentMonth, -1)
+    const prevMonthDays = getDaysInMonth(prevMonth)
+    const { daysInMonth, adjustedStartDay } = adjustedCalendarData
 
-    // Previous month's trailing days
     for (let i = adjustedStartDay - 1; i >= 0; i--) {
       const day = prevMonthDays - i
-      const date = currentMonth.subtract(1, 'month').date(day)
+      const date = setDate(prevMonth, day)
       const disabled = isDateDisabled(date)
 
       days.push(
@@ -308,9 +550,8 @@ export default function DatePicker({
       )
     }
 
-    // Current month days
     for (let day = 1; day <= daysInMonth; day++) {
-      const date = currentMonth.date(day)
+      const date = setDate(currentMonth, day)
       const isCurrentDay = isToday(day)
       const isSelectedDay = isSelected(day)
       const disabled = isDateDisabled(date)
@@ -339,12 +580,12 @@ export default function DatePicker({
       )
     }
 
-    // Next month's leading days to fill the grid
     const totalCells = days.length
     const remainingCells = totalCells % 7 === 0 ? 0 : 7 - (totalCells % 7)
 
     for (let day = 1; day <= remainingCells; day++) {
-      const date = currentMonth.add(1, 'month').date(day)
+      const nextMonth = addMonths(currentMonth, 1)
+      const date = setDate(nextMonth, day)
       const disabled = isDateDisabled(date)
 
       days.push(
@@ -368,7 +609,7 @@ export default function DatePicker({
     return days
   }, [
     currentMonth,
-    calendarData,
+    adjustedCalendarData,
     isToday,
     isSelected,
     selectDate,
@@ -377,16 +618,21 @@ export default function DatePicker({
     isDateDisabled,
     styles,
     classNames,
+    addMonths,
+    getDaysInMonth,
+    setDate,
   ])
 
   const renderMonths = useMemo(() => {
-    return monthNames.map((month, index) => {
+    return MONTH_NAMES_SHORT.map((month, index) => {
+      const today = new Date()
       const isCurrentMonth =
-        index === dayjs().month() && currentMonth.year() === dayjs().year()
+        index === today.getMonth() &&
+        currentMonth.getFullYear() === today.getFullYear()
       const isSelectedMonth =
         selectedDate &&
-        index === selectedDate.month() &&
-        currentMonth.year() === selectedDate.year()
+        index === selectedDate.getMonth() &&
+        currentMonth.getFullYear() === selectedDate.getFullYear()
 
       const buttonClass = isSelectedMonth
         ? styles.dayButtonSelected()
@@ -397,7 +643,7 @@ export default function DatePicker({
       return (
         <button
           key={month}
-          onClick={() => selectMonth(index)}
+          onClick={() => selectMonthHandler(index)}
           type="button"
           className={twMerge([
             styles.dayButton(),
@@ -409,7 +655,7 @@ export default function DatePicker({
         </button>
       )
     })
-  }, [monthNames, currentMonth, selectedDate, selectMonth, styles, classNames])
+  }, [currentMonth, selectedDate, selectMonthHandler, styles, classNames])
 
   const handleInputClick = useCallback(() => {
     if (!disabled) {
@@ -417,6 +663,15 @@ export default function DatePicker({
       setView('days')
     }
   }, [disabled])
+
+  const handleClear = useCallback(
+    (e: React.MouseEvent) => {
+      e.stopPropagation()
+      setSelectedDate(null)
+      onChange?.(null)
+    },
+    [onChange],
+  )
 
   return (
     <div className={twMerge([styles.wrapper(), classNames?.wrapper])}>
@@ -473,12 +728,27 @@ export default function DatePicker({
           className={twMerge([
             styles.input(),
             iconPosition === 'left' && 'pl-10',
+            iconPosition === 'right' && clearable && selectedDate && 'pr-16',
+            iconPosition === 'left' && clearable && selectedDate && 'pr-10',
             className,
             classNames?.input,
           ])}
           aria-invalid={!!error}
           {...props}
         />
+
+        {clearable && selectedDate && !disabled && (
+          <button
+            type="button"
+            onClick={handleClear}
+            className={twMerge([
+              'pointer-events-auto absolute top-1/2 flex -translate-y-1/2 items-center justify-center text-gray-400 transition-colors hover:text-gray-600',
+              iconPosition === 'right' ? 'right-10' : 'right-2',
+            ])}
+          >
+            <BiX />
+          </button>
+        )}
 
         {iconPosition === 'right' && (
           <div
@@ -526,8 +796,8 @@ export default function DatePicker({
                 ])}
               >
                 {view === 'days'
-                  ? currentMonth.format('MMMM YYYY')
-                  : currentMonth.format('YYYY')}
+                  ? `${getMonthName(currentMonth)} ${currentMonth.getFullYear()}`
+                  : currentMonth.getFullYear()}
               </button>
 
               <button
@@ -555,7 +825,7 @@ export default function DatePicker({
                     classNames?.dayNamesGrid,
                   ])}
                 >
-                  {dayNames.map((day) => (
+                  {DAY_NAMES.map((day) => (
                     <div
                       key={day}
                       className={twMerge([
