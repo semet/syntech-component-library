@@ -4,11 +4,27 @@ import { BsCalendar2Month } from 'react-icons/bs'
 import { FiFilter } from 'react-icons/fi'
 
 import { Button, TextInput } from './components'
+import ComboBox from './components/ComboBox/ComboBox'
 import DatePicker from './components/DatePicker/DatePicker'
 import Select from './components/Select/Select'
 
+type ColorOption = {
+  label: string
+  value: string
+  color: string
+  hex: string
+}
+
+const colorOptions: ColorOption[] = [
+  { label: 'Red', value: 'red', color: 'red', hex: '#ef4444' },
+  { label: 'Blue', value: 'blue', color: 'blue', hex: '#3b82f6' },
+  { label: 'Green', value: 'green', color: 'green', hex: '#10b981' },
+  { label: 'Yellow', value: 'yellow', color: 'yellow', hex: '#eab308' },
+  { label: 'Purple', value: 'purple', color: 'purple', hex: '#a855f7' },
+]
 export default function App() {
   const [selectedDate, setSelectedDate] = useState<dayjs.Dayjs | null>(null)
+  const [colors, setColors] = useState<ColorOption | null>(null)
   return (
     <div className="min-h-screen bg-linear-to-br from-gray-50 to-gray-100 py-4">
       <div className="mx-auto max-w-md bg-white p-8 shadow-md">
@@ -16,6 +32,17 @@ export default function App() {
           <TextInput
             label="Regular Text Input"
             placeholder="Type something..."
+          />
+          <ComboBox
+            label="Select Color"
+            placeholder="Choose a color"
+            options={colorOptions}
+            value={colors}
+            onChange={setColors}
+            // multiple
+            searchable
+            clearable
+            withAsterisk
           />
           <TextInput
             label="Filled Text Input"

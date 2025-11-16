@@ -1,5 +1,5 @@
 @import 'tailwindcss';
-@plugin '@tailwindcss/forms';
+/* @plugin '@tailwindcss/forms'; */
 
 @theme {
   --color-primary-50: oklch(0.957 0.021 286.04);
