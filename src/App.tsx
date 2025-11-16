@@ -237,14 +237,20 @@ export default function App() {
             )}
           />
 
-          <div className="flex gap-4">
-            <Button type="submit">Submit</Button>
+          <div className="flex justify-center gap-4">
             <Button
               type="reset"
+              size="sm"
               color="gray"
               onClick={() => reset()}
             >
               Reset
+            </Button>
+            <Button
+              type="submit"
+              size="sm"
+            >
+              Submit
             </Button>
           </div>
         </form>
