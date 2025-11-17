@@ -73,6 +73,63 @@
   --color-danger-800: oklch(0.642 0.244 27.69);
   --color-danger-900: oklch(0.59 0.242 29.23);
   --color-danger-950: oklch(0.567 0.233 29.23);
+
+  --animate-toast-enter-top: toast-enter-top 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  --animate-toast-exit-top: toast-exit-top 0.25s cubic-bezier(0.4, 0, 1, 1);
+
+  --animate-toast-enter-top: toast-enter-top 0.4s cubic-bezier(0.16, 1, 0.3, 1)
+    forwards;
+  --animate-toast-exit-top: toast-exit-top 0.25s cubic-bezier(0.4, 0, 1, 1)
+    forwards;
+
+  --animate-toast-enter-bottom: toast-enter-bottom 0.4s
+    cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  --animate-toast-exit-bottom: toast-exit-bottom 0.25s
+    cubic-bezier(0.4, 0, 1, 1) forwards;
+
+  @keyframes toast-enter-top {
+    from {
+      opacity: 0;
+      transform: translateY(-2rem) scale(0.96);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  @keyframes toast-exit-top {
+    from {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+    to {
+      opacity: 0;
+      transform: translateY(-1.5rem) scale(0.95);
+    }
+  }
+
+  @keyframes toast-enter-bottom {
+    from {
+      opacity: 0;
+      transform: translateY(2rem) scale(0.96);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  @keyframes toast-exit-bottom {
+    from {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+    to {
+      opacity: 0;
+      transform: translateY(1.5rem) scale(0.95);
+    }
+  }
 }
 button {
   @apply cursor-pointer;
