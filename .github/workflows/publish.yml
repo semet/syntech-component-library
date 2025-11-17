@@ -5,10 +5,16 @@ on:
     branches:
       - main
       - dev
+  pull_request:
+    branches:
+      - main
+      - dev
 
 jobs:
   test-build-publish:
     runs-on: ubuntu-latest
+    # Skip if commit message contains [skip ci]
+    if: ${{ !contains(github.event.head_commit.message, '[skip ci]') }}
 
     permissions:
       contents: write # Required for pushing version changes
@@ -51,8 +57,8 @@ jobs:
         run: pnpm run build:lib
 
       # Dev branch - publish with alpha tag
-      - name: Publish to NPM (alpha)
-        if: github.ref == 'refs/heads/dev'
+      - name: Bump alpha version
+        if: github.ref == 'refs/heads/dev' && github.event_name == 'push'
         run: |
           # Get current version and increment prerelease
           CURRENT_VERSION=$(node -p "require('./package.json').version")
@@ -64,20 +70,27 @@ jobs:
             pnpm version prepatch --preid=alpha --no-git-tag-version
           fi
 
-          pnpm publish --access public --no-git-checks --tag alpha
+      - name: Publish to NPM (alpha)
+        if: github.ref == 'refs/heads/dev' && github.event_name == 'push'
+        run: node .github/scripts/check-and-publish.js alpha
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Commit version change (alpha)
-        if: github.ref == 'refs/heads/dev'
+        if: github.ref == 'refs/heads/dev' && github.event_name == 'push'
         run: |
-          git add package.json
-          git commit -m "chore: bump alpha version [skip ci]"
-          git push origin dev
+          # Only commit if there are changes
+          if [[ -n $(git status -s package.json) ]]; then
+            git add package.json
+            git commit -m "chore: bump alpha version [skip ci]"
+            git push origin dev
+          else
+            echo "No version changes to commit"
+          fi
 
       # Main branch - publish with latest tag
       - name: Bump version (latest)
-        if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         run: |
           # Determine version bump type from commit message
           COMMIT_MSG=$(git log -1 --pretty=%B)
@@ -91,17 +104,22 @@ jobs:
           fi
 
       - name: Publish to NPM (latest)
-        if: github.ref == 'refs/heads/main'
-        run: pnpm publish --access public --no-git-checks --tag latest
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        run: node .github/scripts/check-and-publish.js latest
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Commit version change and create tag (latest)
-        if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         run: |
-          NEW_VERSION=$(node -p "require('./package.json').version")
-          git add package.json
-          git commit -m "chore: release v${NEW_VERSION} [skip ci]"
-          git tag "v${NEW_VERSION}"
-          git push origin main
-          git push origin "v${NEW_VERSION}"
+          # Only commit if there are changes
+          if [[ -n $(git status -s package.json) ]]; then
+            NEW_VERSION=$(node -p "require('./package.json').version")
+            git add package.json
+            git commit -m "chore: release v${NEW_VERSION} [skip ci]"
+            git tag "v${NEW_VERSION}"
+            git push origin main
+            git push origin "v${NEW_VERSION}"
+          else
+            echo "No version changes to commit"
+          fi
