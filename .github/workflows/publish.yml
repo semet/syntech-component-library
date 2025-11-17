@@ -92,16 +92,34 @@ jobs:
       - name: Bump version (latest)
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         run: |
+          # Get current version from package.json
+          CURRENT_VERSION=$(node -p "require('./package.json').version")
+          
+          # If version contains alpha/beta/rc, strip it to get base version
+          if [[ $CURRENT_VERSION == *"alpha"* ]] || [[ $CURRENT_VERSION == *"beta"* ]] || [[ $CURRENT_VERSION == *"rc"* ]]; then
+            echo "⚠️  Detected prerelease version: ${CURRENT_VERSION}"
+            # Extract base version (e.g., 0.0.4-alpha.1 -> 0.0.4)
+            BASE_VERSION=$(echo $CURRENT_VERSION | cut -d'-' -f1)
+            echo "📌 Setting base version to: ${BASE_VERSION}"
+            npm version ${BASE_VERSION} --no-git-tag-version --allow-same-version
+          fi
+          
           # Determine version bump type from commit message
           COMMIT_MSG=$(git log -1 --pretty=%B)
 
           if [[ $COMMIT_MSG == *"BREAKING CHANGE"* ]] || [[ $COMMIT_MSG == *"!"* ]]; then
+            echo "🚀 Bumping major version"
             pnpm version major --no-git-tag-version
           elif [[ $COMMIT_MSG == feat:* ]] || [[ $COMMIT_MSG == *"feat("* ]]; then
+            echo "✨ Bumping minor version"
             pnpm version minor --no-git-tag-version
           else
+            echo "🐛 Bumping patch version"
             pnpm version patch --no-git-tag-version
           fi
+          
+          NEW_VERSION=$(node -p "require('./package.json').version")
+          echo "📦 New version: ${NEW_VERSION}"
 
       - name: Publish to NPM (latest)
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
