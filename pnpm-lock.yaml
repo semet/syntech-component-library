@@ -183,9 +183,6 @@ importers:
       vitest:
         specifier: ^4.0.9
         version: 4.0.9(@types/node@24.10.1)(@vitest/browser-playwright@4.0.9)(@vitest/ui@4.0.9)(jiti@2.6.1)(jsdom@27.2.0)(lightningcss@1.30.2)
-      vitest-plugin@latest:
-        specifier: link:@storybook/addon-vitest/vitest-plugin@latest
-        version: link:@storybook/addon-vitest/vitest-plugin@latest
 
 packages:
 

@@ -1,4 +1,4 @@
-import { Button } from '@/components'
+import Button from '@/components/Button/Button'
 import { toast, ToastProvider, type ToastPosition } from '@/components/Toast'
 import type { ToastVariant } from '@/components/Toast/ToastContext'
 

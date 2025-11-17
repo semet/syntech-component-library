@@ -4,15 +4,20 @@ import { FaEnvelope } from 'react-icons/fa'
 import { IoCheckmarkSharp } from 'react-icons/io5'
 import z from 'zod'
 
-import { Button, ColorPicker, DatePicker, TextInput } from '@/components'
+import Button from '@/components/Button/Button'
+import CaptchaInput from '@/components/CaptchaInput/CaptchaInput'
+import ColorPicker from '@/components/ColorPicker/ColorPicker'
 import type {
   ComboBoxOption,
   OptionComponentProps,
   SingleValueComponentProps,
 } from '@/components/ComboBox/ComboBox'
 import ComboBox from '@/components/ComboBox/ComboBox'
+import { Copy } from '@/components/Copy/Copy'
+import DatePicker from '@/components/DatePicker/DatePicker'
 import PasswordInput from '@/components/PasswordInput/PasswordInput'
-import Textarea from '@/components/Textarea'
+import Textarea from '@/components/Textarea/Textarea'
+import TextInput from '@/components/TextInput/TextInput'
 
 type ColorOption = {
   label: string
@@ -124,6 +129,7 @@ const schema = z
     end_date: z.date().optional(),
     favorite_color: z.string(),
     address: z.string().optional(),
+    captcha: z.string(),
   })
   .refine((data) => data.password === data.confirm_password, {
     message: 'Passwords do not match',
@@ -270,12 +276,36 @@ export default function SimpleFormExample() {
             )}
           />
 
+          <CaptchaInput
+            label="Enter Captcha"
+            placeholder="Enter the code"
+            image="https://placehold.co/150x50/4299e1/ffffff?text=ABC123"
+            withAsterisk
+          />
+
           <Textarea
             label="Address"
             placeholder="Type your address"
             {...register('address')}
             error={errors.address?.message as string}
           />
+          <Copy
+            value="Some random value"
+            timeout={5000}
+          >
+            {({ copied, copy }) => (
+              <Button
+                type="button"
+                size="sm"
+                color={copied ? 'success' : 'gray'}
+                onClick={copy}
+              >
+                {copied
+                  ? 'Copied to clipboard!'
+                  : 'Copy Form Data to Clipboard'}
+              </Button>
+            )}
+          </Copy>
 
           <div className="flex justify-center gap-4">
             <Button

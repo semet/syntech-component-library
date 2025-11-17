@@ -1,7 +1,7 @@
 import { renderHook } from '@testing-library/react'
 import { describe, it, expect } from 'vitest'
 
-import { dateUtils, useDateHelpers, useDateOperations } from './date-helper'
+import { dateUtils, useDateHelpers, useDateOperations } from './date-helpers'
 
 describe('dateUtils', () => {
   describe('getDaysInMonth', () => {
