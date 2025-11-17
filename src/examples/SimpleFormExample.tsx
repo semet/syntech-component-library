@@ -4,15 +4,18 @@ import { FaEnvelope } from 'react-icons/fa'
 import { IoCheckmarkSharp } from 'react-icons/io5'
 import z from 'zod'
 
-import { Button, ColorPicker, DatePicker, TextInput } from '@/components'
+import Button from '@/components/Button/Button'
+import ColorPicker from '@/components/ColorPicker/ColorPicker'
 import type {
   ComboBoxOption,
   OptionComponentProps,
   SingleValueComponentProps,
 } from '@/components/ComboBox/ComboBox'
 import ComboBox from '@/components/ComboBox/ComboBox'
+import DatePicker from '@/components/DatePicker/DatePicker'
 import PasswordInput from '@/components/PasswordInput/PasswordInput'
-import Textarea from '@/components/Textarea'
+import Textarea from '@/components/Textarea/Textarea'
+import TextInput from '@/components/TextInput/TextInput'
 
 type ColorOption = {
   label: string

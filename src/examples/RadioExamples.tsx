@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-import { Radio } from '@/components'
+import Radio from '@/components/Radio/Radio'
 
 export default function RadioExamples() {
   const [isChecked, setIsChecked] = useState<boolean>(false)
