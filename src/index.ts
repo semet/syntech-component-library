@@ -9,6 +9,7 @@ export { default as PasswordInput } from './components/PasswordInput'
 export { default as Textarea } from './components/Textarea'
 export { default as Checkbox } from './components/Checkbox'
 export { default as ColorPicker } from './components/ColorPicker'
+export { default as Radio } from './components/Radio'
 export {
   toast,
   ToastProvider,
