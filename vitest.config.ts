@@ -42,6 +42,7 @@ export default defineConfig({
           include: ['src/**/*.{test,spec}.{ts,tsx}'],
           exclude: ['src/**/*.stories.{ts,tsx}'],
         },
+        plugins: [tsconfigPaths()],
       },
       {
         extends: true,
