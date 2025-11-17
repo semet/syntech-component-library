@@ -92,7 +92,7 @@ jobs:
 
       - name: Publish to NPM (latest)
         if: github.ref == 'refs/heads/main'
-        run: pnpm publish --provenance --access public --no-git-checks --tag latest
+        run: pnpm publish --access public --no-git-checks --tag latest
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
