@@ -29,7 +29,9 @@ export { type RadioProps } from './components/Radio/Radio'
 //Tooltips
 export { default as Tooltip } from './components/Tooltip/Tooltip'
 export { type TooltipProps } from './components/Tooltip/Tooltip'
-
+//Copy
+export { Copy } from './components/Copy/Copy'
+//Toast
 export {
   toast,
   ToastProvider,

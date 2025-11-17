@@ -12,6 +12,7 @@ import type {
   SingleValueComponentProps,
 } from '@/components/ComboBox/ComboBox'
 import ComboBox from '@/components/ComboBox/ComboBox'
+import { Copy } from '@/components/Copy/Copy'
 import DatePicker from '@/components/DatePicker/DatePicker'
 import PasswordInput from '@/components/PasswordInput/PasswordInput'
 import Textarea from '@/components/Textarea/Textarea'
@@ -279,6 +280,23 @@ export default function SimpleFormExample() {
             {...register('address')}
             error={errors.address?.message as string}
           />
+          <Copy
+            value="Some random value"
+            timeout={5000}
+          >
+            {({ copied, copy }) => (
+              <Button
+                type="button"
+                size="sm"
+                color={copied ? 'success' : 'gray'}
+                onClick={copy}
+              >
+                {copied
+                  ? 'Copied to clipboard!'
+                  : 'Copy Form Data to Clipboard'}
+              </Button>
+            )}
+          </Copy>
 
           <div className="flex justify-center gap-4">
             <Button
