@@ -12,6 +12,7 @@ import type {
 } from '@/components/ComboBox/ComboBox'
 import ComboBox from '@/components/ComboBox/ComboBox'
 import PasswordInput from '@/components/PasswordInput/PasswordInput'
+import Textarea from '@/components/Textarea'
 
 type ColorOption = {
   label: string
@@ -122,6 +123,7 @@ const schema = z
     start_date: z.date().optional(),
     end_date: z.date().optional(),
     favorite_color: z.string(),
+    address: z.string().optional(),
   })
   .refine((data) => data.password === data.confirm_password, {
     message: 'Passwords do not match',
@@ -266,6 +268,13 @@ export default function SimpleFormExample() {
                 clearable
               />
             )}
+          />
+
+          <Textarea
+            label="Address"
+            placeholder="Type your address"
+            {...register('address')}
+            error={errors.address?.message as string}
           />
 
           <div className="flex justify-center gap-4">

@@ -6,6 +6,7 @@ export { default as TextInput } from './components/TextInput'
 export { default as DatePicker } from './components/DatePicker'
 export { default as Select } from './components/Select'
 export { default as PasswordInput } from './components/PasswordInput'
+export { default as Textarea } from './components/Textarea'
 export { default as ColorPicker } from './components/ColorPicker'
 export {
   toast,
