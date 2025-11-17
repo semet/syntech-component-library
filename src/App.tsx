@@ -1,9 +1,9 @@
-import SimpleFormExample from './examples/SimpleFormExample'
+import ToastExample from './examples/ToastExample'
 
 export default function App() {
   return (
     <>
-      <SimpleFormExample />
+      <ToastExample />
     </>
   )
 }
