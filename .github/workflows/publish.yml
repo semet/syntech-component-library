@@ -1,0 +1,107 @@
+name: Test, Build & Publish
+
+on:
+  push:
+    branches:
+      - main
+      - dev
+
+jobs:
+  test-build-publish:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write # Required for pushing version changes
+      id-token: write # Required for npm provenance
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Configure Git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          registry-url: "https://registry.npmjs.org"
+          cache: "pnpm"
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Run linter
+        run: pnpm run lint
+
+      - name: Run tests
+        run: pnpm run test:run
+
+      - name: Build library
+        run: pnpm run build:lib
+
+      # Dev branch - publish with alpha tag
+      - name: Publish to NPM (alpha)
+        if: github.ref == 'refs/heads/dev'
+        run: |
+          # Get current version and increment prerelease
+          CURRENT_VERSION=$(node -p "require('./package.json').version")
+
+          # If version doesn't have alpha, add it, otherwise increment
+          if [[ $CURRENT_VERSION == *"alpha"* ]]; then
+            pnpm version prerelease --preid=alpha --no-git-tag-version
+          else
+            pnpm version prepatch --preid=alpha --no-git-tag-version
+          fi
+
+          pnpm publish --provenance --access public --no-git-checks --tag alpha
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Commit version change (alpha)
+        if: github.ref == 'refs/heads/dev'
+        run: |
+          git add package.json
+          git commit -m "chore: bump alpha version [skip ci]"
+          git push origin dev
+
+      # Main branch - publish with latest tag
+      - name: Bump version (latest)
+        if: github.ref == 'refs/heads/main'
+        run: |
+          # Determine version bump type from commit message
+          COMMIT_MSG=$(git log -1 --pretty=%B)
+
+          if [[ $COMMIT_MSG == *"BREAKING CHANGE"* ]] || [[ $COMMIT_MSG == *"!"* ]]; then
+            pnpm version major --no-git-tag-version
+          elif [[ $COMMIT_MSG == feat:* ]] || [[ $COMMIT_MSG == *"feat("* ]]; then
+            pnpm version minor --no-git-tag-version
+          else
+            pnpm version patch --no-git-tag-version
+          fi
+
+      - name: Publish to NPM (latest)
+        if: github.ref == 'refs/heads/main'
+        run: pnpm publish --provenance --access public --no-git-checks --tag latest
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Commit version change and create tag (latest)
+        if: github.ref == 'refs/heads/main'
+        run: |
+          NEW_VERSION=$(node -p "require('./package.json').version")
+          git add package.json
+          git commit -m "chore: release v${NEW_VERSION} [skip ci]"
+          git tag "v${NEW_VERSION}"
+          git push origin main
+          git push origin "v${NEW_VERSION}"
