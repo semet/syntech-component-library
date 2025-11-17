@@ -12,8 +12,9 @@ export const captchaInputStyles = tv({
       'relative flex flex-1 items-center overflow-hidden transition-all duration-200',
     input:
       'w-full border-none bg-transparent text-gray-900 transition-all duration-200 outline-none placeholder:text-gray-400',
-    captchaImage:
+    captchaImageWrapper:
       'pointer-events-none absolute top-0 right-0 bottom-0 flex items-center justify-center overflow-hidden border-l',
+    captchaImage: 'h-full w-full object-contain',
     captchaSkeleton: 'h-full w-full',
     refreshButton:
       'bg-warning-800 hover:bg-warning-900 active:bg-warning-900 flex shrink-0 items-center justify-center rounded-full text-white transition-all duration-200 disabled:cursor-not-allowed disabled:opacity-60',
