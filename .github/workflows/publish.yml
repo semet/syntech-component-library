@@ -64,7 +64,7 @@ jobs:
             pnpm version prepatch --preid=alpha --no-git-tag-version
           fi
 
-          pnpm publish --provenance --access public --no-git-checks --tag alpha
+          pnpm publish --access public --no-git-checks --tag alpha
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
