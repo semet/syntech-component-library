@@ -15,6 +15,7 @@ export interface CaptchaInputClassNames {
   inputContainer?: string
   inputWrapper?: string
   input?: string
+  captchaImageWrapper?: string
   captchaImage?: string
   captchaSkeleton?: string
   refreshButton?: string
@@ -136,8 +137,8 @@ export default function CaptchaInput({
 
           <div
             className={twMerge([
-              styles.captchaImage(),
-              classNames?.captchaImage,
+              styles.captchaImageWrapper(),
+              classNames?.captchaImageWrapper,
             ])}
           >
             {isLoading ? (
@@ -154,25 +155,28 @@ export default function CaptchaInput({
                 <img
                   src={image}
                   alt={imageAlt}
-                  className="h-full w-full object-cover"
+                  className={twMerge([
+                    styles.captchaImage(),
+                    classNames?.captchaImage,
+                  ])}
                 />
               )
             )}
           </div>
-
-          {error && (
-            <div
-              className={twMerge([
-                styles.errorWrapper(),
-                classNames?.errorWrapper,
-              ])}
-            >
-              <div className={twMerge([styles.error(), classNames?.error])}>
-                {error}
-              </div>
-            </div>
-          )}
         </div>
+
+        {error && (
+          <div
+            className={twMerge([
+              styles.errorWrapper(),
+              classNames?.errorWrapper,
+            ])}
+          >
+            <div className={twMerge([styles.error(), classNames?.error])}>
+              {error}
+            </div>
+          </div>
+        )}
 
         <button
           type="button"

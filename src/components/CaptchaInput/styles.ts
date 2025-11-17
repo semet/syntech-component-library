@@ -8,14 +8,16 @@ export const captchaInputStyles = tv({
     asterisk: 'ml-1 text-red-500',
     description: 'mb-1 text-xs text-gray-500',
     inputContainer: 'flex items-center gap-4',
-    inputWrapper: 'relative flex-1',
+    inputWrapper:
+      'relative flex flex-1 items-center overflow-hidden transition-all duration-200',
     input:
-      'w-full text-gray-900 transition-all duration-200 outline-none placeholder:text-gray-400',
-    captchaImage:
-      'pointer-events-none absolute top-0 right-0 bottom-0 flex items-center justify-center overflow-hidden',
+      'w-full border-none bg-transparent text-gray-900 transition-all duration-200 outline-none placeholder:text-gray-400',
+    captchaImageWrapper:
+      'pointer-events-none absolute top-0 right-0 bottom-0 flex items-center justify-center overflow-hidden border-l',
+    captchaImage: 'h-full w-full object-contain',
     captchaSkeleton: 'h-full w-full',
     refreshButton:
-      'bg-warning-800 hover:bg-warning-900 active:bg-warning-900 flex shrink-0 items-center justify-center rounded-full text-white transition-all duration-200 disabled:cursor-not-allowed! disabled:opacity-60',
+      'bg-warning-800 hover:bg-warning-900 active:bg-warning-900 flex shrink-0 items-center justify-center rounded-full text-white transition-all duration-200 disabled:cursor-not-allowed disabled:opacity-60',
     refreshIcon: 'h-full w-full',
     errorWrapper: 'absolute top-full left-0 w-full',
     error: 'text-xs text-red-600',
@@ -23,87 +25,88 @@ export const captchaInputStyles = tv({
   variants: {
     variant: {
       default: {
-        input:
-          'border border-gray-300 bg-white hover:border-gray-400 focus:border-blue-400 focus:ring-1 focus:ring-blue-300',
-        captchaImage: 'border-l border-gray-300',
+        inputWrapper:
+          'border border-gray-300 bg-white focus-within:border-blue-400! focus-within:ring-1 focus-within:ring-blue-300 hover:border-gray-400',
+        captchaImage: 'border-l-gray-300',
       },
       filled: {
-        input:
-          'border border-transparent bg-gray-100 hover:bg-gray-200 focus:border-blue-400 focus:bg-white focus:ring-1 focus:ring-blue-300',
-        captchaImage: 'border-l border-gray-200',
+        inputWrapper:
+          'border border-transparent bg-gray-100 focus-within:border-blue-400 focus-within:bg-white focus-within:ring-1 focus-within:ring-blue-300 hover:bg-gray-200',
+        captchaImage: 'border-l-gray-200',
       },
       unstyled: {
-        input: 'border-none bg-transparent p-0',
+        inputWrapper: 'border-none bg-transparent p-0',
+        input: 'p-0',
       },
     },
     size: {
       xs: {
-        input: 'h-7 pl-2 text-xs',
-        captchaImage: 'w-28 rounded-r-xs',
+        inputWrapper: 'h-7 rounded-xs',
+        input: 'pl-2 text-xs',
+        captchaImage: 'w-28',
         refreshButton: 'size-7',
         refreshIcon: 'size-3.5',
       },
       sm: {
-        input: 'h-9 pl-3 text-sm',
-        captchaImage: 'w-32 rounded-r-sm',
+        inputWrapper: 'h-9',
+        input: 'pl-3 text-sm',
+        captchaImage: 'w-32',
         refreshButton: 'size-9',
         refreshIcon: 'size-4',
       },
       md: {
-        input: 'h-10 pl-4 text-base',
-        captchaImage: 'w-36 rounded-r-md',
+        inputWrapper: 'h-10 rounded-md',
+        input: 'pl-4 text-base',
+        captchaImage: 'w-36',
         refreshButton: 'size-10',
         refreshIcon: 'size-5',
       },
       lg: {
-        input: 'h-12 pl-4 text-lg',
-        captchaImage: 'w-40 rounded-r-lg',
+        inputWrapper: 'h-12 rounded-lg',
+        input: 'pl-4 text-lg',
+        captchaImage: 'w-40',
         refreshButton: 'size-12',
         refreshIcon: 'size-6',
       },
       xl: {
-        input: 'h-14 pl-4 text-xl',
-        captchaImage: 'w-44 rounded-r-xl',
+        inputWrapper: 'h-14 rounded-xl',
+        input: 'pl-4 text-xl',
+        captchaImage: 'w-44',
         refreshButton: 'size-14',
         refreshIcon: 'size-7',
       },
     },
     radius: {
       xs: {
-        input: 'rounded-xs',
-        captchaImage: 'rounded-r-xs',
+        inputWrapper: 'rounded-xs',
       },
       sm: {
-        input: 'rounded-sm',
-        captchaImage: 'rounded-r-sm',
+        inputWrapper: 'rounded-sm',
       },
       md: {
-        input: 'rounded-md',
-        captchaImage: 'rounded-r-md',
+        inputWrapper: 'rounded-md',
       },
       lg: {
-        input: 'rounded-lg',
-        captchaImage: 'rounded-r-lg',
+        inputWrapper: 'rounded-lg',
       },
       xl: {
-        input: 'rounded-xl',
-        captchaImage: 'rounded-r-xl',
+        inputWrapper: 'rounded-xl',
       },
     },
     hasError: {
       true: {
-        input:
-          'border-red-500 focus:border-red-400 focus:ring-1 focus:ring-red-300',
+        inputWrapper:
+          'border-red-500 focus-within:border-red-400 focus-within:ring-1 focus-within:ring-red-300',
       },
     },
     disabled: {
       true: {
-        input: 'cursor-not-allowed bg-gray-50 opacity-60',
+        inputWrapper: 'cursor-not-allowed bg-gray-50 opacity-60',
       },
     },
     isLoading: {
       true: {
-        input: 'cursor-wait',
+        inputWrapper: 'cursor-wait',
         refreshButton: 'cursor-wait',
       },
     },
