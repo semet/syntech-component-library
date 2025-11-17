@@ -54,6 +54,7 @@ export default defineConfig({
     lib: {
       entry: {
         components: path.resolve(__dirname, 'src/components/index.ts'),
+        icons: path.resolve(__dirname, 'src/icons/index.ts'),
         utils: path.resolve(__dirname, 'src/utils/index.ts'),
       },
       formats: ['es', 'cjs'],
