@@ -11,6 +11,8 @@ import type {
   SingleValueComponentProps,
 } from '@/components/ComboBox/ComboBox'
 import ComboBox from '@/components/ComboBox/ComboBox'
+import PasswordInput from '@/components/PasswordInput/PasswordInput'
+import Textarea from '@/components/Textarea'
 
 type ColorOption = {
   label: string
@@ -70,53 +72,63 @@ const OptionComponent = ({
   )
 }
 
-const schema = z.object({
-  username: z.string().min(2, 'Username must be at least 2 characters long'),
-  email: z.email('Invalid email address'),
-  country: z
-    .object(
-      {
-        label: z.string(),
-        value: z.string(),
-        flag: z.string(),
-        code: z.string(),
-      },
-      {
-        message: 'Country is required',
-      },
-    )
-    .refine(
-      (data) => {
-        return data.value !== ''
-      },
-      {
-        message: 'Country is required',
-      },
-    ),
-  color: z
-    .object(
-      {
-        label: z.string(),
-        value: z.string(),
-        color: z.string(),
-        hex: z.string(),
-      },
-      {
-        message: 'Color is required',
-      },
-    )
-    .refine(
-      (data) => {
-        return data.value !== ''
-      },
-      {
-        message: 'Color is required',
-      },
-    ),
-  start_date: z.date().optional(),
-  end_date: z.date().optional(),
-  favorite_color: z.string(),
-})
+const schema = z
+  .object({
+    username: z.string().min(2, 'Username must be at least 2 characters long'),
+    email: z.email('Invalid email address'),
+    password: z.string().min(6, 'Password must be at least 6 characters long'),
+    confirm_password: z
+      .string()
+      .min(6, 'Password must be at least 6 characters long'),
+    country: z
+      .object(
+        {
+          label: z.string(),
+          value: z.string(),
+          flag: z.string(),
+          code: z.string(),
+        },
+        {
+          message: 'Country is required',
+        },
+      )
+      .refine(
+        (data) => {
+          return data.value !== ''
+        },
+        {
+          message: 'Country is required',
+        },
+      ),
+    color: z
+      .object(
+        {
+          label: z.string(),
+          value: z.string(),
+          color: z.string(),
+          hex: z.string(),
+        },
+        {
+          message: 'Color is required',
+        },
+      )
+      .refine(
+        (data) => {
+          return data.value !== ''
+        },
+        {
+          message: 'Color is required',
+        },
+      ),
+    start_date: z.date().optional(),
+    end_date: z.date().optional(),
+    favorite_color: z.string(),
+    address: z.string().optional(),
+  })
+  .refine((data) => data.password === data.confirm_password, {
+    message: 'Passwords do not match',
+    path: ['confirm_password'],
+  })
 
 export default function SimpleFormExample() {
   const {
@@ -156,6 +168,20 @@ export default function SimpleFormExample() {
             {...register('email')}
             error={errors.email?.message as string}
             leftSection={<FaEnvelope />}
+          />
+          <PasswordInput
+            label="Password"
+            placeholder="Type your password"
+            {...register('password')}
+            error={errors.password?.message as string}
+            withAsterisk
+          />
+          <PasswordInput
+            label="Confirm Password"
+            placeholder="Re-type your password"
+            {...register('confirm_password')}
+            error={errors.confirm_password?.message as string}
+            withAsterisk
           />
 
           <Controller
@@ -242,6 +268,13 @@ export default function SimpleFormExample() {
                 clearable
               />
             )}
+          />
+
+          <Textarea
+            label="Address"
+            placeholder="Type your address"
+            {...register('address')}
+            error={errors.address?.message as string}
           />
 
           <div className="flex justify-center gap-4">
