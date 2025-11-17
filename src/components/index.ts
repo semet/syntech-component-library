@@ -5,6 +5,9 @@ export { type ButtonProps } from './Button/Button'
 //TextInput
 export { default as TextInput } from './TextInput/TextInput'
 export { type TextInputProps } from './TextInput/TextInput'
+//CaptchaInput
+export { default as CaptchaInput } from './CaptchaInput/CaptchaInput'
+export { type CaptchaInputProps } from './CaptchaInput/CaptchaInput'
 //DatePicker
 export { default as DatePicker } from './DatePicker/DatePicker'
 export { type DatePickerProps } from './DatePicker/DatePicker'

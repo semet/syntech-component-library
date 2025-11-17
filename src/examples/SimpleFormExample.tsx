@@ -5,6 +5,7 @@ import { IoCheckmarkSharp } from 'react-icons/io5'
 import z from 'zod'
 
 import Button from '@/components/Button/Button'
+import CaptchaInput from '@/components/CaptchaInput/CaptchaInput'
 import ColorPicker from '@/components/ColorPicker/ColorPicker'
 import type {
   ComboBoxOption,
@@ -128,6 +129,7 @@ const schema = z
     end_date: z.date().optional(),
     favorite_color: z.string(),
     address: z.string().optional(),
+    captcha: z.string(),
   })
   .refine((data) => data.password === data.confirm_password, {
     message: 'Passwords do not match',
@@ -272,6 +274,13 @@ export default function SimpleFormExample() {
                 clearable
               />
             )}
+          />
+
+          <CaptchaInput
+            label="Enter Captcha"
+            placeholder="Enter the code"
+            image="https://placehold.co/150x50/4299e1/ffffff?text=ABC123"
+            withAsterisk
           />
 
           <Textarea
