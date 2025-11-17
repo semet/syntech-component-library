@@ -159,20 +159,20 @@ export default function CaptchaInput({
               )
             )}
           </div>
-
-          {error && (
-            <div
-              className={twMerge([
-                styles.errorWrapper(),
-                classNames?.errorWrapper,
-              ])}
-            >
-              <div className={twMerge([styles.error(), classNames?.error])}>
-                {error}
-              </div>
-            </div>
-          )}
         </div>
+
+        {error && (
+          <div
+            className={twMerge([
+              styles.errorWrapper(),
+              classNames?.errorWrapper,
+            ])}
+          >
+            <div className={twMerge([styles.error(), classNames?.error])}>
+              {error}
+            </div>
+          </div>
+        )}
 
         <button
           type="button"
