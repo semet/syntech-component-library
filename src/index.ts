@@ -11,7 +11,7 @@ export {
   ToastProvider,
   type ToastPosition,
   type ToastSize,
-  type ToastType,
+  type ToastVariant,
   type ToastOptions,
 } from './components/Toast'
 
