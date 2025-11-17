@@ -1,6 +1,6 @@
 import { createContext } from 'react'
 
-export type ToastType = 'success' | 'error' | 'info' | 'warning' | 'loading'
+export type ToastVariant = 'success' | 'error' | 'info' | 'warning' | 'loading'
 export type ToastPosition =
   | 'top-left'
   | 'top-center'
@@ -31,7 +31,7 @@ export interface ToastOptions {
 export interface Toast {
   id: string
   message: string
-  type: ToastType
+  type: ToastVariant
   duration: number
   position: ToastPosition
   size: ToastSize

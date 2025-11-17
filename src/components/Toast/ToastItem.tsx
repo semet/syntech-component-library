@@ -10,14 +10,14 @@ import {
   WarningIcon,
 } from './Icons'
 import { toastStyles } from './styles'
-import type { Toast, ToastType } from './ToastContext'
+import type { Toast, ToastVariant } from './ToastContext'
 
 interface ToastItemProps {
   toast: Toast
   onDismiss: (id: string) => void
 }
 
-const iconMap: Record<ToastType, React.FC> = {
+const iconMap: Record<ToastVariant, React.FC> = {
   success: SuccessIcon,
   error: ErrorIcon,
   info: InfoIcon,

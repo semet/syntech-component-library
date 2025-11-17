@@ -3,6 +3,6 @@ export {
   type ToastOptions,
   type ToastSize,
   type ToastPosition,
-  type ToastType,
+  type ToastVariant,
 } from './ToastContext'
 export { ToastProvider } from './ToastProvider'

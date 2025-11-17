@@ -14,14 +14,14 @@ import {
   type ToastContextValue,
   type ToastOptions,
   type ToastPosition,
-  type ToastType,
+  type ToastVariant,
 } from './ToastContext'
 
 export function ToastProvider({ children }: PropsWithChildren) {
   const [toasts, setToasts] = useState<Toast[]>([])
 
   const createToast = useCallback(
-    (message: string, type: ToastType, options?: ToastOptions): string => {
+    (message: string, type: ToastVariant, options?: ToastOptions): string => {
       const id = Math.random().toString(36).slice(2, 11)
       const newToast: Toast = {
         id,
