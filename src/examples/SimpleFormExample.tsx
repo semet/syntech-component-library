@@ -167,6 +167,7 @@ export default function SimpleFormExample() {
             placeholder="Enter the code"
             image="https://placehold.co/150x50/e0dcdc/ffffff?text=ABC123"
             withAsterisk
+            error="Please input it"
           />
           <TextInput
             label="Username"
