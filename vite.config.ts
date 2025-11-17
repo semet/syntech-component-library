@@ -29,7 +29,6 @@ export default defineConfig({
       insertTypesEntry: true,
       include: ['src/**/*.{ts,tsx}'],
       exclude: ['src/main.tsx', 'src/App.tsx', 'src/**/*.test.tsx'],
-      // Format the content before writing
       beforeWriteFile: async (filePath, content) => {
         if (filePath.endsWith('.d.ts')) {
           try {
@@ -53,25 +52,42 @@ export default defineConfig({
   ],
   build: {
     lib: {
-      entry: path.resolve(__dirname, 'src/index.ts'),
-      name: 'SyntechComponentLibrary',
+      entry: {
+        components: path.resolve(__dirname, 'src/components/index.ts'),
+        utils: path.resolve(__dirname, 'src/utils/index.ts'),
+      },
       formats: ['es', 'cjs'],
-      fileName: (format) => `index.${format === 'es' ? 'js' : 'cjs'}`,
+      fileName: (format, entryName) => {
+        const extension = format === 'es' ? 'js' : 'cjs'
+        return `${entryName}.${extension}`
+      },
     },
     rollupOptions: {
-      external: ['react', 'react-dom', 'react/jsx-runtime', 'react-icons/im'],
+      external: [
+        'react',
+        'react-dom',
+        'react/jsx-runtime',
+        'react-icons',
+        /^react-icons\/.*/,
+        'dayjs',
+        'tailwind-merge',
+        'tailwind-variants',
+        'usehooks-ts',
+        'zod',
+        '@hookform/resolvers',
+        'react-hook-form',
+      ],
       output: {
         globals: {
           react: 'React',
           'react-dom': 'ReactDOM',
           'react/jsx-runtime': 'react/jsx-runtime',
         },
-        // Rename CSS file to styles.css
         assetFileNames: (assetInfo) => {
-          if (assetInfo.name?.endsWith('.css')) {
+          if (assetInfo.names?.[0]?.endsWith('.css')) {
             return 'styles.css'
           }
-          return '[name].[ext]'
+          return assetInfo.names?.[0] || '[name].[ext]'
         },
       },
     },
