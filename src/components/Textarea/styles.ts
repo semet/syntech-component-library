@@ -64,7 +64,7 @@ export const textareaStyles = tv({
     hasError: {
       true: {
         textarea:
-          'border-red-500 focus:border-red-400 focus:ring-1 focus:ring-red-300',
+          'border-red-500 hover:border-red-400 focus:border-red-400 focus:ring-1 focus:ring-red-300',
       },
     },
     disabled: {
