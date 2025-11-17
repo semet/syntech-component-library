@@ -40,7 +40,7 @@ export const comboBoxStyles = tv({
     variant: {
       default: {
         control:
-          'border border-gray-300 bg-white focus-within:border-blue-400 focus-within:ring-1 focus-within:ring-blue-300',
+          'border border-gray-300 bg-white focus-within:border-blue-400! focus-within:ring-1 focus-within:ring-blue-300 hover:border-gray-400',
       },
       filled: {
         control:

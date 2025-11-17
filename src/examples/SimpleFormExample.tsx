@@ -162,6 +162,12 @@ export default function SimpleFormExample() {
           })}
           className="flex flex-col gap-4"
         >
+          <CaptchaInput
+            label="Enter Captcha"
+            placeholder="Enter the code"
+            image="https://placehold.co/150x50/e0dcdc/ffffff?text=ABC123"
+            withAsterisk
+          />
           <TextInput
             label="Username"
             placeholder="Type your username"
@@ -274,13 +280,6 @@ export default function SimpleFormExample() {
                 clearable
               />
             )}
-          />
-
-          <CaptchaInput
-            label="Enter Captcha"
-            placeholder="Enter the code"
-            image="https://placehold.co/150x50/4299e1/ffffff?text=ABC123"
-            withAsterisk
           />
 
           <Textarea
