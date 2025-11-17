@@ -15,6 +15,7 @@ export interface CaptchaInputClassNames {
   inputContainer?: string
   inputWrapper?: string
   input?: string
+  captchaImageWrapper?: string
   captchaImage?: string
   captchaSkeleton?: string
   refreshButton?: string
@@ -136,8 +137,8 @@ export default function CaptchaInput({
 
           <div
             className={twMerge([
-              styles.captchaImage(),
-              classNames?.captchaImage,
+              styles.captchaImageWrapper(),
+              classNames?.captchaImageWrapper,
             ])}
           >
             {isLoading ? (
@@ -154,7 +155,10 @@ export default function CaptchaInput({
                 <img
                   src={image}
                   alt={imageAlt}
-                  className="h-full w-full object-contain"
+                  className={twMerge([
+                    styles.captchaImage(),
+                    classNames?.captchaImage,
+                  ])}
                 />
               )
             )}
