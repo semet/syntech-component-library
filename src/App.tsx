@@ -1,12 +1,12 @@
 import CheckboxExamples from './examples/CheckboxExamples'
 import RadioExamples from './examples/RadioExamples'
 import SimpleFormExample from './examples/SimpleFormExample'
-import ReloadCoinIcon from './icons/ReloadCoinIcon/ReloadCoinIcon'
+import { BankManagementIcon } from './icons'
 
 export default function App() {
   return (
     <>
-      <ReloadCoinIcon />
+      <BankManagementIcon />
       <SimpleFormExample />
       <CheckboxExamples />
       <RadioExamples />
