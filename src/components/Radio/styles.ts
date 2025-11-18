@@ -2,7 +2,7 @@ import { tv } from 'tailwind-variants'
 
 export const radioStyles = tv({
   slots: {
-    wrapper: 'flex w-full flex-col gap-1',
+    wrapper: 'flex flex-col gap-1',
     radioWrapper: 'flex items-center gap-2',
     inputWrapper: 'relative flex shrink-0 items-center justify-center',
     input: 'peer absolute h-full w-full cursor-pointer opacity-0',
@@ -33,33 +33,33 @@ export const radioStyles = tv({
     },
     size: {
       xs: {
-        inputWrapper: 'h-3.5 w-3.5',
-        radioDisplay: 'h-3.5 w-3.5',
-        dot: 'h-1.5 w-1.5',
+        inputWrapper: 'size-3.5',
+        radioDisplay: 'size-3.5',
+        dot: 'size-1.5',
         label: 'text-xs',
       },
       sm: {
-        inputWrapper: 'h-4 w-4',
-        radioDisplay: 'h-4 w-4',
-        dot: 'h-2 w-2',
+        inputWrapper: 'size-4',
+        radioDisplay: 'size-4',
+        dot: 'size-2',
         label: 'text-sm',
       },
       md: {
-        inputWrapper: 'h-5 w-5',
-        radioDisplay: 'h-5 w-5',
-        dot: 'h-2.5 w-2.5',
+        inputWrapper: 'size-5',
+        radioDisplay: 'size-5',
+        dot: 'size-2.5',
         label: 'text-base',
       },
       lg: {
-        inputWrapper: 'h-6 w-6',
-        radioDisplay: 'h-6 w-6',
-        dot: 'h-3 w-3',
+        inputWrapper: 'size-6',
+        radioDisplay: 'size-6',
+        dot: 'size-3',
         label: 'text-lg',
       },
       xl: {
-        inputWrapper: 'h-7 w-7',
-        radioDisplay: 'h-7 w-7',
-        dot: 'h-3.5 w-3.5',
+        inputWrapper: 'size-7',
+        radioDisplay: 'size-7',
+        dot: 'size-3.5',
         label: 'text-xl',
       },
     },

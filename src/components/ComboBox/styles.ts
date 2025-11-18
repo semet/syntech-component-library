@@ -31,7 +31,7 @@ export const comboBoxStyles = tv({
     option:
       'flex cursor-pointer items-center justify-between px-3 py-2 text-sm transition-colors',
     optionLabel: 'flex-1',
-    checkIcon: 'h-4 w-4 text-blue-600',
+    checkIcon: 'size-4 text-blue-600',
     empty: 'px-3 py-2 text-center text-sm text-gray-500',
     errorWrapper: 'absolute top-full left-0 w-full',
     error: 'text-xs text-red-600',
