@@ -11,7 +11,7 @@ export default function PencilIcon({
       width={width}
       height={height}
       viewBox="0 0 16 16"
-      fill="none"
+      fill="currentColor"
       {...props}
     >
       <path

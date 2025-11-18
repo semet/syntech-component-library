@@ -11,7 +11,7 @@ export default function WarningIcon({
       width={width}
       height={height}
       viewBox="0 0 40 40"
-      fill="none"
+      fill="currentColor"
       {...props}
     >
       <path

@@ -11,7 +11,7 @@ export default function BellIcon({
       width={width}
       height={height}
       viewBox="0 0 21 25"
-      fill="none"
+      fill="currentColor"
       {...props}
     >
       <path

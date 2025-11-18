@@ -11,7 +11,7 @@ export default function CloseIcon({
       width={width}
       height={height}
       viewBox="0 0 12 12"
-      fill="none"
+      fill="currentColor"
       {...props}
     >
       <path

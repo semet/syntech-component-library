@@ -11,7 +11,7 @@ export default function SuccessIcon({
       width={width}
       height={height}
       viewBox="0 0 20 20"
-      fill="none"
+      fill="currentColor"
       {...props}
     >
       <path
