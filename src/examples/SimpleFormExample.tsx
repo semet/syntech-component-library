@@ -15,6 +15,7 @@ import type {
 import ComboBox from '@/components/ComboBox/ComboBox'
 import { Copy } from '@/components/Copy/Copy'
 import DatePicker from '@/components/DatePicker/DatePicker'
+import Fieldset from '@/components/Fieldset/Fieldset'
 import PasswordInput from '@/components/PasswordInput/PasswordInput'
 import Switch from '@/components/Switch/Switch'
 import Textarea from '@/components/Textarea/Textarea'
@@ -165,138 +166,144 @@ export default function SimpleFormExample() {
           })}
           className="flex flex-col gap-4"
         >
-          <Switch
-            label="Show Notifications"
-            {...register('show_notifications')}
-          />
+          <Fieldset legend="User Information">
+            <Switch
+              label="Show Notifications"
+              {...register('show_notifications')}
+            />
 
-          <CaptchaInput
-            label="Enter Captcha"
-            placeholder="Enter the code"
-            image="https://placehold.co/150x50/e0dcdc/ffffff?text=ABC123"
-            withAsterisk
-            {...register('captcha')}
-          />
-          <TextInput
-            label="Username"
-            placeholder="Type your username"
-            {...register('username')}
-            error={errors.username?.message as string}
-          />
-          <TextInput
-            label="Email "
-            placeholder="Type your email"
-            {...register('email')}
-            error={errors.email?.message as string}
-            leftSection={<FaEnvelope />}
-          />
-          <PasswordInput
-            label="Password"
-            placeholder="Type your password"
-            {...register('password')}
-            error={errors.password?.message as string}
-            withAsterisk
-          />
-          <PasswordInput
-            label="Confirm Password"
-            placeholder="Re-type your password"
-            {...register('confirm_password')}
-            error={errors.confirm_password?.message as string}
-            withAsterisk
-          />
+            <CaptchaInput
+              label="Enter Captcha"
+              placeholder="Enter the code"
+              image="https://placehold.co/150x50/e0dcdc/ffffff?text=ABC123"
+              withAsterisk
+              {...register('captcha')}
+            />
+            <TextInput
+              label="Username"
+              placeholder="Type your username"
+              {...register('username')}
+              error={errors.username?.message as string}
+            />
+            <TextInput
+              label="Email "
+              placeholder="Type your email"
+              {...register('email')}
+              error={errors.email?.message as string}
+              leftSection={<FaEnvelope />}
+            />
+            <PasswordInput
+              label="Password"
+              placeholder="Type your password"
+              {...register('password')}
+              error={errors.password?.message as string}
+              withAsterisk
+            />
+            <PasswordInput
+              label="Confirm Password"
+              placeholder="Re-type your password"
+              {...register('confirm_password')}
+              error={errors.confirm_password?.message as string}
+              withAsterisk
+            />
+          </Fieldset>
+          <Fieldset
+            legend="Additional Information"
+            radius="sm"
+          >
+            <Controller
+              control={control}
+              name="country"
+              render={({ field }) => (
+                <ComboBox
+                  label="Select Country"
+                  placeholder="Choose a country"
+                  options={countryOptions}
+                  value={field.value}
+                  onChange={field.onChange}
+                  searchable
+                  clearable
+                  withAsterisk
+                  components={{
+                    SingleValue: SingleValueComponent,
+                    Option: OptionComponent,
+                  }}
+                  error={errors.country?.message as string}
+                />
+              )}
+            />
+            <Controller
+              control={control}
+              name="color"
+              render={({ field }) => (
+                <ComboBox
+                  label="Select Color"
+                  placeholder="Choose a color"
+                  options={colorOptions}
+                  value={field.value}
+                  onChange={field.onChange}
+                  searchable
+                  clearable
+                  withAsterisk
+                  error={errors.color?.message as string}
+                />
+              )}
+            />
+            <Controller
+              control={control}
+              name="start_date"
+              render={({ field }) => (
+                <DatePicker
+                  label="Start Date"
+                  placeholder="Select start date"
+                  value={field.value}
+                  onChange={field.onChange}
+                  withAsterisk
+                  clearable
+                  iconPosition="left"
+                  minDate={new Date()}
+                  error={errors.start_date?.message as string}
+                />
+              )}
+            />
+            <Controller
+              control={control}
+              name="end_date"
+              render={({ field }) => (
+                <DatePicker
+                  label="End Date"
+                  placeholder="Select end date"
+                  value={field.value}
+                  onChange={field.onChange}
+                  withAsterisk
+                  clearable
+                  iconPosition="left"
+                />
+              )}
+            />
 
-          <Controller
-            control={control}
-            name="country"
-            render={({ field }) => (
-              <ComboBox
-                label="Select Country"
-                placeholder="Choose a country"
-                options={countryOptions}
-                value={field.value}
-                onChange={field.onChange}
-                searchable
-                clearable
-                withAsterisk
-                components={{
-                  SingleValue: SingleValueComponent,
-                  Option: OptionComponent,
-                }}
-                error={errors.country?.message as string}
-              />
-            )}
-          />
-          <Controller
-            control={control}
-            name="color"
-            render={({ field }) => (
-              <ComboBox
-                label="Select Color"
-                placeholder="Choose a color"
-                options={colorOptions}
-                value={field.value}
-                onChange={field.onChange}
-                searchable
-                clearable
-                withAsterisk
-                error={errors.color?.message as string}
-              />
-            )}
-          />
-          <Controller
-            control={control}
-            name="start_date"
-            render={({ field }) => (
-              <DatePicker
-                label="Start Date"
-                placeholder="Select start date"
-                value={field.value}
-                onChange={field.onChange}
-                withAsterisk
-                clearable
-                iconPosition="left"
-                minDate={new Date()}
-                error={errors.start_date?.message as string}
-              />
-            )}
-          />
-          <Controller
-            control={control}
-            name="end_date"
-            render={({ field }) => (
-              <DatePicker
-                label="End Date"
-                placeholder="Select end date"
-                value={field.value}
-                onChange={field.onChange}
-                withAsterisk
-                clearable
-                iconPosition="left"
-              />
-            )}
-          />
+            <Controller
+              control={control}
+              name="favorite_color"
+              render={({ field }) => (
+                <ColorPicker
+                  label="Favorite Color"
+                  value={field.value}
+                  onChange={field.onChange}
+                  format="rgba"
+                  withAsterisk
+                  clearable
+                />
+              )}
+            />
 
-          <Controller
-            control={control}
-            name="favorite_color"
-            render={({ field }) => (
-              <ColorPicker
-                label="Favorite Color"
-                value={field.value}
-                onChange={field.onChange}
-                format="rgba"
-                withAsterisk
-                clearable
-              />
-            )}
-          />
-
-          <Textarea
-            label="Address"
-            placeholder="Type your address"
-            {...register('address')}
-            error={errors.address?.message as string}
-          />
+            <Textarea
+              label="Address"
+              placeholder="Type your address"
+              {...register('address')}
+              error={errors.address?.message as string}
+            />
+          </Fieldset>
           <Copy
             value="Some random value"
             timeout={5000}
