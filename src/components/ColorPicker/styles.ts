@@ -21,13 +21,13 @@ export const colorPickerStyles = tv({
     colorArea: 'relative mb-3 h-40 w-full cursor-crosshair rounded-md',
     colorAreaOverlay: 'absolute inset-0 rounded-md',
     colorAreaThumb:
-      'absolute h-4 w-4 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-white shadow-md',
+      'absolute size-4 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-white shadow-md',
     hueSlider: 'relative mb-3 h-3 w-full cursor-pointer rounded-full',
     hueThumb:
-      'absolute top-1/2 h-4 w-4 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-white shadow-md',
+      'absolute top-1/2 size-4 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-white shadow-md',
     alphaSlider: 'relative h-3 w-full cursor-pointer rounded-full',
     alphaThumb:
-      'absolute top-1/2 h-4 w-4 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-white shadow-md',
+      'absolute top-1/2 size-4 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-white shadow-md',
     swatchesGrid: 'mt-3 grid grid-cols-7 gap-2 border-t border-gray-200 pt-3',
     swatch:
       'h-7 w-7 cursor-pointer rounded-md border-2 border-gray-200 transition-colors hover:border-gray-400',

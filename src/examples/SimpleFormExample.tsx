@@ -16,6 +16,7 @@ import ComboBox from '@/components/ComboBox/ComboBox'
 import { Copy } from '@/components/Copy/Copy'
 import DatePicker from '@/components/DatePicker/DatePicker'
 import PasswordInput from '@/components/PasswordInput/PasswordInput'
+import Switch from '@/components/Switch/Switch'
 import Textarea from '@/components/Textarea/Textarea'
 import TextInput from '@/components/TextInput/TextInput'
 
@@ -130,6 +131,8 @@ const schema = z
     favorite_color: z.string(),
     address: z.string().optional(),
     captcha: z.string(),
+    show_notifications: z.boolean().optional(),
+    gender: z.enum(['male', 'female']).default('male'),
   })
   .refine((data) => data.password === data.confirm_password, {
     message: 'Passwords do not match',
@@ -162,12 +165,17 @@ export default function SimpleFormExample() {
           })}
           className="flex flex-col gap-4"
         >
+          <Switch
+            label="Show Notifications"
+            {...register('show_notifications')}
+          />
+
           <CaptchaInput
             label="Enter Captcha"
             placeholder="Enter the code"
             image="https://placehold.co/150x50/e0dcdc/ffffff?text=ABC123"
             withAsterisk
-            error="Please input it"
+            {...register('captcha')}
           />
           <TextInput
             label="Username"

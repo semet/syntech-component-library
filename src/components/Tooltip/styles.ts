@@ -5,7 +5,7 @@ export const tooltipStyles = tv({
     wrapper: 'relative inline-flex',
     tooltip:
       'pointer-events-none absolute z-50 bg-gray-900 px-3 py-2 text-sm font-medium whitespace-nowrap text-white transition-opacity duration-200',
-    arrow: 'absolute h-2 w-2 rotate-45 transform bg-gray-900',
+    arrow: 'absolute size-2 rotate-45 transform bg-gray-900',
   },
   variants: {
     radius: {

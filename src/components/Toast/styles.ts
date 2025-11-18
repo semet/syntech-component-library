@@ -56,18 +56,18 @@ export const toastStyles = tv({
     size: {
       sm: {
         toast: 'max-w-[300px] min-w-[200px] rounded-md px-3 py-2 text-sm',
-        icon: 'h-4 w-4',
-        closeButton: 'h-4 w-4',
+        icon: 'size-4',
+        closeButton: 'size-4',
       },
       md: {
         toast: 'max-w-[400px] min-w-[250px] rounded-lg px-4 py-3 text-base',
-        icon: 'h-5 w-5',
-        closeButton: 'h-5 w-5',
+        icon: 'size-5',
+        closeButton: 'size-5',
       },
       lg: {
         toast: 'max-w-[500px] min-w-[300px] rounded-xl px-5 py-4 text-lg',
-        icon: 'h-6 w-6',
-        closeButton: 'h-6 w-6',
+        icon: 'size-6',
+        closeButton: 'size-6',
       },
     },
     enteringFromTop: {
