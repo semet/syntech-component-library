@@ -25,13 +25,27 @@ export { default as Checkbox } from './Checkbox/Checkbox'
 export { type CheckboxProps } from './Checkbox/Checkbox'
 //ColorPicker
 export { default as ColorPicker } from './ColorPicker/ColorPicker'
-export { type ColorPickerProps } from './ColorPicker/ColorPicker'
+//FileInput
+export { default as FileInput } from './FileInput/FileInput'
+export { type FileInputProps } from './FileInput/FileInput'
+//Switch
+export { default as Switch } from './Switch/Switch'
+export { type SwitchProps } from './Switch/Switch'
 //Radio
 export { default as Radio } from './Radio/Radio'
 export { type RadioProps } from './Radio/Radio'
 //Tooltips
 export { default as Tooltip } from './Tooltip/Tooltip'
 export { type TooltipProps } from './Tooltip/Tooltip'
+//Card
+export { default as Card } from './Card/Card'
+export { type CardProps } from './Card/Card'
+//Fieldset
+export { default as Fieldset } from './Fieldset/Fieldset'
+export { type FieldsetProps } from './Fieldset/Fieldset'
+//Alert
+export { default as Alert } from './Alert/Alert'
+export { type AlertProps } from './Alert/Alert'
 //Copy
 export { Copy } from './Copy/Copy'
 //Toast
