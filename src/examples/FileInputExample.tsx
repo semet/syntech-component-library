@@ -3,7 +3,9 @@ import { Controller, useForm } from 'react-hook-form'
 import z from 'zod'
 
 import { Button } from '@/components'
+import Alert from '@/components/Alert/Alert'
 import FileInput from '@/components/FileInput/FileInput'
+import { WarningIcon } from '@/icons'
 
 const schema = z.object({
   file: z.file().refine((file) => file.size <= 5 * 1024 * 1024, {
@@ -25,6 +27,14 @@ export default function FileInputExample() {
           })}
           className="flex flex-col gap-5"
         >
+          <Alert
+            variant="light"
+            color="primary"
+            title="File Upload Instructions"
+            icon={<WarningIcon />}
+          >
+            Please ensure your file is less than 5MB in size before uploading.
+          </Alert>
           <Controller
             name="file"
             control={control}
