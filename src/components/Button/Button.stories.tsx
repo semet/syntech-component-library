@@ -10,7 +10,7 @@ import {
 
 import Button from './Button'
 
-const meta = {
+const meta: Meta<typeof Button> = {
   title: 'Components/Button',
   component: Button,
   parameters: {
