@@ -49,6 +49,9 @@ export { type AlertProps } from './Alert/Alert'
 //Modal
 export { default as Modal } from './Modal/Modal'
 export { type ModalProps } from './Modal/Modal'
+//FormattedDate
+export { default as FormattedDate } from './FormattedDate/FormattedDate'
+export { type FormattedDateProps } from './FormattedDate/FormattedDate'
 //Copy
 export { Copy } from './Copy/Copy'
 //Toast
