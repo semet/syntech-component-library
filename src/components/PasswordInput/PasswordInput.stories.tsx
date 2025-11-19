@@ -3,12 +3,19 @@ import { useState } from 'react'
 
 import PasswordInput from './PasswordInput'
 
-const meta = {
+const meta: Meta<typeof PasswordInput> = {
   title: 'Components/PasswordInput',
   component: PasswordInput,
   parameters: {
     layout: 'centered',
   },
+  decorators: [
+    (Story) => (
+      <div className="w-64">
+        <Story />
+      </div>
+    ),
+  ],
   tags: ['autodocs'],
   argTypes: {
     variant: {

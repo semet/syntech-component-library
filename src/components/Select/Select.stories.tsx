@@ -11,12 +11,19 @@ import {
 
 import Select from './Select'
 
-const meta = {
+const meta: Meta<typeof Select> = {
   title: 'Components/Select',
   component: Select,
   parameters: {
     layout: 'centered',
   },
+  decorators: [
+    (Story) => (
+      <div className="w-64">
+        <Story />
+      </div>
+    ),
+  ],
   tags: ['autodocs'],
   argTypes: {
     variant: {

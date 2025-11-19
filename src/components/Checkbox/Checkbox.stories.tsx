@@ -4,7 +4,7 @@ import { useState } from 'react'
 
 import Checkbox from './Checkbox'
 
-const meta = {
+const meta: Meta<typeof Checkbox> = {
   title: 'Components/Checkbox',
   component: Checkbox,
   parameters: {
