@@ -1,6 +1,21 @@
-import { useId, type ComponentProps, type ReactNode } from 'react'
+import {
+  useId,
+  useState,
+  useCallback,
+  type ChangeEvent,
+  type ComponentProps,
+  type KeyboardEvent,
+  type ReactNode,
+} from 'react'
 import { twMerge } from 'tailwind-merge'
 import type { VariantProps } from 'tailwind-variants'
+
+import {
+  filterInput,
+  formatValue,
+  getRawValue,
+  type InputMode,
+} from '@/utils/input-formatter'
 
 import { textInputStyles } from './styles'
 
@@ -20,7 +35,8 @@ export interface TextInputClassNames {
   error?: string
 }
 
-export interface TextInputProps extends Omit<ComponentProps<'input'>, 'size'> {
+export interface TextInputProps
+  extends Omit<ComponentProps<'input'>, 'size' | 'onChange'> {
   label?: string
   description?: string
   withAsterisk?: boolean
@@ -31,6 +47,10 @@ export interface TextInputProps extends Omit<ComponentProps<'input'>, 'size'> {
   size?: TextInputStylesProps['size']
   radius?: TextInputStylesProps['radius']
   classNames?: TextInputClassNames
+  mode?: InputMode
+  onChange?: (event: ChangeEvent<HTMLInputElement>) => void
+  decimalPlaces?: number // For decimal and currency modes
+  allowNegative?: boolean // For number modes
 }
 
 export default function TextInput({
@@ -46,10 +66,17 @@ export default function TextInput({
   disabled = false,
   className,
   classNames,
+  mode,
+  value: controlledValue,
+  onChange,
+  decimalPlaces = 2,
+  allowNegative = true,
   ref,
   ...props
 }: TextInputProps) {
   const id = useId()
+  const [internalValue, setInternalValue] = useState('')
+
   const styles = textInputStyles({
     variant,
     size,
@@ -83,6 +110,131 @@ export default function TextInput({
   }
 
   const paddingRight = rightSizeMap[size || 'sm']
+
+  const handleChange = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
+      const inputValue = event.target.value
+      const inputElement = event.target
+
+      if (!mode) {
+        if (controlledValue === undefined) {
+          setInternalValue(inputValue)
+        }
+        onChange?.(event)
+        return
+      }
+
+      const cursorPos = inputElement.selectionStart || 0
+
+      const filtered = filterInput(inputValue, mode, {
+        allowNegative,
+        decimalPlaces,
+      })
+
+      const formatted = formatValue(filtered, mode, {
+        decimalPlaces,
+      })
+
+      event.target.value = formatted
+
+      inputElement.dataset.rawValue = getRawValue(formatted, mode)
+
+      let newCursorPos = cursorPos
+
+      if (mode === 'currency' || mode === 'number' || mode === 'integer') {
+        const valueBeforeCursor = inputValue.slice(0, cursorPos)
+        const charsBeforeCursor = valueBeforeCursor.replaceAll(
+          /[^\d.-]/g,
+          '',
+        ).length
+        let charCount = 0
+
+        // eslint-disable-next-line unicorn/no-for-loop
+        for (let i = 0; i < formatted.length; i++) {
+          if (!/[^\d.-]/.test(formatted[i])) {
+            charCount++
+          }
+          if (charCount >= charsBeforeCursor) {
+            newCursorPos = i + 1
+            break
+          }
+        }
+      } else {
+        const lengthDiff = formatted.length - inputValue.length
+        newCursorPos = Math.min(
+          Math.max(cursorPos + lengthDiff, 0),
+          formatted.length,
+        )
+      }
+
+      setTimeout(() => {
+        inputElement.setSelectionRange(newCursorPos, newCursorPos)
+      }, 0)
+
+      // If controlled, let parent handle the state
+      if (controlledValue === undefined) {
+        // If uncontrolled, manage internal state
+        setInternalValue(formatted)
+      }
+
+      onChange?.(event)
+    },
+    [mode, allowNegative, decimalPlaces, controlledValue, onChange],
+  )
+
+  const handleKeyDown = useCallback(
+    (event: KeyboardEvent<HTMLInputElement>) => {
+      if (
+        mode === 'number' ||
+        mode === 'integer' ||
+        mode === 'positive-number'
+      ) {
+        const allowedKeys = [
+          'Backspace',
+          'Delete',
+          'ArrowLeft',
+          'ArrowRight',
+          'ArrowUp',
+          'ArrowDown',
+          'Tab',
+          'Home',
+          'End',
+          'Control',
+          'Meta',
+          'Shift',
+          'Alt',
+        ]
+
+        const isNumberKey = /^\d$/.test(event.key)
+        const isDecimalKey = event.key === '.' && mode !== 'integer'
+        const isNegativeKey =
+          event.key === '-' && allowNegative && mode !== 'positive-number'
+        const isCopyPaste =
+          (event.ctrlKey || event.metaKey) &&
+          ['c', 'v', 'x', 'a'].includes(event.key.toLowerCase())
+
+        if (
+          !isNumberKey &&
+          !isDecimalKey &&
+          !isNegativeKey &&
+          !allowedKeys.includes(event.key) &&
+          !isCopyPaste
+        ) {
+          event.preventDefault()
+        }
+      }
+    },
+    [mode, allowNegative],
+  )
+
+  const displayValue =
+    controlledValue === undefined
+      ? internalValue
+      : mode
+        ? formatValue(String(controlledValue), mode, {
+            decimalPlaces,
+          })
+        : controlledValue
 
   return (
     <div className={twMerge([styles.wrapper(), classNames?.wrapper])}>
@@ -129,6 +281,10 @@ export default function TextInput({
           id={id}
           ref={ref}
           disabled={disabled}
+          value={displayValue}
+          onChange={handleChange}
+          onKeyDown={handleKeyDown}
+          type={props.type || 'text'}
           className={twMerge([
             styles.input(),
             paddingLeft,
