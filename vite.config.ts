@@ -4,7 +4,6 @@ import tailwindcss from '@tailwindcss/vite'
 import react from '@vitejs/plugin-react'
 import prettier from 'prettier'
 import { defineConfig } from 'vite'
-import viteCompression from 'vite-plugin-compression'
 import devtoolsJson from 'vite-plugin-devtools-json'
 import dts from 'vite-plugin-dts'
 import tsconfigPaths from 'vite-tsconfig-paths'
@@ -18,10 +17,6 @@ export default defineConfig({
       babel: {
         plugins: [['babel-plugin-react-compiler']],
       },
-    }),
-    viteCompression({
-      algorithm: 'gzip',
-      ext: '.gz',
     }),
     dts({
       tsconfigPath: './tsconfig.build.json',
@@ -51,6 +46,7 @@ export default defineConfig({
     }),
   ],
   build: {
+    sourcemap: true,
     lib: {
       entry: {
         components: path.resolve(__dirname, 'src/components/index.ts'),
