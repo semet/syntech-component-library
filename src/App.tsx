@@ -1,9 +1,9 @@
-import FileInputExample from './examples/FileInputExample'
+import ComprehensiveTextInputExample from './examples/ComprehensiveTextInputExample'
 
 export default function App() {
   return (
-    <>
-      <FileInputExample />
-    </>
+    <div className="mx-auto max-w-xl pt-4">
+      <ComprehensiveTextInputExample />
+    </div>
   )
 }

@@ -11,6 +11,8 @@ import {
   FiAlertCircle,
   FiDollarSign,
   FiGlobe,
+  FiPercent,
+  FiHash,
 } from 'react-icons/fi'
 
 import TextInput from './TextInput'
@@ -45,6 +47,21 @@ const meta: Meta<typeof TextInput> = {
       options: ['xs', 'sm', 'md', 'lg', 'xl'],
       description: 'Border radius',
     },
+    mode: {
+      control: 'select',
+      options: [
+        'number',
+        'alphabet',
+        'alphanumeric',
+        'currency',
+        'decimal',
+        'integer',
+        'positive-number',
+        'uppercase',
+        'lowercase',
+      ],
+      description: 'Input mode for filtering and formatting',
+    },
     label: {
       control: 'text',
       description: 'Input label',
@@ -68,6 +85,14 @@ const meta: Meta<typeof TextInput> = {
     placeholder: {
       control: 'text',
       description: 'Placeholder text',
+    },
+    decimalPlaces: {
+      control: 'number',
+      description: 'Decimal places for currency and decimal modes',
+    },
+    allowNegative: {
+      control: 'boolean',
+      description: 'Allow negative numbers',
     },
   },
 } satisfies Meta<typeof TextInput>
@@ -209,6 +234,176 @@ export const RadiusXL: Story = {
     label: 'XL Radius',
     placeholder: 'Extra large radius',
     radius: 'xl',
+  },
+}
+
+// Input Modes - Numeric
+export const NumberMode: Story = {
+  args: {
+    label: 'Number',
+    mode: 'number',
+    placeholder: 'Enter any number',
+    description: 'Accepts numbers with decimals and negatives (e.g., -123.45)',
+  },
+}
+
+export const IntegerMode: Story = {
+  args: {
+    label: 'Integer',
+    mode: 'integer',
+    placeholder: 'Enter whole number',
+    description: 'Only whole numbers, no decimals (e.g., -123)',
+    leftSection: <FiHash />,
+  },
+}
+
+export const PositiveNumberMode: Story = {
+  args: {
+    label: 'Positive Number',
+    mode: 'positive-number',
+    placeholder: 'Enter positive number',
+    description: 'Only positive numbers (e.g., 123.45)',
+  },
+}
+
+export const DecimalMode: Story = {
+  args: {
+    label: 'Decimal',
+    mode: 'decimal',
+    decimalPlaces: 4,
+    placeholder: '0.0000',
+    description: 'Precise decimals with up to 4 places',
+  },
+}
+
+export const CurrencyMode: Story = {
+  args: {
+    label: 'Price',
+    mode: 'currency',
+    decimalPlaces: 2,
+    placeholder: '0.00',
+    description: 'Formatted with thousand separators',
+    leftSection: <FiDollarSign />,
+  },
+}
+
+// Input Modes - Text
+export const AlphabetMode: Story = {
+  args: {
+    label: 'Name',
+    mode: 'alphabet',
+    placeholder: 'Enter letters only',
+    description: 'Only letters (a-z, A-Z) and spaces',
+    leftSection: <FiUser />,
+  },
+}
+
+export const AlphanumericMode: Story = {
+  args: {
+    label: 'Username',
+    mode: 'alphanumeric',
+    placeholder: 'Enter letters and numbers',
+    description: 'Letters, numbers, and spaces only',
+    leftSection: <FiUser />,
+  },
+}
+
+export const UppercaseMode: Story = {
+  args: {
+    label: 'Code',
+    mode: 'uppercase',
+    placeholder: 'ENTER CODE',
+    description: 'Automatically converts to UPPERCASE',
+  },
+}
+
+export const LowercaseMode: Story = {
+  args: {
+    label: 'Email',
+    mode: 'lowercase',
+    placeholder: 'enter email',
+    description: 'Automatically converts to lowercase',
+    leftSection: <FiMail />,
+  },
+}
+
+// All Input Modes Showcase
+export const AllInputModes: Story = {
+  render: () => (
+    <div className="w-96 space-y-6">
+      <div>
+        <h3 className="mb-3 text-sm font-semibold text-gray-800">
+          Numeric Modes
+        </h3>
+        <div className="space-y-3">
+          <TextInput
+            label="Number"
+            mode="number"
+            placeholder="Any number"
+            description="e.g., -123.45"
+          />
+          <TextInput
+            label="Integer"
+            mode="integer"
+            placeholder="Whole numbers"
+            description="e.g., -123"
+          />
+          <TextInput
+            label="Positive Number"
+            mode="positive-number"
+            placeholder="Positive only"
+            description="e.g., 123.45"
+          />
+          <TextInput
+            label="Decimal"
+            mode="decimal"
+            decimalPlaces={4}
+            placeholder="0.0000"
+            description="4 decimal places"
+          />
+          <TextInput
+            label="Currency"
+            mode="currency"
+            leftSection={<FiDollarSign />}
+            placeholder="0.00"
+            description="e.g., $1,234.56"
+          />
+        </div>
+      </div>
+
+      <div>
+        <h3 className="mb-3 text-sm font-semibold text-gray-800">Text Modes</h3>
+        <div className="space-y-3">
+          <TextInput
+            label="Alphabet"
+            mode="alphabet"
+            placeholder="Letters only"
+            description="a-z, A-Z, spaces"
+          />
+          <TextInput
+            label="Alphanumeric"
+            mode="alphanumeric"
+            placeholder="Letters and numbers"
+            description="a-z, A-Z, 0-9, spaces"
+          />
+          <TextInput
+            label="Uppercase"
+            mode="uppercase"
+            placeholder="AUTO CAPS"
+            description="Converts to UPPERCASE"
+          />
+          <TextInput
+            label="Lowercase"
+            mode="lowercase"
+            placeholder="auto lowercase"
+            description="Converts to lowercase"
+          />
+        </div>
+      </div>
+    </div>
+  ),
+  parameters: {
+    controls: { disable: true },
   },
 }
 
@@ -357,6 +552,7 @@ export const IconExamples: Story = {
       <TextInput
         label="Email"
         placeholder="your@email.com"
+        mode="lowercase"
         leftSection={<FiMail />}
       />
       <TextInput
@@ -368,11 +564,13 @@ export const IconExamples: Story = {
       <TextInput
         label="Full Name"
         placeholder="John Doe"
+        mode="alphabet"
         leftSection={<FiUser />}
       />
       <TextInput
         label="Phone"
-        placeholder="+1 (555) 123-4567"
+        placeholder="555-123-4567"
+        mode="number"
         leftSection={<FiPhone />}
       />
       <TextInput
@@ -394,12 +592,14 @@ export const ErrorStates: Story = {
       <TextInput
         label="Username"
         placeholder="Enter username"
+        mode="alphanumeric"
         withAsterisk
         error="Username is required"
       />
       <TextInput
         label="Email"
         placeholder="your@email.com"
+        mode="lowercase"
         withAsterisk
         leftSection={<FiMail />}
         error="Please enter a valid email address"
@@ -427,6 +627,7 @@ export const LoginForm: Story = {
       <TextInput
         label="Email"
         placeholder="your@email.com"
+        mode="lowercase"
         withAsterisk
         leftSection={<FiMail />}
       />
@@ -451,6 +652,7 @@ export const SignUpForm: Story = {
         label="Full Name"
         description="Enter your first and last name"
         placeholder="John Doe"
+        mode="alphabet"
         withAsterisk
         leftSection={<FiUser />}
       />
@@ -458,13 +660,15 @@ export const SignUpForm: Story = {
         label="Email"
         description="We'll never share your email with anyone else"
         placeholder="your@email.com"
+        mode="lowercase"
         withAsterisk
         leftSection={<FiMail />}
       />
       <TextInput
         label="Phone"
         description="Optional, for account recovery"
-        placeholder="+1 (555) 123-4567"
+        placeholder="555-123-4567"
+        mode="number"
         leftSection={<FiPhone />}
       />
       <TextInput
@@ -509,6 +713,7 @@ export const ProfileSettings: Story = {
       <TextInput
         label="Display Name"
         placeholder="Your display name"
+        mode="alphabet"
         leftSection={<FiUser />}
         value="John Doe"
       />
@@ -516,6 +721,7 @@ export const ProfileSettings: Story = {
         label="Email"
         description="This email is verified"
         placeholder="your@email.com"
+        mode="lowercase"
         leftSection={<FiMail />}
         rightSection={<FiCheck className="text-green-500" />}
         value="john@example.com"
@@ -524,6 +730,7 @@ export const ProfileSettings: Story = {
         label="Website"
         description="Your personal website or portfolio"
         placeholder="https://example.com"
+        mode="lowercase"
         leftSection={<FiGlobe />}
       />
     </div>
@@ -539,12 +746,14 @@ export const PaymentForm: Story = {
       <TextInput
         label="Cardholder Name"
         placeholder="John Doe"
+        mode="alphabet"
         withAsterisk
         leftSection={<FiUser />}
       />
       <TextInput
         label="Card Number"
-        placeholder="1234 5678 9012 3456"
+        placeholder="1234567890123456"
+        mode="number"
         withAsterisk
         leftSection={<FiDollarSign />}
       />
@@ -552,14 +761,56 @@ export const PaymentForm: Story = {
         <TextInput
           label="Expiry"
           placeholder="MM/YY"
+          mode="number"
           withAsterisk
         />
         <TextInput
           label="CVV"
           placeholder="123"
+          mode="number"
           withAsterisk
         />
       </div>
+    </div>
+  ),
+  parameters: {
+    controls: { disable: true },
+  },
+}
+
+// Pricing Form Example
+export const PricingForm: Story = {
+  render: () => (
+    <div className="w-96 space-y-4">
+      <TextInput
+        label="Product Price"
+        mode="currency"
+        decimalPlaces={2}
+        placeholder="0.00"
+        leftSection={<FiDollarSign />}
+        description="Enter the product price"
+      />
+      <TextInput
+        label="Discount Percentage"
+        mode="positive-number"
+        placeholder="0"
+        rightSection={<FiPercent />}
+        description="Optional discount (0-100)"
+      />
+      <TextInput
+        label="Quantity"
+        mode="integer"
+        placeholder="1"
+        description="Number of items"
+      />
+      <TextInput
+        label="Tax Rate"
+        mode="decimal"
+        decimalPlaces={4}
+        placeholder="0.0000"
+        rightSection={<FiPercent />}
+        description="Tax rate (e.g., 0.0825 for 8.25%)"
+      />
     </div>
   ),
   parameters: {
@@ -642,13 +893,15 @@ export const VariantComparison: Story = {
   },
 }
 
-// Interactive Demo
+// Interactive Demo with Input Modes
 export const InteractiveValidation: Story = {
   render: () => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const [email, setEmail] = useState('')
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const [password, setPassword] = useState('')
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const [username, setUsername] = useState('')
 
     const emailError =
       email && !email.includes('@')
@@ -660,11 +913,32 @@ export const InteractiveValidation: Story = {
         ? 'Password must be at least 8 characters'
         : undefined
 
+    const usernameError =
+      username && username.length < 3
+        ? 'Username must be at least 3 characters'
+        : undefined
+
     return (
       <div className="w-96 space-y-4">
         <TextInput
+          label="Username"
+          placeholder="username123"
+          mode="alphanumeric"
+          withAsterisk
+          leftSection={<FiUser />}
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          error={usernameError}
+          rightSection={
+            username && !usernameError ? (
+              <FiCheck className="text-green-500" />
+            ) : undefined
+          }
+        />
+        <TextInput
           label="Email"
           placeholder="your@email.com"
+          mode="lowercase"
           withAsterisk
           leftSection={<FiMail />}
           value={email}
@@ -691,6 +965,41 @@ export const InteractiveValidation: Story = {
             ) : undefined
           }
         />
+      </div>
+    )
+  },
+  parameters: {
+    controls: { disable: true },
+  },
+}
+
+// Currency Formatting Demo
+export const CurrencyFormattingDemo: Story = {
+  render: () => {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const [amount, setAmount] = useState('')
+
+    return (
+      <div className="w-96 space-y-4">
+        <TextInput
+          label="Enter Amount"
+          mode="currency"
+          decimalPlaces={2}
+          leftSection={<FiDollarSign />}
+          placeholder="0.00"
+          value={amount}
+          onChange={(e) => setAmount(e.target.value)}
+          description="Try typing: 1234567.89"
+        />
+        <div className="rounded-lg bg-gray-50 p-4">
+          <p className="text-xs text-gray-600">
+            <strong>Display Value:</strong> {amount || '(empty)'}
+          </p>
+          <p className="text-xs text-gray-600">
+            <strong>Raw Value:</strong>{' '}
+            {amount ? amount.replaceAll(',', '') : '(empty)'}
+          </p>
+        </div>
       </div>
     )
   },
