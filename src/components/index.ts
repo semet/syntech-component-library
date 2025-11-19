@@ -46,6 +46,9 @@ export { type FieldsetProps } from './Fieldset/Fieldset'
 //Alert
 export { default as Alert } from './Alert/Alert'
 export { type AlertProps } from './Alert/Alert'
+//Modal
+export { default as Modal } from './Modal/Modal'
+export { type ModalProps } from './Modal/Modal'
 //Copy
 export { Copy } from './Copy/Copy'
 //Toast
