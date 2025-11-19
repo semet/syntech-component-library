@@ -87,6 +87,16 @@
   --animate-toast-exit-bottom: toast-exit-bottom 0.25s
     cubic-bezier(0.4, 0, 1, 1) forwards;
 
+  --animate-modal-overlay-enter: modal-overlay-enter 0.2s
+    cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  --animate-modal-overlay-exit: modal-overlay-exit 0.15s
+    cubic-bezier(0.4, 0, 1, 1) forwards;
+
+  --animate-modal-content-enter: modal-content-enter 0.3s
+    cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  --animate-modal-content-exit: modal-content-exit 0.2s
+    cubic-bezier(0.4, 0, 1, 1) forwards;
+
   @keyframes toast-enter-top {
     from {
       opacity: 0;
@@ -128,6 +138,143 @@
     to {
       opacity: 0;
       transform: translateY(1.5rem) scale(0.95);
+    }
+  }
+
+  /* Modal Animation Variables */
+  --animate-modal-overlay-enter: modal-overlay-enter 0.2s
+    cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  --animate-modal-overlay-exit: modal-overlay-exit 0.15s
+    cubic-bezier(0.4, 0, 1, 1) forwards;
+
+  --animate-modal-content-enter: modal-content-enter 0.3s
+    cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  --animate-modal-content-exit: modal-content-exit 0.2s
+    cubic-bezier(0.4, 0, 1, 1) forwards;
+
+  /* Overlay Animations */
+  @keyframes modal-overlay-enter {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes modal-overlay-exit {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+  }
+
+  /* Content Animations - Scale and Fade */
+  @keyframes modal-content-enter {
+    from {
+      opacity: 0;
+      transform: scale(0.95) translateY(-1rem);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+  }
+
+  @keyframes modal-content-exit {
+    from {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+    to {
+      opacity: 0;
+      transform: scale(0.95) translateY(-0.5rem);
+    }
+  }
+
+  /* Alternative: Slide from Top */
+  --animate-modal-content-slide-top-enter: modal-slide-top-enter 0.3s
+    cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  --animate-modal-content-slide-top-exit: modal-slide-top-exit 0.2s
+    cubic-bezier(0.4, 0, 1, 1) forwards;
+
+  @keyframes modal-slide-top-enter {
+    from {
+      opacity: 0;
+      transform: translateY(-2rem);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes modal-slide-top-exit {
+    from {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    to {
+      opacity: 0;
+      transform: translateY(-1.5rem);
+    }
+  }
+
+  /* Alternative: Slide from Bottom */
+  --animate-modal-content-slide-bottom-enter: modal-slide-bottom-enter 0.3s
+    cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  --animate-modal-content-slide-bottom-exit: modal-slide-bottom-exit 0.2s
+    cubic-bezier(0.4, 0, 1, 1) forwards;
+
+  @keyframes modal-slide-bottom-enter {
+    from {
+      opacity: 0;
+      transform: translateY(2rem);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes modal-slide-bottom-exit {
+    from {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    to {
+      opacity: 0;
+      transform: translateY(1.5rem);
+    }
+  }
+
+  /* Alternative: Zoom */
+  --animate-modal-content-zoom-enter: modal-zoom-enter 0.25s
+    cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  --animate-modal-content-zoom-exit: modal-zoom-exit 0.2s
+    cubic-bezier(0.4, 0, 1, 1) forwards;
+
+  @keyframes modal-zoom-enter {
+    from {
+      opacity: 0;
+      transform: scale(0.8);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes modal-zoom-exit {
+    from {
+      opacity: 1;
+      transform: scale(1);
+    }
+    to {
+      opacity: 0;
+      transform: scale(0.9);
     }
   }
 }

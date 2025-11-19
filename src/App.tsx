@@ -1,9 +1,9 @@
-import ComprehensiveTextInputExample from './examples/ComprehensiveTextInputExample'
+import ModalExamples from './examples/ModalExamples'
 
 export default function App() {
   return (
     <div className="mx-auto max-w-xl pt-4">
-      <ComprehensiveTextInputExample />
+      <ModalExamples />
     </div>
   )
 }
