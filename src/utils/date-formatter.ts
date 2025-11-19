@@ -7,6 +7,7 @@ import 'dayjs/locale/pt'
 import 'dayjs/locale/es'
 
 import dayjs from 'dayjs'
+import advancedFormat from 'dayjs/plugin/advancedFormat'
 import timezone from 'dayjs/plugin/timezone'
 import utc from 'dayjs/plugin/utc'
 
@@ -14,6 +15,7 @@ import type { DateFormat } from './date-helpers'
 
 dayjs.extend(utc)
 dayjs.extend(timezone)
+dayjs.extend(advancedFormat)
 
 export type Locale = 'en' | 'id' | 'zh' | 'vi' | 'th' | 'pt' | 'es'
 
