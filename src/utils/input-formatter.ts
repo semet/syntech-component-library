@@ -49,6 +49,12 @@ export function filterInput(
       // For integer mode, remove decimals
       if (mode === 'integer') {
         filtered = filtered.replaceAll('.', '')
+      } else {
+        // Handle multiple decimal points - keep only the first one
+        const parts = filtered.split('.')
+        if (parts.length > 2) {
+          filtered = parts[0] + '.' + parts.slice(1).join('')
+        }
       }
 
       return filtered
@@ -63,7 +69,15 @@ export function filterInput(
     }
 
     case 'currency': {
-      return value.replaceAll(/[^\d.-]/g, '').replaceAll(/(?!^)-/g, '')
+      let filtered = value.replaceAll(/[^\d.-]/g, '').replaceAll(/(?!^)-/g, '')
+
+      // Handle multiple decimal points - keep only the first one
+      const parts = filtered.split('.')
+      if (parts.length > 2) {
+        filtered = parts[0] + '.' + parts.slice(1).join('')
+      }
+
+      return filtered
     }
 
     case 'decimal': {
@@ -138,13 +152,18 @@ export function formatValue(
 
       // Combine with decimal part
       let formatted = integerPart
-      // Default 2 decimal places
+
+      // Only add decimal part if decimalPlaces is not 0
       if (decimalPart !== undefined) {
-        const limitedDecimal =
-          options?.decimalPlaces === undefined
-            ? decimalPart.slice(0, 2)
-            : decimalPart.slice(0, Math.max(0, options.decimalPlaces))
-        formatted += '.' + limitedDecimal
+        const decimalPlaces = options?.decimalPlaces ?? 2 // Default 2 decimal places
+
+        if (decimalPlaces > 0) {
+          const limitedDecimal = decimalPart.slice(
+            0,
+            Math.max(0, decimalPlaces),
+          )
+          formatted += '.' + limitedDecimal
+        }
       }
 
       return isNegative ? '-' + formatted : formatted
@@ -160,6 +179,12 @@ export function formatValue(
       // Format with specified decimal places
       if (options?.decimalPlaces !== undefined && value.includes('.')) {
         const parts = value.split('.')
+
+        // If decimalPlaces is 0, return only the integer part
+        if (options.decimalPlaces === 0) {
+          return parts[0]
+        }
+
         return (
           parts[0] + '.' + parts[1].slice(0, Math.max(0, options.decimalPlaces))
         )

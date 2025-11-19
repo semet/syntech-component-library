@@ -118,7 +118,7 @@ export default function ComprehensiveTextInputExample() {
                 {...register('decimal')}
                 label="Decimal"
                 mode="decimal"
-                decimalPlaces={4}
+                decimalPlaces={12}
                 description="Decimal numbers with up to 4 decimal places (e.g., 123.4567)"
                 placeholder="0.0000"
                 error={errors.decimal?.message}
