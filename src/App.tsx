@@ -1,9 +1,9 @@
-import SimpleFormExample from './examples/SimpleFormExample'
+import FileInputExample from './examples/FileInputExample'
 
 export default function App() {
   return (
     <>
-      <SimpleFormExample />
+      <FileInputExample />
     </>
   )
 }

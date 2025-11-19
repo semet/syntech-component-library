@@ -15,12 +15,19 @@ import {
 
 import TextInput from './TextInput'
 
-const meta = {
+const meta: Meta<typeof TextInput> = {
   title: 'Components/TextInput',
   component: TextInput,
   parameters: {
     layout: 'centered',
   },
+  decorators: [
+    (Story) => (
+      <div className="w-64">
+        <Story />
+      </div>
+    ),
+  ],
   tags: ['autodocs'],
   argTypes: {
     variant: {

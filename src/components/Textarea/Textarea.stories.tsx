@@ -3,12 +3,19 @@ import { useState } from 'react'
 
 import Textarea from './Textarea'
 
-const meta = {
+const meta: Meta<typeof Textarea> = {
   title: 'Components/Textarea',
   component: Textarea,
   parameters: {
     layout: 'centered',
   },
+  decorators: [
+    (Story) => (
+      <div className="w-72">
+        <Story />
+      </div>
+    ),
+  ],
   tags: ['autodocs'],
   argTypes: {
     variant: {

@@ -19,15 +19,7 @@ const meta: Meta<typeof ColorPicker> = {
   },
   decorators: [
     (Story) => (
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'flex-start',
-          minHeight: '100vh',
-          paddingTop: '2rem',
-        }}
-      >
+      <div className="w-64">
         <Story />
       </div>
     ),
