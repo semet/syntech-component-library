@@ -46,7 +46,6 @@ export default defineConfig({
     }),
   ],
   build: {
-    sourcemap: true,
     lib: {
       entry: {
         components: path.resolve(__dirname, 'src/components/index.ts'),
