@@ -38,7 +38,10 @@
     "./styles.css": "./dist/styles.css"
   },
   "files": [
-    "dist"
+    "dist/**/*.js",
+    "dist/**/*.cjs",
+    "dist/**/*.d.ts",
+    "dist/**/*.css"
   ],
   "scripts": {
     "dev": "vite",
