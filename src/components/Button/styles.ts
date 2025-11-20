@@ -7,7 +7,7 @@ export const buttonStyles = tv({
     leftSection: 'inline-flex shrink-0 items-center',
     rightSection: 'inline-flex shrink-0 items-center',
     loader: 'absolute inset-0 flex items-center justify-center',
-    loaderIcon: 'animate-spin',
+    loaderIcon: '',
   },
   variants: {
     variant: {
@@ -49,23 +49,23 @@ export const buttonStyles = tv({
     size: {
       xs: {
         root: 'h-7 px-3 text-xs',
-        loaderIcon: 'h-3.5 w-3.5',
+        loaderIcon: 'h-4 w-4',
       },
       sm: {
         root: 'h-8 px-4 text-sm',
-        loaderIcon: 'h-4 w-4',
+        loaderIcon: 'h-5 w-5',
       },
       md: {
         root: 'h-10 px-5 text-sm',
-        loaderIcon: 'h-4 w-4',
+        loaderIcon: 'h-5 w-5',
       },
       lg: {
         root: 'h-12 px-6 text-base',
-        loaderIcon: 'h-5 w-5',
+        loaderIcon: 'h-6 w-6',
       },
       xl: {
         root: 'h-14 px-8 text-lg',
-        loaderIcon: 'h-6 w-6',
+        loaderIcon: 'h-8 w-8',
       },
     },
     radius: {
@@ -113,6 +113,11 @@ export const buttonStyles = tv({
         inner: 'invisible',
       },
       false: {},
+    },
+    loaderType: {
+      oval: {},
+      dots: {},
+      bars: {},
     },
     compact: {
       true: {},
@@ -515,6 +520,7 @@ export const buttonStyles = tv({
     fullWidth: false,
     disabled: false,
     loading: false,
+    loaderType: 'oval',
     compact: false,
     withRing: true,
     hasGap: true,
