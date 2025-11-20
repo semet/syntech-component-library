@@ -9,7 +9,7 @@ import {
   useEffectEvent,
   startTransition,
 } from 'react'
-import { BiPalette, BiX } from 'react-icons/bi'
+import { BiX } from 'react-icons/bi'
 import { twMerge } from 'tailwind-merge'
 import type { VariantProps } from 'tailwind-variants'
 
@@ -36,6 +36,7 @@ interface ColorPickerClassNames {
   input?: string
   leftSection?: string
   rightSection?: string
+  clearButton?: string
   errorWrapper?: string
   error?: string
   picker?: string
@@ -61,7 +62,6 @@ export interface ColorPickerProps
   onChange?: (color: string) => void
   placeholder?: string
   format?: ColorFormat
-  withEyeDropper?: boolean
   swatches?: string[]
   swatchesPerRow?: number
   withPicker?: boolean
@@ -84,7 +84,6 @@ export default function ColorPicker({
   onChange,
   placeholder = 'Pick a color',
   format = 'hex',
-  withEyeDropper = false,
   swatches,
   swatchesPerRow = 7,
   withPicker = true,
@@ -134,6 +133,7 @@ export default function ColorPicker({
     radius,
     hasError: !!error,
     disabled,
+    hasClearButton: clearable && !!inputValue,
   })
 
   const handleClickOutside = useCallback((e: MouseEvent) => {
@@ -341,13 +341,7 @@ export default function ColorPicker({
           placeholder={placeholder}
           onClick={handleInputClick}
           onChange={handleInputChange}
-          className={twMerge([
-            styles.input(),
-            'pl-10',
-            (clearable || withEyeDropper) && 'pr-10',
-            className,
-            classNames?.input,
-          ])}
+          className={twMerge([styles.input(), className, classNames?.input])}
           aria-invalid={!!error}
           {...props}
         />
@@ -356,21 +350,10 @@ export default function ColorPicker({
           <button
             type="button"
             onClick={handleClear}
-            className="pointer-events-auto absolute top-1/2 right-2.5 flex -translate-y-1/2 items-center justify-center text-gray-400 transition-colors hover:text-gray-600"
+            className={twMerge([styles.clearButton(), classNames?.clearButton])}
           >
-            <BiX className="h-5 w-5" />
+            <BiX className="size-full" />
           </button>
-        )}
-
-        {withEyeDropper && !clearable && (
-          <div
-            className={twMerge([
-              styles.rightSection(),
-              classNames?.rightSection,
-            ])}
-          >
-            <BiPalette className="h-5 w-5" />
-          </div>
         )}
 
         {isOpen && withPicker && (

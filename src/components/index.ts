@@ -14,6 +14,17 @@ export { type DatePickerProps } from './DatePicker/DatePicker'
 //Select
 export { default as Select } from './Select/Select'
 export { type SelectProps } from './Select/Select'
+//Combobox
+export { default as ComboBox } from './ComboBox/ComboBox'
+export {
+  type ComboBoxProps,
+  type ComboBoxComponents,
+  type ComboBoxOption,
+  type ComboBoxSingleProps,
+  type ComboBoxMultipleProps,
+  type OptionComponentProps,
+  type SingleValueComponentProps,
+} from './ComboBox/ComboBox'
 //PasswordInput
 export { default as PasswordInput } from './PasswordInput/PasswordInput'
 export { type PasswordInputProps } from './PasswordInput/PasswordInput'

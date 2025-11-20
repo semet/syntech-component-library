@@ -10,8 +10,11 @@ export const datePickerStyles = tv({
     inputWrapper: 'relative w-full',
     input:
       'w-full cursor-pointer text-gray-900 transition-all duration-200 outline-none placeholder:text-gray-400',
+    calendarIcon: 'size-5',
     rightSection:
       'pointer-events-none absolute top-1/2 right-1 flex -translate-y-1/2 items-center justify-center text-gray-500',
+    clearButton:
+      'pointer-events-auto absolute top-1/2 flex -translate-y-1/2 items-center justify-center text-gray-400 transition-colors hover:text-gray-600',
     errorWrapper: 'absolute top-full left-0 w-full',
     error: 'text-xs text-red-600',
     calendar:
@@ -46,24 +49,34 @@ export const datePickerStyles = tv({
     },
     size: {
       xs: {
-        input: 'h-7 px-2 text-xs',
+        input: 'h-7 text-xs',
         rightSection: 'w-6',
+        calendarIcon: 'size-4',
+        clearButton: 'size-4',
       },
       sm: {
-        input: 'h-9 px-3 text-sm',
+        input: 'h-9 text-sm',
         rightSection: 'w-8',
+        calendarIcon: 'size-5',
+        clearButton: 'size-5',
       },
       md: {
-        input: 'h-10 px-4 text-base',
+        input: 'h-10 text-base',
         rightSection: 'w-10',
+        calendarIcon: 'size-6',
+        clearButton: 'size-6',
       },
       lg: {
-        input: 'h-12 px-4 text-lg',
+        input: 'h-12 text-lg',
         rightSection: 'w-12',
+        calendarIcon: 'size-7',
+        clearButton: 'size-7',
       },
       xl: {
-        input: 'h-14 px-4 text-xl',
+        input: 'h-14 text-xl',
         rightSection: 'w-14',
+        calendarIcon: 'size-8',
+        clearButton: 'size-8',
       },
     },
     radius: {
@@ -94,10 +107,204 @@ export const datePickerStyles = tv({
         input: 'cursor-not-allowed bg-gray-50 opacity-60',
       },
     },
+    // Icon position variant
+    iconPosition: {
+      left: {},
+      right: {},
+    },
+    // Clearable and has selected value
+    hasClearButton: {
+      true: {},
+      false: {},
+    },
   },
+  compoundVariants: [
+    //without clear button and icon on the right
+    {
+      iconPosition: 'right',
+      hasClearButton: false,
+      size: 'xs',
+      class: {
+        input: 'pr-8 pl-2',
+        clearButton: 'right-7',
+      },
+    },
+    {
+      iconPosition: 'right',
+      hasClearButton: false,
+      size: 'sm',
+      class: {
+        input: 'pr-10 pl-3',
+        clearButton: 'right-9',
+      },
+    },
+    {
+      iconPosition: 'right',
+      hasClearButton: false,
+      size: 'md',
+      class: {
+        input: 'pr-12 pl-4',
+        clearButton: 'right-11',
+      },
+    },
+    {
+      iconPosition: 'right',
+      hasClearButton: false,
+      size: 'lg',
+      class: {
+        input: 'pr-14 pl-4',
+        clearButton: 'right-13',
+      },
+    },
+    {
+      iconPosition: 'right',
+      hasClearButton: false,
+      size: 'xl',
+      class: {
+        input: 'pr-16 pl-4',
+        clearButton: 'right-15',
+      },
+    },
+    // Clear button positioning when icon is on the right
+    {
+      iconPosition: 'right',
+      hasClearButton: true,
+      size: 'xs',
+      class: {
+        input: 'pr-12! pl-2',
+        clearButton: 'right-7',
+      },
+    },
+    {
+      iconPosition: 'right',
+      hasClearButton: true,
+      size: 'sm',
+      class: {
+        input: 'pr-16! pl-3',
+        clearButton: 'right-9',
+      },
+    },
+    {
+      iconPosition: 'right',
+      hasClearButton: true,
+      size: 'md',
+      class: {
+        input: 'pr-20! pl-4',
+        clearButton: 'right-11',
+      },
+    },
+    {
+      iconPosition: 'right',
+      hasClearButton: true,
+      size: 'lg',
+      class: {
+        input: 'pr-24! pl-4',
+        clearButton: 'right-13',
+      },
+    },
+    {
+      iconPosition: 'right',
+      hasClearButton: true,
+      size: 'xl',
+      class: {
+        input: 'pr-28! pl-4',
+        clearButton: 'right-15',
+      },
+    },
+    // Clear button positioning when icon is on the left
+    {
+      iconPosition: 'left',
+      hasClearButton: true,
+      size: 'xs',
+      class: {
+        input: 'pr-7! pl-8',
+        clearButton: 'right-2',
+      },
+    },
+    {
+      iconPosition: 'left',
+      hasClearButton: true,
+      size: 'sm',
+      class: {
+        input: 'pr-9! pl-9',
+        clearButton: 'right-2.5',
+      },
+    },
+    {
+      iconPosition: 'left',
+      hasClearButton: true,
+      size: 'md',
+      class: {
+        input: 'pr-11! pl-10',
+        clearButton: 'right-3',
+      },
+    },
+    {
+      iconPosition: 'left',
+      hasClearButton: true,
+      size: 'lg',
+      class: {
+        input: 'pr-13! pl-11',
+        clearButton: 'right-3.5',
+      },
+    },
+    {
+      iconPosition: 'left',
+      hasClearButton: true,
+      size: 'xl',
+      class: {
+        input: 'pr-15! pl-12',
+        clearButton: 'right-4',
+      },
+    },
+    // Icon on the left and no clear button
+    {
+      iconPosition: 'left',
+      hasClearButton: false,
+      size: 'xs',
+      class: {
+        input: 'pr-2 pl-8',
+        calendarIcon: 'left-2',
+      },
+    },
+    {
+      iconPosition: 'left',
+      hasClearButton: false,
+      size: 'sm',
+      class: {
+        input: 'pr-3 pl-9!',
+      },
+    },
+    {
+      iconPosition: 'left',
+      hasClearButton: false,
+      size: 'md',
+      class: {
+        input: 'pr-4 pl-10',
+      },
+    },
+    {
+      iconPosition: 'left',
+      hasClearButton: false,
+      size: 'lg',
+      class: {
+        input: 'pr-5 pl-11',
+      },
+    },
+    {
+      iconPosition: 'left',
+      hasClearButton: false,
+      size: 'xl',
+      class: {
+        input: 'pr-6 pl-12',
+      },
+    },
+  ],
   defaultVariants: {
     variant: 'default',
     size: 'sm',
     radius: 'sm',
+    iconPosition: 'right',
+    hasClearButton: false,
   },
 })

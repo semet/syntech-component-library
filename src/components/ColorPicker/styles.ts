@@ -11,9 +11,11 @@ export const colorPickerStyles = tv({
     input:
       'w-full cursor-pointer text-gray-900 transition-all duration-200 outline-none placeholder:text-gray-400',
     leftSection:
-      'pointer-events-none absolute top-1/2 left-2.5 flex -translate-y-1/2 items-center justify-center',
+      'pointer-events-none absolute top-1/2 flex -translate-y-1/2 items-center justify-center',
     rightSection:
-      'pointer-events-none absolute top-1/2 right-2.5 flex -translate-y-1/2 items-center justify-center text-gray-500',
+      'pointer-events-none absolute top-1/2 flex -translate-y-1/2 items-center justify-center text-gray-500',
+    clearButton:
+      'pointer-events-auto absolute top-1/2 flex -translate-y-1/2 items-center justify-center text-gray-400 transition-colors hover:text-gray-600',
     errorWrapper: 'absolute top-full left-0 w-full',
     error: 'text-xs text-red-600',
     picker:
@@ -30,10 +32,9 @@ export const colorPickerStyles = tv({
       'absolute top-1/2 size-4 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-white shadow-md',
     swatchesGrid: 'mt-3 grid grid-cols-7 gap-2 border-t border-gray-200 pt-3',
     swatch:
-      'h-7 w-7 cursor-pointer rounded-md border-2 border-gray-200 transition-colors hover:border-gray-400',
+      'size-7 cursor-pointer rounded-md border-2 border-gray-200 transition-colors hover:border-gray-400',
     swatchSelected: 'border-blue-400 ring-2 ring-blue-300 ring-offset-1',
-    colorSwatch:
-      'h-6 w-6 cursor-pointer rounded border border-gray-300 shadow-sm',
+    colorSwatch: 'cursor-pointer rounded border border-gray-300 shadow-sm',
   },
   variants: {
     variant: {
@@ -51,29 +52,39 @@ export const colorPickerStyles = tv({
     },
     size: {
       xs: {
-        input: 'h-7 px-2 text-xs',
-        leftSection: 'left-2',
+        input: 'h-7 text-xs',
+        leftSection: 'left-2.5',
         rightSection: 'right-2',
+        colorSwatch: 'size-4',
+        clearButton: 'size-4',
       },
       sm: {
-        input: 'h-9 px-3 text-sm',
-        leftSection: 'left-2.5',
+        input: 'h-9 text-sm',
+        leftSection: 'left-3',
         rightSection: 'right-2.5',
+        colorSwatch: 'size-4.5',
+        clearButton: 'size-5',
       },
       md: {
-        input: 'h-10 px-4 text-base',
+        input: 'h-10 text-base',
         leftSection: 'left-3',
         rightSection: 'right-3',
+        colorSwatch: 'size-5',
+        clearButton: 'size-6',
       },
       lg: {
-        input: 'h-12 px-4 text-lg',
-        leftSection: 'left-3',
+        input: 'h-12 text-lg',
+        leftSection: 'left-3.5',
         rightSection: 'right-3',
+        colorSwatch: 'size-6',
+        clearButton: 'size-7',
       },
       xl: {
-        input: 'h-14 px-4 text-xl',
-        leftSection: 'left-3',
-        rightSection: 'right-3',
+        input: 'h-14 text-xl',
+        leftSection: 'left-4',
+        rightSection: 'right-3 w-14',
+        colorSwatch: 'size-6',
+        clearButton: 'size-8',
       },
     },
     radius: {
@@ -104,10 +115,99 @@ export const colorPickerStyles = tv({
         input: 'cursor-not-allowed bg-gray-50 opacity-60',
       },
     },
+    hasClearButton: {
+      true: {},
+      false: {},
+    },
   },
+  compoundVariants: [
+    // Clear button positioning and input padding
+    {
+      hasClearButton: true,
+      size: 'xs',
+      class: {
+        input: 'px-8!',
+        clearButton: 'right-2',
+      },
+    },
+    {
+      hasClearButton: true,
+      size: 'sm',
+      class: {
+        input: 'px-9!',
+        clearButton: 'right-2.5',
+      },
+    },
+    {
+      hasClearButton: true,
+      size: 'md',
+      class: {
+        input: 'px-10!',
+        clearButton: 'right-3',
+      },
+    },
+    {
+      hasClearButton: true,
+      size: 'lg',
+      class: {
+        input: 'px-11!',
+        clearButton: 'right-3.5',
+      },
+    },
+    {
+      hasClearButton: true,
+      size: 'xl',
+      class: {
+        input: 'px-12!',
+        clearButton: 'right-4',
+      },
+    },
+    //without clear button
+    {
+      hasClearButton: false,
+      size: 'xs',
+      class: {
+        input: 'pr-2 pl-8!',
+        clearButton: 'right-2',
+      },
+    },
+    {
+      hasClearButton: false,
+      size: 'sm',
+      class: {
+        input: 'pr-3 pl-9!',
+        clearButton: 'right-2.5',
+      },
+    },
+    {
+      hasClearButton: false,
+      size: 'md',
+      class: {
+        input: 'pr-4 pl-10!',
+        clearButton: 'right-3',
+      },
+    },
+    {
+      hasClearButton: false,
+      size: 'lg',
+      class: {
+        input: 'pr-4 pl-11!',
+        clearButton: 'right-3.5',
+      },
+    },
+    {
+      hasClearButton: false,
+      size: 'xl',
+      class: {
+        input: 'pr-4 pl-12!',
+        clearButton: 'right-4',
+      },
+    },
+  ],
   defaultVariants: {
     variant: 'default',
     size: 'sm',
     radius: 'sm',
+    hasClearButton: false,
   },
 })
