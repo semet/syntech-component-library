@@ -1,8 +1,8 @@
 import type { ComponentPropsWithoutRef, ElementType, ReactNode } from 'react'
-import { ImSpinner8 } from 'react-icons/im'
 import { twMerge } from 'tailwind-merge'
 import type { VariantProps } from 'tailwind-variants'
 
+import { OvalLoader, DotsLoader, BarsLoader } from '@/icons'
 import type { PolymorphicAsProp } from '@/types/common'
 
 import { buttonStyles } from './styles'
@@ -18,10 +18,13 @@ export interface ButtonClassNames {
   loaderIcon?: string
 }
 
+type LoaderType = 'oval' | 'dots' | 'bars'
+
 type PolymorphicProps<E extends ElementType> = PolymorphicAsProp<E> &
   Omit<ComponentPropsWithoutRef<E>, keyof PolymorphicAsProp<E> | 'disabled'> &
   ButtonStylesProps & {
     loading?: boolean
+    loaderType?: LoaderType
     leftSection?: ReactNode
     rightSection?: ReactNode
     disabled?: boolean
@@ -29,6 +32,12 @@ type PolymorphicProps<E extends ElementType> = PolymorphicAsProp<E> &
   }
 
 export type ButtonProps<E extends ElementType = 'button'> = PolymorphicProps<E>
+
+const loaderComponents = {
+  oval: OvalLoader,
+  dots: DotsLoader,
+  bars: BarsLoader,
+}
 
 export default function Button<E extends React.ElementType = 'button'>({
   as,
@@ -43,6 +52,7 @@ export default function Button<E extends React.ElementType = 'button'>({
   className,
   classNames,
   loading = false,
+  loaderType = 'oval',
   disabled = false,
   leftSection,
   rightSection,
@@ -64,6 +74,8 @@ export default function Button<E extends React.ElementType = 'button'>({
     disabled: disabled || loading,
     hasGap,
   })
+
+  const LoaderComponent = loaderComponents[loaderType]
 
   const componentProps = {
     className: twMerge([styles.root(), className, classNames?.root]),
@@ -95,7 +107,7 @@ export default function Button<E extends React.ElementType = 'button'>({
       </div>
       {loading && (
         <div className={twMerge([styles.loader(), classNames?.loader])}>
-          <ImSpinner8
+          <LoaderComponent
             className={twMerge([styles.loaderIcon(), classNames?.loaderIcon])}
           />
         </div>
