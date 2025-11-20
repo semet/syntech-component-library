@@ -96,119 +96,173 @@ export const textInputStyles = tv({
     },
   },
   compoundVariants: [
-    // Base padding for variant and size
+    // No sections - apply horizontal padding
     {
-      variant: 'default',
+      variant: ['default', 'filled'],
       size: 'xs',
+      hasLeftSection: false,
+      hasRightSection: false,
       class: {
         input: 'px-2',
       },
     },
     {
-      variant: 'default',
+      variant: ['default', 'filled'],
       size: 'sm',
+      hasLeftSection: false,
+      hasRightSection: false,
       class: {
         input: 'px-3',
       },
     },
     {
-      variant: 'default',
+      variant: ['default', 'filled'],
       size: ['md', 'lg', 'xl'],
+      hasLeftSection: false,
+      hasRightSection: false,
       class: {
         input: 'px-4',
       },
     },
+
+    // Only left section - apply specific left and right padding
     {
-      variant: 'filled',
+      variant: ['default', 'filled'],
       size: 'xs',
+      hasLeftSection: true,
+      hasRightSection: false,
       class: {
-        input: 'px-2',
+        input: 'pr-2 pl-7',
       },
     },
     {
-      variant: 'filled',
+      variant: ['default', 'filled'],
       size: 'sm',
-      class: {
-        input: 'px-3',
-      },
-    },
-    {
-      variant: 'filled',
-      size: ['md', 'lg', 'xl'],
-      class: {
-        input: 'px-4',
-      },
-    },
-    // Left section padding
-    {
       hasLeftSection: true,
-      size: 'xs',
+      hasRightSection: false,
       class: {
-        input: 'pl-7!',
+        input: 'pr-3 pl-9',
       },
     },
     {
-      hasLeftSection: true,
-      size: 'sm',
-      class: {
-        input: 'pl-9!',
-      },
-    },
-    {
-      hasLeftSection: true,
+      variant: ['default', 'filled'],
       size: 'md',
+      hasLeftSection: true,
+      hasRightSection: false,
       class: {
-        input: 'pl-11!',
+        input: 'pr-4 pl-11',
       },
     },
     {
-      hasLeftSection: true,
+      variant: ['default', 'filled'],
       size: 'lg',
-      class: {
-        input: 'pl-13!',
-      },
-    },
-    {
       hasLeftSection: true,
-      size: 'xl',
+      hasRightSection: false,
       class: {
-        input: 'pl-15!',
+        input: 'pr-4 pl-13',
       },
     },
-    // Right section padding
     {
-      hasRightSection: true,
+      variant: ['default', 'filled'],
+      size: 'xl',
+      hasLeftSection: true,
+      hasRightSection: false,
+      class: {
+        input: 'pr-4 pl-15',
+      },
+    },
+
+    // Only right section - apply specific left and right padding
+    {
+      variant: ['default', 'filled'],
       size: 'xs',
+      hasLeftSection: false,
+      hasRightSection: true,
       class: {
-        input: 'pr-7!',
+        input: 'pr-7 pl-2',
       },
     },
     {
-      hasRightSection: true,
+      variant: ['default', 'filled'],
       size: 'sm',
+      hasLeftSection: false,
+      hasRightSection: true,
       class: {
-        input: 'pr-9!',
+        input: 'pr-9 pl-3',
       },
     },
     {
-      hasRightSection: true,
+      variant: ['default', 'filled'],
       size: 'md',
+      hasLeftSection: false,
+      hasRightSection: true,
       class: {
-        input: 'pr-11!',
+        input: 'pr-11 pl-4',
       },
     },
     {
-      hasRightSection: true,
+      variant: ['default', 'filled'],
       size: 'lg',
+      hasLeftSection: false,
+      hasRightSection: true,
       class: {
-        input: 'pr-13!',
+        input: 'pr-13 pl-4',
       },
     },
     {
-      hasRightSection: true,
+      variant: ['default', 'filled'],
       size: 'xl',
+      hasLeftSection: false,
+      hasRightSection: true,
       class: {
-        input: 'pr-15!',
+        input: 'pr-15 pl-4',
+      },
+    },
+
+    // Both sections - apply both specific paddings
+    {
+      variant: ['default', 'filled'],
+      size: 'xs',
+      hasLeftSection: true,
+      hasRightSection: true,
+      class: {
+        input: 'pr-7 pl-7',
+      },
+    },
+    {
+      variant: ['default', 'filled'],
+      size: 'sm',
+      hasLeftSection: true,
+      hasRightSection: true,
+      class: {
+        input: 'pr-9 pl-9',
+      },
+    },
+    {
+      variant: ['default', 'filled'],
+      size: 'md',
+      hasLeftSection: true,
+      hasRightSection: true,
+      class: {
+        input: 'pr-11 pl-11',
+      },
+    },
+    {
+      variant: ['default', 'filled'],
+      size: 'lg',
+      hasLeftSection: true,
+      hasRightSection: true,
+      class: {
+        input: 'pr-13 pl-13',
+      },
+    },
+    {
+      variant: ['default', 'filled'],
+      size: 'xl',
+      hasLeftSection: true,
+      hasRightSection: true,
+      class: {
+        input: 'pr-15 pl-15',
       },
     },
   ],
