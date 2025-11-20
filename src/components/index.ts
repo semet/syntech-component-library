@@ -63,6 +63,9 @@ export { type ModalProps } from './Modal/Modal'
 //FormattedDate
 export { default as FormattedDate } from './FormattedDate/FormattedDate'
 export { type FormattedDateProps } from './FormattedDate/FormattedDate'
+//Tabs
+export { default as Tabs } from './Tabs/Tabs'
+export { type TabsProps } from './Tabs/Tabs'
 //Copy
 export { Copy } from './Copy/Copy'
 //Toast

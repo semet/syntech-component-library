@@ -1,9 +1,9 @@
-import SimpleFormExample from './examples/SimpleFormExample'
+import TabsExample from './examples/TabsExample'
 
 export default function App() {
   return (
-    <div className="mx-auto max-w-xl pt-4">
-      <SimpleFormExample />
+    <div className="mx-auto max-w-4xl pt-4">
+      <TabsExample />
     </div>
   )
 }
