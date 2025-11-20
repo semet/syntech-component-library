@@ -184,6 +184,7 @@ export default function SimpleFormExample() {
               placeholder="Type your username"
               {...register('username')}
               error={errors.username?.message as string}
+              size="sm"
             />
             <TextInput
               label="Email "
@@ -191,6 +192,7 @@ export default function SimpleFormExample() {
               {...register('email')}
               error={errors.email?.message as string}
               leftSection={<FaEnvelope />}
+              size="sm"
             />
             <PasswordInput
               label="Password"
@@ -263,8 +265,16 @@ export default function SimpleFormExample() {
                   iconPosition="left"
                   minDate={new Date()}
                   error={errors.start_date?.message as string}
+                  size="md"
                 />
               )}
+            />
+            <TextInput
+              label="Username"
+              placeholder="Type your username"
+              {...register('username')}
+              error={errors.username?.message as string}
+              size="md"
             />
             <Controller
               control={control}
@@ -277,7 +287,7 @@ export default function SimpleFormExample() {
                   onChange={field.onChange}
                   withAsterisk
                   clearable
-                  iconPosition="left"
+                  iconPosition="right"
                 />
               )}
             />

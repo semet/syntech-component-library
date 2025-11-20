@@ -77,39 +77,18 @@ export default function TextInput({
   const id = useId()
   const [internalValue, setInternalValue] = useState('')
 
+  const hasLeftSection = !!leftSection
+  const hasRightSection = !!rightSection
+
   const styles = textInputStyles({
     variant,
     size,
     radius,
     hasError: !!error,
     disabled,
+    hasLeftSection,
+    hasRightSection,
   })
-
-  const hasLeftSection = !!leftSection
-  const hasRightSection = !!rightSection
-
-  const sizeMap: Record<NonNullable<TextInputStylesProps['size']>, string> = {
-    xs: hasLeftSection ? 'pl-7' : '',
-    sm: hasLeftSection ? 'pl-9' : '',
-    md: hasLeftSection ? 'pl-11' : '',
-    lg: hasLeftSection ? 'pl-13' : '',
-    xl: hasLeftSection ? 'pl-15' : '',
-  }
-
-  const paddingLeft = sizeMap[size || 'sm']
-
-  const rightSizeMap: Record<
-    NonNullable<TextInputStylesProps['size']>,
-    string
-  > = {
-    xs: hasRightSection ? 'pr-7' : '',
-    sm: hasRightSection ? 'pr-9' : '',
-    md: hasRightSection ? 'pr-11' : '',
-    lg: hasRightSection ? 'pr-13' : '',
-    xl: hasRightSection ? 'pr-15' : '',
-  }
-
-  const paddingRight = rightSizeMap[size || 'sm']
 
   const handleChange = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {
@@ -285,13 +264,7 @@ export default function TextInput({
           onChange={handleChange}
           onKeyDown={handleKeyDown}
           type={props.type || 'text'}
-          className={twMerge([
-            styles.input(),
-            paddingLeft,
-            paddingRight,
-            className,
-            classNames?.input,
-          ])}
+          className={twMerge([styles.input(), className, classNames?.input])}
           {...props}
         />
 

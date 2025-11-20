@@ -37,41 +37,25 @@ const DAY_NAMES = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
  * ```
  */
 export interface DatePickerClassNames {
-  /** Root wrapper element */
   wrapper?: string
-  /** Label wrapper container */
   labelWrapper?: string
-  /** Label text element */
   label?: string
-  /** Required asterisk (*) indicator */
   asterisk?: string
-  /** Description text below label */
   description?: string
-  /** Input field wrapper container */
   inputWrapper?: string
-  /** Input field element */
   input?: string
-  /** Icon section on the right side */
+  calendarIcon?: string
   rightSection?: string
-  /** Error message wrapper */
+  clearButton?: string
   errorWrapper?: string
-  /** Error message text */
   error?: string
-  /** Calendar dropdown container */
   calendar?: string
-  /** Calendar header with navigation */
   calendarHeader?: string
-  /** Calendar navigation buttons */
   calendarButton?: string
-  /** Calendar title (month/year display) */
   calendarTitle?: string
-  /** Day names grid (Mon, Tue, etc.) */
   dayNamesGrid?: string
-  /** Individual day name cell */
   dayName?: string
-  /** Days grid container */
   daysGrid?: string
-  /** Individual day button */
   dayButton?: string
 }
 
@@ -353,6 +337,8 @@ export default function DatePicker({
     radius,
     hasError: !!error,
     disabled,
+    iconPosition,
+    hasClearButton: clearable && !!selectedDate,
   })
 
   const adjustedCalendarData = useMemo(() => {
@@ -714,7 +700,14 @@ export default function DatePicker({
               classNames?.rightSection,
             ])}
           >
-            {calendarIcon || <BiCalendar className="size-5" />}
+            {calendarIcon || (
+              <BiCalendar
+                className={twMerge([
+                  styles.calendarIcon(),
+                  classNames?.calendarIcon,
+                ])}
+              />
+            )}
           </div>
         )}
 
@@ -725,14 +718,7 @@ export default function DatePicker({
           value={formatDate(selectedDate)}
           placeholder={placeholder}
           onClick={handleInputClick}
-          className={twMerge([
-            styles.input(),
-            iconPosition === 'left' && 'pl-10',
-            iconPosition === 'right' && clearable && selectedDate && 'pr-16',
-            iconPosition === 'left' && clearable && selectedDate && 'pr-10',
-            className,
-            classNames?.input,
-          ])}
+          className={twMerge([styles.input(), className, classNames?.input])}
           aria-invalid={!!error}
           {...props}
         />
@@ -741,12 +727,9 @@ export default function DatePicker({
           <button
             type="button"
             onClick={handleClear}
-            className={twMerge([
-              'pointer-events-auto absolute top-1/2 flex -translate-y-1/2 items-center justify-center text-gray-400 transition-colors hover:text-gray-600',
-              iconPosition === 'right' ? 'right-10' : 'right-2.5',
-            ])}
+            className={twMerge([styles.clearButton(), classNames?.clearButton])}
           >
-            <BiX />
+            <BiX className="size-full" />
           </button>
         )}
 
@@ -757,7 +740,14 @@ export default function DatePicker({
               classNames?.rightSection,
             ])}
           >
-            {calendarIcon || <BiCalendar className="size-5" />}
+            {calendarIcon || (
+              <BiCalendar
+                className={twMerge([
+                  styles.calendarIcon(),
+                  classNames?.calendarIcon,
+                ])}
+              />
+            )}
           </div>
         )}
 

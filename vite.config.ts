@@ -89,4 +89,7 @@ export default defineConfig({
     },
     cssCodeSplit: false,
   },
+  server: {
+    port: 5174,
+  },
 })

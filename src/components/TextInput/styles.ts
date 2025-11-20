@@ -86,8 +86,17 @@ export const textInputStyles = tv({
         input: 'cursor-not-allowed bg-gray-50 opacity-60',
       },
     },
+    hasLeftSection: {
+      true: {},
+      false: {},
+    },
+    hasRightSection: {
+      true: {},
+      false: {},
+    },
   },
   compoundVariants: [
+    // Base padding for variant and size
     {
       variant: 'default',
       size: 'xs',
@@ -128,6 +137,78 @@ export const textInputStyles = tv({
       size: ['md', 'lg', 'xl'],
       class: {
         input: 'px-4',
+      },
+    },
+    // Left section padding
+    {
+      hasLeftSection: true,
+      size: 'xs',
+      class: {
+        input: 'pl-7!',
+      },
+    },
+    {
+      hasLeftSection: true,
+      size: 'sm',
+      class: {
+        input: 'pl-9!',
+      },
+    },
+    {
+      hasLeftSection: true,
+      size: 'md',
+      class: {
+        input: 'pl-11!',
+      },
+    },
+    {
+      hasLeftSection: true,
+      size: 'lg',
+      class: {
+        input: 'pl-13!',
+      },
+    },
+    {
+      hasLeftSection: true,
+      size: 'xl',
+      class: {
+        input: 'pl-15!',
+      },
+    },
+    // Right section padding
+    {
+      hasRightSection: true,
+      size: 'xs',
+      class: {
+        input: 'pr-7!',
+      },
+    },
+    {
+      hasRightSection: true,
+      size: 'sm',
+      class: {
+        input: 'pr-9!',
+      },
+    },
+    {
+      hasRightSection: true,
+      size: 'md',
+      class: {
+        input: 'pr-11!',
+      },
+    },
+    {
+      hasRightSection: true,
+      size: 'lg',
+      class: {
+        input: 'pr-13!',
+      },
+    },
+    {
+      hasRightSection: true,
+      size: 'xl',
+      class: {
+        input: 'pr-15!',
       },
     },
   ],
@@ -135,5 +216,7 @@ export const textInputStyles = tv({
     variant: 'default',
     size: 'sm',
     radius: 'sm',
+    hasLeftSection: false,
+    hasRightSection: false,
   },
 })

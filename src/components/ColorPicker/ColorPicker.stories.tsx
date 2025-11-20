@@ -62,10 +62,6 @@ const meta: Meta<typeof ColorPicker> = {
       control: 'boolean',
       description: 'Show color picker dropdown',
     },
-    withEyeDropper: {
-      control: 'boolean',
-      description: 'Show eye dropper icon',
-    },
     disallowInput: {
       control: 'boolean',
       description: 'Prevent manual input',
@@ -85,6 +81,10 @@ const meta: Meta<typeof ColorPicker> = {
     placeholder: {
       control: 'text',
       description: 'Placeholder text',
+    },
+    swatchesPerRow: {
+      control: 'number',
+      description: 'Number of swatches per row',
     },
   },
 } satisfies Meta<typeof ColorPicker>
@@ -449,14 +449,6 @@ export const DisallowInput: Story = {
         disallowInput
       />
     )
-  },
-}
-
-export const WithEyeDropper: Story = {
-  args: {
-    label: 'Color Picker',
-    withEyeDropper: true,
-    value: '#3b82f6',
   },
 }
 
