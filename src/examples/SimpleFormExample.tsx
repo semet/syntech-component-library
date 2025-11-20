@@ -192,7 +192,6 @@ export default function SimpleFormExample() {
               {...register('email')}
               error={errors.email?.message as string}
               leftSection={<FaEnvelope />}
-              size="sm"
             />
             <PasswordInput
               label="Password"
