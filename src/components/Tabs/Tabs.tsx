@@ -5,6 +5,7 @@ import {
   type ReactNode,
   type ComponentPropsWithoutRef,
   type ElementType,
+  useCallback,
 } from 'react'
 import { twMerge } from 'tailwind-merge'
 import type { VariantProps } from 'tailwind-variants'
@@ -103,12 +104,15 @@ function Tab({
   const { value: activeValue, onChange, styles, classNames } = useTabsContext()
   const isActive = activeValue === value
 
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    if (!disabled) {
-      onChange(value)
-      onClick?.(event)
-    }
-  }
+  const handleClick = useCallback(
+    (event: React.MouseEvent<HTMLButtonElement>) => {
+      if (!disabled) {
+        onChange(value)
+        onClick?.(event)
+      }
+    },
+    [disabled, onChange, onClick, value],
+  )
 
   return (
     <button
@@ -199,12 +203,15 @@ function Tabs({
   const isControlled = controlledValue !== undefined
   const value = isControlled ? controlledValue : uncontrolledValue
 
-  const handleChange = (newValue: string) => {
-    if (!isControlled) {
-      setUncontrolledValue(newValue)
-    }
-    onChange?.(newValue)
-  }
+  const handleChange = useCallback(
+    (newValue: string) => {
+      if (!isControlled) {
+        setUncontrolledValue(newValue)
+      }
+      onChange?.(newValue)
+    },
+    [isControlled, onChange],
+  )
 
   const styles = tabsStyles({
     variant,
