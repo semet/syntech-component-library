@@ -1,4 +1,4 @@
-import type { ComponentPropsWithoutRef, ElementType, ReactNode } from 'react'
+import type { ComponentPropsWithRef, ElementType, ReactNode } from 'react'
 import { createContext, useContext } from 'react'
 import { twMerge } from 'tailwind-merge'
 import type { VariantProps } from 'tailwind-variants'
@@ -17,7 +17,7 @@ export interface CardClassNames {
 }
 
 type CardPolymorphicProps<E extends ElementType> = PolymorphicAsProp<E> &
-  Omit<ComponentPropsWithoutRef<E>, keyof PolymorphicAsProp<E>> &
+  Omit<ComponentPropsWithRef<E>, keyof PolymorphicAsProp<E>> &
   CardStylesProps & {
     children?: ReactNode
     classNames?: CardClassNames
@@ -26,7 +26,7 @@ type CardPolymorphicProps<E extends ElementType> = PolymorphicAsProp<E> &
 export type CardProps<E extends ElementType = 'div'> = CardPolymorphicProps<E>
 
 type CardSectionPolymorphicProps<E extends ElementType> = PolymorphicAsProp<E> &
-  Omit<ComponentPropsWithoutRef<E>, keyof PolymorphicAsProp<E>> & {
+  Omit<ComponentPropsWithRef<E>, keyof PolymorphicAsProp<E>> & {
     children?: ReactNode
   }
 
@@ -47,6 +47,7 @@ function Card<E extends ElementType = 'div'>({
   scrollable,
   className,
   classNames,
+  ref,
   ...props
 }: CardProps<E>) {
   const Component = as || 'div'
@@ -60,8 +61,9 @@ function Card<E extends ElementType = 'div'>({
 
   const componentProps = {
     className: twMerge([styles.root(), className, classNames?.root]),
+    ref,
     ...props,
-  } as ComponentPropsWithoutRef<E>
+  } as ComponentPropsWithRef<E>
 
   return (
     <CardContext.Provider value={{ styles, classNames }}>
@@ -74,6 +76,7 @@ function CardHeader<E extends ElementType = 'div'>({
   as,
   children,
   className,
+  ref,
   ...props
 }: CardSectionProps<E>) {
   const context = useContext(CardContext)
@@ -86,8 +89,9 @@ function CardHeader<E extends ElementType = 'div'>({
 
   const componentProps = {
     className: twMerge([styles.header(), className, classNames?.header]),
+    ref,
     ...props,
-  } as ComponentPropsWithoutRef<E>
+  } as ComponentPropsWithRef<E>
 
   return <Component {...componentProps}>{children}</Component>
 }
@@ -96,6 +100,7 @@ function CardBody<E extends ElementType = 'div'>({
   as,
   children,
   className,
+  ref,
   ...props
 }: CardSectionProps<E>) {
   const context = useContext(CardContext)
@@ -108,8 +113,9 @@ function CardBody<E extends ElementType = 'div'>({
 
   const componentProps = {
     className: twMerge([styles.body(), className, classNames?.body]),
+    ref,
     ...props,
-  } as ComponentPropsWithoutRef<E>
+  } as ComponentPropsWithRef<E>
 
   return <Component {...componentProps}>{children}</Component>
 }
@@ -118,6 +124,7 @@ function CardFooter<E extends ElementType = 'div'>({
   as,
   children,
   className,
+  ref,
   ...props
 }: CardSectionProps<E>) {
   const context = useContext(CardContext)
@@ -130,8 +137,9 @@ function CardFooter<E extends ElementType = 'div'>({
 
   const componentProps = {
     className: twMerge([styles.footer(), className, classNames?.footer]),
+    ref,
     ...props,
-  } as ComponentPropsWithoutRef<E>
+  } as ComponentPropsWithRef<E>
 
   return <Component {...componentProps}>{children}</Component>
 }

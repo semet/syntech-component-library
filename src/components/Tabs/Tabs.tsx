@@ -3,7 +3,7 @@ import {
   useContext,
   useState,
   type ReactNode,
-  type ComponentPropsWithoutRef,
+  type ComponentPropsWithRef,
   type ElementType,
   useCallback,
 } from 'react'
@@ -54,7 +54,7 @@ export interface TabsProps extends TabsStylesProps {
 
 // Polymorphic types for compound components
 type TabsPolymorphicProps<E extends ElementType> = PolymorphicAsProp<E> &
-  Omit<ComponentPropsWithoutRef<E>, keyof PolymorphicAsProp<E>> & {
+  Omit<ComponentPropsWithRef<E>, keyof PolymorphicAsProp<E>> & {
     children?: ReactNode
   }
 
@@ -75,7 +75,7 @@ function TabsList<E extends ElementType = 'div'>({
     role: 'tablist',
     className: twMerge([styles.list(), classNames?.list, className]),
     ...props,
-  } as ComponentPropsWithoutRef<E>
+  } as ComponentPropsWithRef<E>
 
   return <Component {...componentProps}>{children}</Component>
 }

@@ -66,6 +66,9 @@ export { type FormattedDateProps } from './FormattedDate/FormattedDate'
 //Tabs
 export { default as Tabs } from './Tabs/Tabs'
 export { type TabsProps } from './Tabs/Tabs'
+//Menu
+export { default as Menu } from './Menu/Menu'
+export { type MenuProps } from './Menu/Menu'
 //Copy
 export { Copy } from './Copy/Copy'
 //Toast

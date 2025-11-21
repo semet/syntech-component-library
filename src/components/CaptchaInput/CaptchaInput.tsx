@@ -40,6 +40,7 @@ export interface CaptchaInputProps
   classNames?: CaptchaInputClassNames
   imageAlt?: string
   refreshButtonAriaLabel?: string
+  ref?: React.Ref<HTMLInputElement | null>
 }
 
 export default function CaptchaInput({
@@ -59,6 +60,7 @@ export default function CaptchaInput({
   classNames,
   imageAlt = 'Captcha image',
   refreshButtonAriaLabel = 'Refresh captcha',
+  ref,
   ...props
 }: CaptchaInputProps) {
   const id = useId()
@@ -125,6 +127,7 @@ export default function CaptchaInput({
         >
           <input
             id={id}
+            ref={ref}
             disabled={disabled || isLoading}
             className={twMerge([
               styles.input(),

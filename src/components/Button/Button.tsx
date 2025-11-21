@@ -1,4 +1,4 @@
-import type { ComponentPropsWithoutRef, ElementType, ReactNode } from 'react'
+import type { ComponentPropsWithRef, ElementType, ReactNode } from 'react'
 import { twMerge } from 'tailwind-merge'
 import type { VariantProps } from 'tailwind-variants'
 
@@ -21,7 +21,7 @@ export interface ButtonClassNames {
 type LoaderType = 'oval' | 'dots' | 'bars'
 
 type PolymorphicProps<E extends ElementType> = PolymorphicAsProp<E> &
-  Omit<ComponentPropsWithoutRef<E>, keyof PolymorphicAsProp<E> | 'disabled'> &
+  Omit<ComponentPropsWithRef<E>, keyof PolymorphicAsProp<E> | 'disabled'> &
   ButtonStylesProps & {
     loading?: boolean
     loaderType?: LoaderType
@@ -81,7 +81,7 @@ export default function Button<E extends React.ElementType = 'button'>({
     className: twMerge([styles.root(), className, classNames?.root]),
     ...(Component === 'button' && { disabled: disabled || loading }),
     ...props,
-  } as React.ComponentPropsWithoutRef<E>
+  } as React.ComponentPropsWithRef<E>
 
   return (
     <Component {...componentProps}>
