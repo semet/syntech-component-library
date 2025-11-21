@@ -1,9 +1,9 @@
-import ButtonExamples from './examples/ButtonExamples'
+import MenuExamples from './examples/MenuExamples'
 
 export default function App() {
   return (
     <div className="mx-auto max-w-4xl pt-4">
-      <ButtonExamples />
+      <MenuExamples />
     </div>
   )
 }

@@ -1,4 +1,4 @@
-import type { ComponentPropsWithoutRef, ElementType } from 'react'
+import type { ComponentPropsWithRef, ElementType } from 'react'
 import { twMerge } from 'tailwind-merge'
 
 import type { PolymorphicAsProp } from '@/types/common'
@@ -30,7 +30,7 @@ export interface FormattedDateClassNames {
 }
 
 type PolymorphicProps<E extends ElementType> = PolymorphicAsProp<E> &
-  Omit<ComponentPropsWithoutRef<E>, keyof PolymorphicAsProp<E>> &
+  Omit<ComponentPropsWithRef<E>, keyof PolymorphicAsProp<E>> &
   FormattedDateStylesProps & {
     date: string | Date
     format: ExtendedDateFormat
@@ -98,7 +98,7 @@ export default function FormattedDate<E extends ElementType = 'time'>({
       dateTime: typeof date === 'string' ? date : date.toISOString(),
     }),
     ...props,
-  } as ComponentPropsWithoutRef<E>
+  } as ComponentPropsWithRef<E>
 
   return <Component {...componentProps}>{formattedDate}</Component>
 }

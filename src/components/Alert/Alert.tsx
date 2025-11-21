@@ -25,6 +25,7 @@ export interface AlertProps extends AlertStylesProps {
   onClose?: () => void
   className?: string
   classNames?: AlertClassNames
+  ref?: React.Ref<HTMLDivElement | null>
 }
 
 export default function Alert({
@@ -38,6 +39,7 @@ export default function Alert({
   onClose,
   className,
   classNames,
+  ref,
 }: AlertProps) {
   const styles = alertStyles({
     variant,
@@ -48,7 +50,10 @@ export default function Alert({
   })
 
   return (
-    <div className={twMerge([styles.root(), className, classNames?.root])}>
+    <div
+      ref={ref}
+      className={twMerge([styles.root(), className, classNames?.root])}
+    >
       {icon && (
         <div className={twMerge([styles.icon(), classNames?.icon])}>{icon}</div>
       )}

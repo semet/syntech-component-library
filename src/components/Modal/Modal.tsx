@@ -5,7 +5,7 @@ import {
   useEffect,
   useRef,
   useState,
-  type ComponentPropsWithoutRef,
+  type ComponentPropsWithRef,
   type ElementType,
   type ReactNode,
 } from 'react'
@@ -68,7 +68,7 @@ export interface ModalProps extends ModalStylesProps {
 // Polymorphic types for compound components
 type ModalSectionPolymorphicProps<E extends ElementType> =
   PolymorphicAsProp<E> &
-    Omit<ComponentPropsWithoutRef<E>, keyof PolymorphicAsProp<E>> & {
+    Omit<ComponentPropsWithRef<E>, keyof PolymorphicAsProp<E>> & {
       children?: ReactNode
     }
 
@@ -88,7 +88,7 @@ function ModalHeader<E extends ElementType = 'div'>({
   const componentProps = {
     className: twMerge([styles.header(), classNames?.header, className]),
     ...props,
-  } as ComponentPropsWithoutRef<E>
+  } as ComponentPropsWithRef<E>
 
   return <Component {...componentProps}>{children}</Component>
 }
@@ -106,7 +106,7 @@ function ModalTitle<E extends ElementType = 'h2'>({
     id: 'modal-title',
     className: twMerge([styles.title(), classNames?.title, className]),
     ...props,
-  } as ComponentPropsWithoutRef<E>
+  } as ComponentPropsWithRef<E>
 
   return <Component {...componentProps}>{children}</Component>
 }
@@ -137,7 +137,7 @@ function ModalBody<E extends ElementType = 'div'>({
   const componentProps = {
     className: twMerge([styles.body(), classNames?.body, className]),
     ...props,
-  } as ComponentPropsWithoutRef<E>
+  } as ComponentPropsWithRef<E>
 
   return <Component {...componentProps}>{children}</Component>
 }
@@ -154,7 +154,7 @@ function ModalFooter<E extends ElementType = 'div'>({
   const componentProps = {
     className: twMerge([styles.footer(), classNames?.footer, className]),
     ...props,
-  } as ComponentPropsWithoutRef<E>
+  } as ComponentPropsWithRef<E>
 
   return <Component {...componentProps}>{children}</Component>
 }
