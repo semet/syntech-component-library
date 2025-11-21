@@ -1,8 +1,11 @@
 /* eslint-disable no-console */
+import { useState } from 'react'
+
 import { Card } from '@/components'
 import Menu from '@/components/Menu/Menu'
 
 export default function MenuExamples() {
+  const [opened, setOpened] = useState(false)
   return (
     <Card
       withBorder
@@ -14,10 +17,11 @@ export default function MenuExamples() {
       </Card.Header>
       <Card.Body className="min-h-64">
         <Menu
-          trigger="hover"
           position="bottom-start"
           withArrow
           width="target"
+          opened={opened}
+          onChange={setOpened}
         >
           <Menu.Button className="flex">Hover</Menu.Button>
           <Menu.Dropdown>

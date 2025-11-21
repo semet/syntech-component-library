@@ -52,11 +52,11 @@ export const menuStyles = tv({
         arrow: 'border-t border-l',
       },
       'top-start': {
-        dropdown: 'bottom-full left-0 mt-0 mb-2',
+        dropdown: 'bottom-full left-0 mt-0 mb-2.5',
         arrow: 'border-r border-b',
       },
       'top-end': {
-        dropdown: 'right-0 bottom-full mt-0 mb-2',
+        dropdown: 'right-0 bottom-full mt-0 mb-2.5',
         arrow: 'border-r border-b',
       },
       'top-center': {

@@ -32,7 +32,6 @@ export interface MenuClassNames {
   arrow?: string
 }
 
-// Context for sharing menu state
 interface MenuContextValue {
   opened: boolean
   onOpen: () => void
@@ -151,7 +150,6 @@ function MenuButton({
       if (trigger === 'hover') {
         setIsHoveringTarget(false)
         clearTimers()
-        // Check ref at execution time, not closure time
         closeTimerRef.current = setTimeout(() => {
           if (!isHoveringDropdownRef.current) {
             onClose()
@@ -187,7 +185,7 @@ function MenuButton({
     </Button>
   )
 }
-// Dropdown Component
+
 function MenuDropdown<E extends ElementType = 'div'>({
   as,
   children,
@@ -283,7 +281,6 @@ function MenuDropdown<E extends ElementType = 'div'>({
 
   useEffect(() => {
     if (opened && withArrow) {
-      // Small delay to ensure dropdown is rendered
       const timer = setTimeout(() => {
         calculateArrowPosition()
       }, 0)
@@ -306,7 +303,6 @@ function MenuDropdown<E extends ElementType = 'div'>({
     (event: MouseEvent<HTMLElement>) => {
       if (trigger === 'hover') {
         setIsHoveringDropdown(false)
-        // Check ref at execution time, not closure time
         closeTimerRef.current = setTimeout(() => {
           if (!isHoveringTargetRef.current) {
             onClose()
@@ -362,7 +358,6 @@ function MenuDropdown<E extends ElementType = 'div'>({
   )
 }
 
-// Label Component
 function MenuLabel<E extends ElementType = 'div'>({
   as,
   children,
@@ -380,7 +375,6 @@ function MenuLabel<E extends ElementType = 'div'>({
   return <Component {...componentProps}>{children}</Component>
 }
 
-// Item Component
 export interface MenuItemProps {
   leftSection?: ReactNode
   rightSection?: ReactNode
@@ -444,7 +438,6 @@ function MenuItem<E extends ElementType = 'button'>({
   )
 }
 
-// Divider Component
 function MenuDivider<E extends ElementType = 'hr'>({
   as,
   className,
@@ -482,12 +475,11 @@ function Menu({
   className,
   classNames,
   ...props
-}: MenuProps & ComponentPropsWithRef<'div'>) {
+}: MenuProps & Omit<ComponentPropsWithRef<'div'>, keyof MenuProps>) {
   const [uncontrolledOpened, setUncontrolledOpened] = useState(defaultOpened)
   const [isHoveringTarget, setIsHoveringTarget] = useState(false)
   const [isHoveringDropdown, setIsHoveringDropdown] = useState(false)
 
-  // Create refs to track hover states for use in setTimeout callbacks
   const isHoveringTargetRef = useRef(false)
   const isHoveringDropdownRef = useRef(false)
 
@@ -530,14 +522,12 @@ function Menu({
     setIsHoveringDropdown(hovering)
   }, [])
 
-  // Click outside handler
   useOnClickOutside(dropdownRef, () => {
     if (closeOnClickOutside && opened) {
       onClose()
     }
   })
 
-  // Escape key handler
   useEffect(() => {
     if (!closeOnEscape || !opened) return
 
