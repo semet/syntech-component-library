@@ -39,6 +39,9 @@ export { default as ColorPicker } from './ColorPicker/ColorPicker'
 //FileInput
 export { default as FileInput } from './FileInput/FileInput'
 export { type FileInputProps } from './FileInput/FileInput'
+//PhoneInput
+export { default as PhoneInput } from './PhoneInput/PhoneInput'
+export { type PhoneInputProps } from './PhoneInput/PhoneInput'
 //Switch
 export { default as Switch } from './Switch/Switch'
 export { type SwitchProps } from './Switch/Switch'
