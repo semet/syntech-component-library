@@ -277,6 +277,126 @@
       transform: scale(0.9);
     }
   }
+
+  /* Drawer overlay animations */
+  --animate-drawer-overlay-enter: drawer-overlay-enter 0.3s
+    cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  --animate-drawer-overlay-exit: drawer-overlay-exit 0.3s
+    cubic-bezier(0.4, 0, 1, 1) forwards;
+
+  @keyframes drawer-overlay-enter {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes drawer-overlay-exit {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+  }
+
+  /* Left drawer animations */
+  --animate-drawer-left-enter: drawer-left-enter 0.3s
+    cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  --animate-drawer-left-exit: drawer-left-exit 0.3s cubic-bezier(0.4, 0, 1, 1)
+    forwards;
+
+  @keyframes drawer-left-enter {
+    from {
+      transform: translateX(-100%);
+    }
+    to {
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes drawer-left-exit {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-100%);
+    }
+  }
+
+  /* Right drawer animations */
+  --animate-drawer-right-enter: drawer-right-enter 0.3s
+    cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  --animate-drawer-right-exit: drawer-right-exit 0.3s cubic-bezier(0.4, 0, 1, 1)
+    forwards;
+
+  @keyframes drawer-right-enter {
+    from {
+      transform: translateX(100%);
+    }
+    to {
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes drawer-right-exit {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(100%);
+    }
+  }
+
+  /* Top drawer animations */
+  --animate-drawer-top-enter: drawer-top-enter 0.3s
+    cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  --animate-drawer-top-exit: drawer-top-exit 0.3s cubic-bezier(0.4, 0, 1, 1)
+    forwards;
+
+  @keyframes drawer-top-enter {
+    from {
+      transform: translateY(-100%);
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes drawer-top-exit {
+    from {
+      transform: translateY(0);
+    }
+    to {
+      transform: translateY(-100%);
+    }
+  }
+
+  /* Bottom drawer animations */
+  --animate-drawer-bottom-enter: drawer-bottom-enter 0.3s
+    cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  --animate-drawer-bottom-exit: drawer-bottom-exit 0.3s
+    cubic-bezier(0.4, 0, 1, 1) forwards;
+
+  @keyframes drawer-bottom-enter {
+    from {
+      transform: translateY(100%);
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes drawer-bottom-exit {
+    from {
+      transform: translateY(0);
+    }
+    to {
+      transform: translateY(100%);
+    }
+  }
 }
 button {
   @apply cursor-pointer;
