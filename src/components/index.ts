@@ -60,6 +60,9 @@ export { type AlertProps } from './Alert/Alert'
 //Modal
 export { default as Modal } from './Modal/Modal'
 export { type ModalProps } from './Modal/Modal'
+//Modal
+export { default as Drawer } from './Drawer/Drawer'
+export { type DrawerProps } from './Drawer/Drawer'
 //FormattedDate
 export { default as FormattedDate } from './FormattedDate/FormattedDate'
 export { type FormattedDateProps } from './FormattedDate/FormattedDate'
