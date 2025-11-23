@@ -4,6 +4,7 @@ import ColorPicker from '@/components/ColorPicker/ColorPicker'
 
 export default function ColorPickerDemo() {
   const [color1, setColor1] = useState('')
+  const [color, setColor] = useState('#ff0000')
 
   const defaultSwatches = [
     'rgba(255, 36, 36, 1)', // hsla(0, 100%, 57%, 1)
@@ -39,6 +40,13 @@ export default function ColorPickerDemo() {
             withAsterisk
             clearable
             swatches={defaultSwatches}
+          />
+        </div>
+        <div>
+          <button onClick={() => setColor('#00ff00')}>Change to Green</button>
+          <ColorPicker
+            value={color}
+            onChange={setColor}
           />
         </div>
       </div>

@@ -1,4 +1,4 @@
-import { startTransition, useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { twMerge } from 'tailwind-merge'
 
 import {
@@ -32,9 +32,6 @@ export function ToastItem({ toast: toastData, onDismiss }: ToastItemProps) {
   const isTopPosition = toastData.position.startsWith('top')
 
   useEffect(() => {
-    startTransition(() => {
-      setIsEntering(true)
-    })
     const enterTimer = setTimeout(() => {
       setIsEntering(false)
     }, 300)

@@ -6,9 +6,9 @@ import {
   type CountryCode,
 } from 'libphonenumber-js'
 import {
-  startTransition,
   useCallback,
   useEffect,
+  useEffectEvent,
   useId,
   useMemo,
   useRef,
@@ -154,39 +154,35 @@ export default function PhoneInput({
     return () => document.removeEventListener('keydown', handleKeyDown)
   }, [isDropdownOpen])
 
-  useEffect(() => {
+  // Extract setState logic into useEffectEvent
+  const onValueSync = useEffectEvent(() => {
     if (value !== undefined && !isInternalUpdate.current) {
       if (!value) {
-        startTransition(() => {
-          setPhoneNumber('')
-        })
+        setPhoneNumber('')
         return
       }
 
       try {
         const parsed = parsePhoneNumberWithError(value)
         if (parsed) {
-          startTransition(() => {
-            setSelectedCountry(parsed.country || defaultCountry)
-            setPhoneNumber(parsed.nationalNumber)
-          })
+          setSelectedCountry(parsed.country || defaultCountry)
+          setPhoneNumber(parsed.nationalNumber)
         }
       } catch {
-        // If parsing fails, extract digits after country code
         const cleaned = value.replace(/^\+/, '').replaceAll(/\D/g, '')
         const callingCode = getCountryCallingCode(selectedCountry)
         if (cleaned.startsWith(callingCode)) {
-          startTransition(() => {
-            setPhoneNumber(cleaned.slice(callingCode.length))
-          })
+          setPhoneNumber(cleaned.slice(callingCode.length))
         } else {
-          startTransition(() => {
-            setPhoneNumber(cleaned)
-          })
+          setPhoneNumber(cleaned)
         }
       }
     }
     isInternalUpdate.current = false
+  })
+
+  useEffect(() => {
+    onValueSync()
   }, [value, defaultCountry, selectedCountry])
 
   const handleCountrySelect = useCallback(

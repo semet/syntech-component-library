@@ -7,7 +7,6 @@ import {
   useEffect,
   type ComponentProps,
   useEffectEvent,
-  startTransition,
 } from 'react'
 import { BiX } from 'react-icons/bi'
 import { twMerge } from 'tailwind-merge'
@@ -80,7 +79,7 @@ export default function ColorPicker({
   disabled = false,
   className,
   classNames,
-  value = '#ff2424',
+  value,
   onChange,
   placeholder = 'Pick a color',
   format = 'hex',
@@ -98,18 +97,21 @@ export default function ColorPicker({
   const alphaSliderRef = useRef<HTMLDivElement>(null)
 
   const [isOpen, setIsOpen] = useState(false)
-  const [inputValue, setInputValue] = useState(value || '')
+
+  const [internalValue, setInternalValue] = useState(value || '')
+  const inputValue = value === undefined ? internalValue : value
+
   const [isDraggingColor, setIsDraggingColor] = useState(false)
   const [isDraggingHue, setIsDraggingHue] = useState(false)
   const [isDraggingAlpha, setIsDraggingAlpha] = useState(false)
 
-  const color = useMemo(() => parseColor(value || ''), [value])
+  const color = useMemo(() => parseColor(inputValue || ''), [inputValue])
   const [hue, setHue] = useState(0)
   const [saturation, setSaturation] = useState(100)
   const [lightness, setLightness] = useState(50)
   const [alpha, setAlpha] = useState(color.a)
 
-  const onColorChange = useEffectEvent(() => {
+  const onInitialColor = useEffectEvent(() => {
     const [h, s, l] = rgbToHsl(color.r, color.g, color.b)
     setHue(h)
     setSaturation(s)
@@ -118,14 +120,8 @@ export default function ColorPicker({
   })
 
   useEffect(() => {
-    onColorChange()
+    onInitialColor()
   }, [])
-
-  useEffect(() => {
-    startTransition(() => {
-      setInputValue(value || '')
-    })
-  }, [value])
 
   const styles = colorPickerStyles({
     variant,
@@ -158,7 +154,7 @@ export default function ColorPicker({
     ) => {
       const [r, g, b] = hslToRgb(newHue, newSaturation, newLightness)
       const formatted = formatColor(r, g, b, newAlpha, format)
-      setInputValue(formatted)
+      setInternalValue(formatted)
       onChange?.(formatted)
     },
     [format, onChange],
@@ -249,7 +245,7 @@ export default function ColorPicker({
   const handleInputChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const newValue = e.target.value
-      setInputValue(newValue)
+      setInternalValue(newValue)
       onChange?.(newValue)
     },
     [onChange],
@@ -257,7 +253,7 @@ export default function ColorPicker({
 
   const handleSwatchClick = useCallback(
     (swatchColor: string) => {
-      setInputValue(swatchColor)
+      setInternalValue(swatchColor)
       onChange?.(swatchColor)
       setIsOpen(false)
     },
@@ -267,19 +263,19 @@ export default function ColorPicker({
   const handleClear = useCallback(
     (e: React.MouseEvent) => {
       e.stopPropagation()
-      setInputValue('')
+      setInternalValue('')
       onChange?.('')
     },
     [onChange],
   )
 
   const currentColor = useMemo(() => {
-    if (!inputValue && !value) {
+    if (!inputValue) {
       return '#f3f4f6'
     }
     const [r, g, b] = hslToRgb(hue, saturation, lightness)
     return `rgba(${r}, ${g}, ${b}, ${alpha})`
-  }, [hue, saturation, lightness, alpha, inputValue, value])
+  }, [hue, saturation, lightness, alpha, inputValue])
 
   const hasAlpha = format === 'rgba' || format === 'hsla' || format === 'hexa'
 
@@ -325,10 +321,9 @@ export default function ColorPicker({
             className={twMerge([styles.colorSwatch(), classNames?.colorSwatch])}
             style={{
               backgroundColor: inputValue || currentColor,
-              ...(!inputValue &&
-                !value && {
-                  border: '1px solid #e5e7eb',
-                }),
+              ...(!inputValue && {
+                border: '1px solid #e5e7eb',
+              }),
             }}
           />
         </div>
