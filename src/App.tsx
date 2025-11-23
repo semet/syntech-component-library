@@ -1,9 +1,9 @@
-import PhoneInputExample from './examples/PhoneInputExample'
+import TooltipExample from './examples/TooltipExample'
 
 export default function App() {
   return (
     <div className="mx-auto max-w-4xl pt-4">
-      <PhoneInputExample />
+      <TooltipExample />
     </div>
   )
 }

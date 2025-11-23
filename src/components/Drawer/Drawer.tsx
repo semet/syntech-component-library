@@ -1,6 +1,5 @@
 import {
   createContext,
-  startTransition,
   useContext,
   useEffect,
   useRef,
@@ -68,7 +67,6 @@ export interface DrawerProps extends DrawerStylesProps {
   customSize?: string
 }
 
-// Polymorphic types for compound components
 type DrawerSectionPolymorphicProps<E extends ElementType> =
   PolymorphicAsProp<E> &
     Omit<ComponentPropsWithRef<E>, keyof PolymorphicAsProp<E>> & {
@@ -78,7 +76,6 @@ type DrawerSectionPolymorphicProps<E extends ElementType> =
 export type DrawerSectionProps<E extends ElementType = 'div'> =
   DrawerSectionPolymorphicProps<E>
 
-// Compound Components
 function DrawerHeader<E extends ElementType = 'div'>({
   as,
   children,
@@ -189,6 +186,14 @@ function Drawer({
   const [isAnimating, setIsAnimating] = useState(false)
   const [shouldRender, setShouldRender] = useState(opened)
 
+  if (opened && !shouldRender) {
+    setShouldRender(true)
+  }
+
+  if (!opened && isAnimating) {
+    setIsAnimating(false)
+  }
+
   const styles = drawerStyles({
     position,
     size,
@@ -198,7 +203,6 @@ function Drawer({
     isAnimating,
   })
 
-  // Custom size style
   const customSizeStyle: CSSProperties = {}
   if (customSize) {
     if (position === 'left' || position === 'right') {
@@ -212,16 +216,10 @@ function Drawer({
 
   useEffect(() => {
     if (opened) {
-      startTransition(() => {
-        setShouldRender(true)
-      })
       requestAnimationFrame(() => {
         setIsAnimating(true)
       })
     } else {
-      startTransition(() => {
-        setIsAnimating(false)
-      })
       const timer = setTimeout(() => {
         setShouldRender(false)
       }, transitionDuration)
@@ -346,7 +344,6 @@ function Drawer({
         style={{ zIndex: zIndex + 1 }}
         role="presentation"
         onClick={(e) => {
-          // Only close if clicking directly on the wrapper, not on the content
           if (closeOnClickOutside && e.target === e.currentTarget) {
             onClose()
           }

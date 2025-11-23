@@ -1,6 +1,5 @@
 import {
   createContext,
-  startTransition,
   useContext,
   useEffect,
   useRef,
@@ -195,18 +194,20 @@ function Modal({
     scrollable,
   })
 
+  if (opened && !shouldRender) {
+    setShouldRender(true)
+  }
+
+  if (!opened && isAnimating) {
+    setIsAnimating(false)
+  }
+
   useEffect(() => {
     if (opened) {
-      startTransition(() => {
-        setShouldRender(true)
-      })
       requestAnimationFrame(() => {
         setIsAnimating(true)
       })
     } else {
-      startTransition(() => {
-        setIsAnimating(false)
-      })
       const timer = setTimeout(() => {
         setShouldRender(false)
       }, transitionDuration)
