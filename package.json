@@ -46,12 +46,12 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "build:lib": "tsc -p tsconfig.build.json && vite build",
+    "build:lib": "BUILD_TARGET=lib tsc -p tsconfig.build.json && BUILD_TARGET=lib vite build",
+    "prepublishOnly": "npm run build:lib",
     "lint": "eslint .",
     "preview": "vite preview",
     "validate": "knip . --exclude src/stories/**",
     "format": "prettier --write .",
-    "prepublishOnly": "npm run build:lib",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "deploy-storybook": "pnpm build-storybook && gh-pages -d storybook-static",
@@ -145,8 +145,8 @@
     "pnpm": "10"
   },
   "pnpm": {
-  "overrides": {
-    "baseline-browser-mapping": "latest"
+    "overrides": {
+      "baseline-browser-mapping": "latest"
+    }
   }
-}
 }
