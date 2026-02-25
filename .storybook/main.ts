@@ -1,4 +1,6 @@
 import type { StorybookConfig } from '@storybook/react-vite'
+import tailwindcss from '@tailwindcss/vite'
+import tsconfigPaths from 'vite-tsconfig-paths'
 
 const config: StorybookConfig = {
   stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
@@ -9,23 +11,14 @@ const config: StorybookConfig = {
   ],
   framework: {
     name: '@storybook/react-vite',
-    options: {
-      builder: {
-        viteConfigPath: '.storybook/vite.config.ts',
-      },
-    },
+    options: {},
   },
   docs: {},
-  core: {
-    builder: '@storybook/builder-vite',
-  },
   async viteFinal(config) {
-    config.resolve = config.resolve || {}
-    config.resolve.alias = {
-      ...config.resolve.alias,
-    }
-
-    return config
+    const { mergeConfig } = await import('vite')
+    return mergeConfig(config, {
+      plugins: [tsconfigPaths(), tailwindcss()],
+    })
   },
 }
 export default config
