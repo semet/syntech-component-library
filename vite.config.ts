@@ -8,6 +8,8 @@ import devtoolsJson from 'vite-plugin-devtools-json'
 import dts from 'vite-plugin-dts'
 import tsconfigPaths from 'vite-tsconfig-paths'
 
+const isLibBuild = process.env.BUILD_TARGET === 'lib'
+
 export default defineConfig({
   plugins: [
     tsconfigPaths(),
@@ -18,32 +20,33 @@ export default defineConfig({
         plugins: [['babel-plugin-react-compiler']],
       },
     }),
-    dts({
-      tsconfigPath: './tsconfig.build.json',
-      rollupTypes: true,
-      insertTypesEntry: true,
-      include: ['src/**/*.{ts,tsx}'],
-      exclude: ['src/main.tsx', 'src/App.tsx', 'src/**/*.test.tsx'],
-      beforeWriteFile: async (filePath, content) => {
-        if (filePath.endsWith('.d.ts')) {
-          try {
-            const formatted = await prettier.format(content, {
-              parser: 'typescript',
-              semi: false,
-              singleQuote: true,
-              tabWidth: 2,
-              trailingComma: 'es5',
-              printWidth: 80,
-            })
-            return { filePath, content: formatted }
-          } catch (error) {
-            // eslint-disable-next-line no-console
-            console.error(`Error formatting ${filePath}:`, error)
+    isLibBuild &&
+      dts({
+        tsconfigPath: './tsconfig.build.json',
+        rollupTypes: true,
+        insertTypesEntry: true,
+        include: ['src/**/*.{ts,tsx}'],
+        exclude: ['src/main.tsx', 'src/App.tsx', 'src/**/*.test.tsx'],
+        beforeWriteFile: async (filePath, content) => {
+          if (filePath.endsWith('.d.ts')) {
+            try {
+              const formatted = await prettier.format(content, {
+                parser: 'typescript',
+                semi: false,
+                singleQuote: true,
+                tabWidth: 2,
+                trailingComma: 'es5',
+                printWidth: 80,
+              })
+              return { filePath, content: formatted }
+            } catch (error) {
+              // eslint-disable-next-line no-console
+              console.error(`Error formatting ${filePath}:`, error)
+            }
           }
-        }
-        return { filePath, content }
-      },
-    }),
+          return { filePath, content }
+        },
+      }),
   ],
   build: {
     lib: {
