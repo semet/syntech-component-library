@@ -13,8 +13,10 @@ export interface FieldsetClassNames {
   content?: string
 }
 
-export interface FieldsetProps
-  extends Omit<ComponentProps<'fieldset'>, 'size'> {
+export interface FieldsetProps extends Omit<
+  ComponentProps<'fieldset'>,
+  'size'
+> {
   legend?: string
   variant?: FieldsetStylesProps['variant']
   size?: FieldsetStylesProps['size']

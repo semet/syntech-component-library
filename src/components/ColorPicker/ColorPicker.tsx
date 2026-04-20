@@ -47,8 +47,10 @@ interface ColorPickerClassNames {
   colorSwatch?: string
 }
 
-export interface ColorPickerProps
-  extends Omit<ComponentProps<'input'>, 'size' | 'value' | 'onChange'> {
+export interface ColorPickerProps extends Omit<
+  ComponentProps<'input'>,
+  'size' | 'value' | 'onChange'
+> {
   label?: string
   description?: string
   withAsterisk?: boolean

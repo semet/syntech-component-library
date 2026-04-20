@@ -18,8 +18,10 @@ export interface TextareaClassNames {
   error?: string
 }
 
-export interface TextareaProps
-  extends Omit<ComponentProps<'textarea'>, 'size'> {
+export interface TextareaProps extends Omit<
+  ComponentProps<'textarea'>,
+  'size'
+> {
   label?: string
   description?: string
   withAsterisk?: boolean

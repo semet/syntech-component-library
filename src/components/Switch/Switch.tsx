@@ -20,8 +20,10 @@ export interface SwitchClassNames {
   error?: string
 }
 
-export interface SwitchProps
-  extends Omit<ComponentProps<'input'>, 'size' | 'type'> {
+export interface SwitchProps extends Omit<
+  ComponentProps<'input'>,
+  'size' | 'type'
+> {
   label?: ReactNode
   description?: string
   error?: string

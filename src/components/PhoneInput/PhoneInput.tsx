@@ -40,8 +40,10 @@ export interface PhoneInputClassNames {
   error?: string
 }
 
-export interface PhoneInputProps
-  extends Omit<ComponentProps<'input'>, 'size' | 'onChange' | 'value'> {
+export interface PhoneInputProps extends Omit<
+  ComponentProps<'input'>,
+  'size' | 'onChange' | 'value'
+> {
   label?: string
   description?: string
   withAsterisk?: boolean

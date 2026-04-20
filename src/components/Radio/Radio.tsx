@@ -20,8 +20,10 @@ export interface RadioClassNames {
   error?: string
 }
 
-export interface RadioProps
-  extends Omit<ComponentProps<'input'>, 'size' | 'type'> {
+export interface RadioProps extends Omit<
+  ComponentProps<'input'>,
+  'size' | 'type'
+> {
   label?: ReactNode
   description?: string
   error?: string
