@@ -91,8 +91,10 @@ export interface DatePickerClassNames {
  * />
  * ```
  */
-export interface DatePickerProps
-  extends Omit<ComponentProps<'input'>, 'size' | 'value' | 'onChange'> {
+export interface DatePickerProps extends Omit<
+  ComponentProps<'input'>,
+  'size' | 'value' | 'onChange'
+> {
   /**
    * Label text displayed above the input field.
    * @example "Birth Date"

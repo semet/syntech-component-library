@@ -23,8 +23,10 @@ export interface PasswordInputClassNames {
   error?: string
 }
 
-export interface PasswordInputProps
-  extends Omit<ComponentProps<'input'>, 'size' | 'type'> {
+export interface PasswordInputProps extends Omit<
+  ComponentProps<'input'>,
+  'size' | 'type'
+> {
   label?: string
   description?: string
   withAsterisk?: boolean

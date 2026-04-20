@@ -21,8 +21,10 @@ export interface CheckboxClassNames {
   error?: string
 }
 
-export interface CheckboxProps
-  extends Omit<ComponentProps<'input'>, 'size' | 'type'> {
+export interface CheckboxProps extends Omit<
+  ComponentProps<'input'>,
+  'size' | 'type'
+> {
   label?: ReactNode
   description?: string
   error?: string

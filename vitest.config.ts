@@ -4,7 +4,6 @@ import { fileURLToPath } from 'node:url'
 import { storybookTest } from '@storybook/addon-vitest/vitest-plugin'
 import react from '@vitejs/plugin-react'
 import { playwright } from '@vitest/browser-playwright'
-import tsconfigPaths from 'vite-tsconfig-paths'
 import { defineConfig } from 'vitest/config'
 
 const dirname =
@@ -13,7 +12,7 @@ const dirname =
     : __dirname
 
 export default defineConfig({
-  plugins: [tsconfigPaths(), react()],
+  plugins: [react()],
   test: {
     globals: true,
     environment: 'jsdom',
@@ -42,7 +41,9 @@ export default defineConfig({
           include: ['src/**/*.{test,spec}.{ts,tsx}'],
           exclude: ['src/**/*.stories.{ts,tsx}'],
         },
-        plugins: [tsconfigPaths()],
+        resolve: {
+          tsconfigPaths: true,
+        },
       },
       {
         extends: true,
@@ -72,5 +73,6 @@ export default defineConfig({
     alias: {
       '~': path.resolve(__dirname, './src'),
     },
+    tsconfigPaths: true,
   },
 })

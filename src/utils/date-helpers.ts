@@ -245,5 +245,3 @@ export function useDateOperations(currentDate?: Date) {
     isToday,
   }
 }
-
-export const dateHelpers = dateUtils

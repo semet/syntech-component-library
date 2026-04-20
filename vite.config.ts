@@ -1,29 +1,27 @@
 import path from 'node:path'
 
+import babel from '@rolldown/plugin-babel'
 import tailwindcss from '@tailwindcss/vite'
-import react from '@vitejs/plugin-react'
+import react, { reactCompilerPreset } from '@vitejs/plugin-react'
 import prettier from 'prettier'
 import { defineConfig } from 'vite'
 import devtoolsJson from 'vite-plugin-devtools-json'
 import dts from 'vite-plugin-dts'
-import tsconfigPaths from 'vite-tsconfig-paths'
 
 const isLibBuild = process.env.BUILD_TARGET === 'lib'
 
 export default defineConfig({
+  resolve: {
+    tsconfigPaths: true,
+  },
   plugins: [
-    tsconfigPaths(),
     tailwindcss(),
     devtoolsJson(),
-    react({
-      babel: {
-        plugins: [['babel-plugin-react-compiler']],
-      },
-    }),
+    react(),
+    babel({ presets: [reactCompilerPreset()] }),
     isLibBuild &&
       dts({
         tsconfigPath: './tsconfig.build.json',
-        rollupTypes: true,
         insertTypesEntry: true,
         include: ['src/**/*.{ts,tsx}'],
         exclude: ['src/main.tsx', 'src/App.tsx', 'src/**/*.test.tsx'],
