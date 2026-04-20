@@ -23,11 +23,10 @@ export interface FileInputClassNames {
   error?: string
 }
 
-export interface FileInputProps
-  extends Omit<
-    ComponentProps<'input'>,
-    'size' | 'type' | 'value' | 'onChange'
-  > {
+export interface FileInputProps extends Omit<
+  ComponentProps<'input'>,
+  'size' | 'type' | 'value' | 'onChange'
+> {
   label?: string
   description?: string
   withAsterisk?: boolean

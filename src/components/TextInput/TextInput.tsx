@@ -35,8 +35,10 @@ export interface TextInputClassNames {
   error?: string
 }
 
-export interface TextInputProps
-  extends Omit<ComponentProps<'input'>, 'size' | 'onChange'> {
+export interface TextInputProps extends Omit<
+  ComponentProps<'input'>,
+  'size' | 'onChange'
+> {
   label?: string
   description?: string
   withAsterisk?: boolean

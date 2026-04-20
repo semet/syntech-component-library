@@ -24,8 +24,10 @@ export interface CaptchaInputClassNames {
   error?: string
 }
 
-export interface CaptchaInputProps
-  extends Omit<ComponentProps<'input'>, 'size'> {
+export interface CaptchaInputProps extends Omit<
+  ComponentProps<'input'>,
+  'size'
+> {
   label?: string
   description?: string
   withAsterisk?: boolean

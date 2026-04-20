@@ -96,16 +96,18 @@ interface ComboBoxBaseProps<TOption extends ComboBoxOption> {
 }
 
 // Single select props
-export interface ComboBoxSingleProps<TOption extends ComboBoxOption>
-  extends ComboBoxBaseProps<TOption> {
+export interface ComboBoxSingleProps<
+  TOption extends ComboBoxOption,
+> extends ComboBoxBaseProps<TOption> {
   multiple?: false
   value?: TOption | null
   onChange?: (value: TOption | null) => void
 }
 
 // Multi select props
-export interface ComboBoxMultipleProps<TOption extends ComboBoxOption>
-  extends ComboBoxBaseProps<TOption> {
+export interface ComboBoxMultipleProps<
+  TOption extends ComboBoxOption,
+> extends ComboBoxBaseProps<TOption> {
   multiple: true
   value?: TOption[]
   onChange?: (value: TOption[]) => void
