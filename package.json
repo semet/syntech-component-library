@@ -35,7 +35,7 @@
       "import": "./dist/utils.js",
       "require": "./dist/utils.cjs"
     },
-    "./styles.css": "./dist/styles.css"
+    "./styles/app.css": "./dist/styles.css"
   },
   "files": [
     "dist/**/*.js",
