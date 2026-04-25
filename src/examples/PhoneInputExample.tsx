@@ -1,7 +1,14 @@
+import { zodResolver } from '@hookform/resolvers/zod'
 import { useState } from 'react'
+import { Controller, useForm } from 'react-hook-form'
+import z from 'zod'
 
-import { TextInput } from '@/components'
+import { Button, TextInput } from '@/components'
 import PhoneInput from '@/components/PhoneInput/PhoneInput'
+
+const schema = z.object({
+  test_phone: z.string().min(1, 'Phone number is required').max(20, 'Too long'),
+})
 
 export default function PhoneInputExample() {
   const [phone1, setPhone1] = useState('')
@@ -10,6 +17,13 @@ export default function PhoneInputExample() {
 
   // State to demonstrate controlled updates from parent
   const [externalPhone, setExternalPhone] = useState('+14155552671')
+
+  const { control, handleSubmit } = useForm({
+    resolver: zodResolver(schema),
+  })
+
+  // eslint-disable-next-line no-console
+  const onSubmit = handleSubmit((data) => console.log(data))
 
   return (
     <div className="min-h-screen bg-gray-50 p-8">
@@ -60,17 +74,25 @@ export default function PhoneInputExample() {
             </button>
           </div>
 
-          <PhoneInput
-            label="Controlled Phone (Syncs with buttons)"
-            description="This updates when you click buttons above"
-            placeholder="(555) 123-4567"
-            value={externalPhone}
-            onChange={(value, isValid) => {
-              setExternalPhone(value)
-              // eslint-disable-next-line no-console
-              console.log('External Phone:', value, 'Valid:', isValid)
-            }}
-          />
+          <form onSubmit={onSubmit}>
+            <Controller
+              name="test_phone"
+              control={control}
+              render={({ field, fieldState }) => (
+                <PhoneInput
+                  label="Controlled Phone (Syncs with buttons)"
+                  description="This updates when you click buttons above"
+                  placeholder="(555) 123-4567"
+                  value={field.value}
+                  onChange={(value, _) => field.onChange(value)}
+                  onBlur={field.onBlur}
+                  error={fieldState.error?.message}
+                />
+              )}
+            />
+
+            <Button>Test</Button>
+          </form>
 
           <div className="rounded bg-white p-3">
             <span className="font-medium text-gray-700">Current Value:</span>{' '}
