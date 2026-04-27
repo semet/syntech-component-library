@@ -21,7 +21,7 @@ type ComboBoxStylesProps = VariantProps<typeof comboBoxStyles>
 
 export interface ComboBoxOption {
   label: string
-  value: string
+  value: string | number
   disabled?: boolean
   color?: string
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -96,16 +96,18 @@ interface ComboBoxBaseProps<TOption extends ComboBoxOption> {
 }
 
 // Single select props
-export interface ComboBoxSingleProps<TOption extends ComboBoxOption>
-  extends ComboBoxBaseProps<TOption> {
+export interface ComboBoxSingleProps<
+  TOption extends ComboBoxOption,
+> extends ComboBoxBaseProps<TOption> {
   multiple?: false
   value?: TOption | null
   onChange?: (value: TOption | null) => void
 }
 
 // Multi select props
-export interface ComboBoxMultipleProps<TOption extends ComboBoxOption>
-  extends ComboBoxBaseProps<TOption> {
+export interface ComboBoxMultipleProps<
+  TOption extends ComboBoxOption,
+> extends ComboBoxBaseProps<TOption> {
   multiple: true
   value?: TOption[]
   onChange?: (value: TOption[]) => void
@@ -229,7 +231,7 @@ function ComboBox<TOption extends ComboBoxOption>(
   )
 
   const handleRemove = useCallback(
-    (optionValue: string, e: React.MouseEvent) => {
+    (optionValue: string | number, e: React.MouseEvent) => {
       e.stopPropagation()
       if (multiple) {
         const newValue = selectedValues.filter((v) => v.value !== optionValue)
